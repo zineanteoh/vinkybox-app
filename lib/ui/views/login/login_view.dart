@@ -30,7 +30,7 @@ class LoginView extends StatelessWidget {
                   iconType: AuthIconType.secondary,
                 ),
                 onPressed: () {
-                  // model.loginWithGoogle();
+                  model.loginWithGoogle();
                 },
               ),
             ],

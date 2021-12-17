@@ -1,8 +1,9 @@
 // import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:vinkybox/api/firestore_api.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
-import 'package:vinkybox/models/application_models.dart';
+// import 'package:vinkybox/models/application_models.dart';
 
 class UserService {
   final log = getLogger('UserService');
@@ -12,14 +13,16 @@ class UserService {
   Future<void> syncUserAccount() async {}
   Future<void> syncOrCreateUserAccount() async {}
 
-  // final _firebaseAuthenticationService =
-  //     locator<FirebaseAuthenticationService>();
-
   User? _currentUser;
 
   User get currentUser => _currentUser!;
 
   bool get hasLoggedInUser => false;
+
+  void setCurrentUser(User user) {
+    _currentUser = user;
+  }
+
   // bool get hasLoggedInUser => _firebaseAuthenticationService.hasUser;
 
   // Future<void> syncUserAccount() async {

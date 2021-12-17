@@ -32,20 +32,16 @@ class SimpleLogPrinter extends LogPrinter {
     var methodName = _getMethodName();
 
     var methodNameSection =
-        printCallingFunctionName && methodName != null
-            ? ' | $methodName '
-            : '';
+        printCallingFunctionName && methodName != null ? ' | $methodName ' : '';
     var stackLog = event.stackTrace.toString();
     var output =
         '$emoji $className$methodNameSection - ${event.message}${printCallStack ? '\nSTACKTRACE:\n$stackLog' : ''}';
 
     if (exludeLogsFromClasses
             .any((excludeClass) => className == excludeClass) ||
-        (showOnlyClass != null && className != showOnlyClass))
-      return [];
+        (showOnlyClass != null && className != showOnlyClass)) return [];
 
-    final pattern =
-        RegExp('.{1,800}'); // 800 is the size of each chunk
+    final pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
     List<String> result = [];
 
     for (var line in output.split('\n')) {
@@ -66,9 +62,8 @@ class SimpleLogPrinter extends LogPrinter {
       var currentStack = StackTrace.current;
       var formattedStacktrace = _formatStackTrace(currentStack, 3);
 
-      var realFirstLine = formattedStacktrace?.firstWhere(
-          (line) => line.contains(className),
-          orElse: () => "");
+      var realFirstLine = formattedStacktrace
+          ?.firstWhere((line) => line.contains(className), orElse: () => "");
 
       var methodName = realFirstLine?.replaceAll('$className.', '');
       return methodName;
@@ -81,8 +76,7 @@ class SimpleLogPrinter extends LogPrinter {
 
 final stackTraceRegex = RegExp(r'#[0-9]+[\s]+(.+) \(([^\s]+)\)');
 
-List<String>? _formatStackTrace(
-    StackTrace stackTrace, int methodCount) {
+List<String>? _formatStackTrace(StackTrace stackTrace, int methodCount) {
   var lines = stackTrace.toString().split('\n');
 
   var formatted = <String>[];
