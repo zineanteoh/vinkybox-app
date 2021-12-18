@@ -62,7 +62,7 @@ class OnboardingView extends StatelessWidget {
             const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
         dotsDecorator: const DotsDecorator(
           size: Size(10.0, 10.0),
-          color: Color(0xFFBDBDBD),
+          color: Color(0xFFBDBDBD), // grey
           activeSize: Size(22.0, 10.0),
           activeShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(25.0)),

@@ -12,7 +12,7 @@ class OnboardingViewModel extends BaseViewModel {
       new GlobalKey<NavigatorState>();
 
   void onIntroEnd() {
-    _navigationService.navigateTo(Routes.homeView);
+    _navigationService.navigateTo(Routes.dormSelectionView);
   }
 
   Widget buildImage(String assetName, [double width = 350]) {

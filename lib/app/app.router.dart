@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
+import '../ui/views/dorm_selection/dorm_selection_view.dart';
 import '../ui/views/home/home_view.dart';
 import '../ui/views/login/login_view.dart';
 import '../ui/views/onboarding/onboarding_view.dart';
@@ -21,11 +22,13 @@ class Routes {
   static const String loginView = '/login-view';
   static const String homeView = '/home-view';
   static const String onboardingView = '/onboarding-view';
+  static const String dormSelectionView = '/dorm-selection-view';
   static const all = <String>{
     startUpView,
     loginView,
     homeView,
     onboardingView,
+    dormSelectionView,
   };
 }
 
@@ -37,6 +40,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.loginView, page: LoginView),
     RouteDef(Routes.homeView, page: HomeView),
     RouteDef(Routes.onboardingView, page: OnboardingView),
+    RouteDef(Routes.dormSelectionView, page: DormSelectionView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -62,6 +66,12 @@ class StackedRouter extends RouterBase {
     OnboardingView: (data) {
       return CupertinoPageRoute<dynamic>(
         builder: (context) => const OnboardingView(),
+        settings: data,
+      );
+    },
+    DormSelectionView: (data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => const DormSelectionView(),
         settings: data,
       );
     },
