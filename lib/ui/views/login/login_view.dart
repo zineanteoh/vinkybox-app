@@ -1,6 +1,7 @@
 import 'package:auth_buttons/auth_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:vinkybox/ui/shared/ui_helpers.dart';
 import 'package:vinkybox/ui/views/login/login_viewmodel.dart';
 
 import 'package:auth_buttons/auth_buttons.dart'
@@ -23,7 +24,7 @@ class LoginView extends StatelessWidget {
                 child: Image.asset('assets/images/vinkybox_logo.png'),
               ),
               // Add auth buttons
-              const SizedBox(height: 30),
+              UIHelper.verticalSpaceMedium(),
               GoogleAuthButton(
                 style: const AuthButtonStyle(
                   buttonType: AuthButtonType.secondary,

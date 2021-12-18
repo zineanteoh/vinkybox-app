@@ -1,3 +1,4 @@
+import 'package:vinkybox/ui/shared/app_colors.dart';
 import 'package:vinkybox/ui/views/startup/startup_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -28,9 +29,7 @@ class StartUpView extends StatelessWidget {
               ),
               const CircularProgressIndicator(
                 strokeWidth: 3,
-                valueColor: AlwaysStoppedAnimation(
-                  Color(0xff36a7f9),
-                ),
+                valueColor: AlwaysStoppedAnimation(skyblueHex),
               ),
             ],
           ),
