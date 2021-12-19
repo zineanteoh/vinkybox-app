@@ -21,7 +21,7 @@ class OnboardingView extends StatelessWidget {
 
     return ViewModelBuilder<OnboardingViewModel>.reactive(
       builder: (context, model, child) => IntroductionScreen(
-        // key: introKey,
+        key: model.introKey,
         globalBackgroundColor: Colors.white,
         pages: [
           PageViewModel(
