@@ -3,8 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:vinkybox/api/firestore_api.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
+import 'package:vinkybox/helpers/email_parser.dart';
+import 'package:vinkybox/models/app_user.dart';
 // import 'package:vinkybox/models/application_models.dart';
 
+// Performs services relating to AppUser using FirestoreApi
+// ... create a new user in Firestore users collection
+// ... sends a delivery request
 class UserService {
   final log = getLogger('UserService');
 
@@ -19,9 +24,27 @@ class UserService {
 
   bool get hasLoggedInUser => false;
 
-  void setCurrentUser(User user) {
-    _currentUser = user;
+  void createUserInFirestore({required String userDorm}) {
+    // get id and email from firebase
+    // get full name from email
+
+    // Dummy data:
+    var id = '1234';
+    var email = 'zi.nean.teoh@vanderbilt.edu';
+    var fullName = getFullNameFromEmail(email);
+    var myAppUser = AppUser(
+      id: id,
+      fullName: fullName,
+      email: email,
+      dorm: userDorm,
+    );
+
+    _firestoreApi.createUser(myAppUser);
   }
+
+  // void setCurrentUser(User user) {
+  //   _currentUser = user;
+  // }
 
   // bool get hasLoggedInUser => _firebaseAuthenticationService.hasUser;
 
