@@ -3,10 +3,10 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:vinkybox/api/firestore_api.dart';
 import 'package:vinkybox/services/firebase_authentication_service.dart';
 import 'package:vinkybox/services/user_service.dart';
-import 'package:vinkybox/ui/views/dorm_selection/dorm_selection_view.dart';
 import 'package:vinkybox/ui/views/home/home_view.dart';
 import 'package:vinkybox/ui/views/login/login_view.dart';
 import 'package:vinkybox/ui/views/onboarding/onboarding_view.dart';
+import 'package:vinkybox/ui/views/onboarding/settings/dorm_selection/dorm_selection_view.dart';
 import 'package:vinkybox/ui/views/startup/startup_view.dart';
 
 // Run the following to regenerate app files:
