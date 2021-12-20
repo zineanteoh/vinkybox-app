@@ -11,8 +11,9 @@ class DormSelectionViewModel extends BaseViewModel {
 
   String _userDorm = "";
 
-  NavigationService _navigationService = locator<NavigationService>();
-  UserService _userService = locator<UserService>();
+  final NavigationService _navigationService =
+      locator<NavigationService>();
+  final UserService _userService = locator<UserService>();
 
   void selectUserDorm(int index) {
     _userDorm = dormList[index];
@@ -21,7 +22,7 @@ class DormSelectionViewModel extends BaseViewModel {
 
   void submitUserInfo() {
     if (_userDorm != "") {
-      print("You have selected: $_userDorm");
+      log.i("You have selected: $_userDorm");
       // set up user account
       _userService.createUserInFirestore(userDorm: _userDorm);
       _navigationService.navigateTo(Routes.homeView);
