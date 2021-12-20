@@ -11,13 +11,18 @@ class DormSelectionViewModel extends BaseViewModel {
 
   String _userDorm = "";
 
+  String get userDorm => _userDorm;
+
+  bool hasSelectedDorm() => _userDorm != "";
+
   final NavigationService _navigationService =
       locator<NavigationService>();
   final UserService _userService = locator<UserService>();
 
   void selectUserDorm(int index) {
     _userDorm = dormList[index];
-    // print("User has selected: $userDorm");
+    notifyListeners();
+    print("User has selected: $_userDorm");
   }
 
   void submitUserInfo() {

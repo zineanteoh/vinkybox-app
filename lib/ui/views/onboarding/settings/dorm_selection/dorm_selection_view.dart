@@ -40,13 +40,19 @@ class DormSelectionView extends StatelessWidget {
                               title: Text(
                                 dormList[index],
                               ),
+                              onTap: () {
+                                model.selectUserDorm(index);
+                                Navigator.pop(context);
+                              },
                             ),
                           );
                         },
                       ),
-                      child: const Text(
-                        'Click Here',
-                        style: TextStyle(
+                      child: Text(
+                        model.hasSelectedDorm()
+                            ? model.userDorm
+                            : 'Click Here',
+                        style: const TextStyle(
                           fontSize: 24,
                           color: skyblueColor,
                         ),
