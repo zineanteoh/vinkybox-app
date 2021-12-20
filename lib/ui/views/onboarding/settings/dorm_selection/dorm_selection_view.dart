@@ -22,40 +22,37 @@ class DormSelectionView extends StatelessWidget {
               UIHelper.verticalSpaceLarge(),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    GroupButton(
-                      onSelected: (index, isSelected) =>
-                          model.selectUserDorm(index),
-                      buttons: dormList,
-                      isRadio: true,
-                      direction: Axis.horizontal,
-                      spacing: 10,
-                      selectedTextStyle: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                        color: Colors.white,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5.0),
+                    color: Colors.white,
+                  ),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.fromLTRB(70, 10, 70, 10),
+                    child: TextButton(
+                      onPressed: () => showModalBottomSheet(
+                        context: context,
+                        builder: (context) {
+                          return ListView.builder(
+                            itemCount: dormList.length,
+                            itemBuilder: (context, index) => ListTile(
+                              title: Text(
+                                dormList[index],
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                      unselectedTextStyle: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14,
-                        color: Colors.grey[600],
+                      child: const Text(
+                        'Click Here',
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: skyblueColor,
+                        ),
                       ),
-                      selectedColor: skyblueColor,
-                      unselectedColor: Colors.grey[300],
-                      selectedBorderColor: skyblueColor,
-                      unselectedBorderColor: Color(0xFFBDBDBD),
-                      borderRadius: BorderRadius.circular(5.0),
-                      selectedShadow: const <BoxShadow>[
-                        BoxShadow(color: Colors.transparent)
-                      ],
-                      unselectedShadow: const <BoxShadow>[
-                        BoxShadow(color: Colors.transparent)
-                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
               UIHelper.verticalSpaceLarge(),
