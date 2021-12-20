@@ -1,15 +1,11 @@
 import 'package:stacked/stacked.dart';
+import 'package:vinkybox/app/app.locator.dart';
+import 'package:vinkybox/services/user_service.dart';
 
 class HomeViewModel extends BaseViewModel {
-  String _title = 'HomeView';
-  String get title => '$_title counter: $_counter';
+  final _userService = locator<UserService>();
 
-  // For demo purposes
-  int _counter = 0;
-  int get counter => _counter;
-
-  void updateCounter() {
-    _counter++;
-    notifyListeners();
+  String getCurrentUserName() {
+    return _userService.currentUser.fullName;
   }
 }
