@@ -10,6 +10,7 @@ class TopProfileBar extends StatelessWidget {
         padding: const EdgeInsets.only(top: 10.0, right: 30.0),
         alignment: Alignment.centerRight,
         child: Material(
+          elevation: 4.0,
           shape: const CircleBorder(),
           clipBehavior: Clip.hardEdge,
           color: Colors.transparent,

@@ -13,6 +13,7 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<HomeViewModel>.reactive(
       builder: (context, model, child) => Scaffold(
+        bottomNavigationBar: const BottomToolbar(),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -20,7 +21,6 @@ class HomeView extends StatelessWidget {
             TopProfileBar(),
             WelcomeMessage(),
             DeliveryOverview(),
-            BottomToolbar(),
           ],
         ),
       ),
