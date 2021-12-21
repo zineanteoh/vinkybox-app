@@ -11,10 +11,10 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
-import '../ui/views/dorm_selection/dorm_selection_view.dart';
 import '../ui/views/home/home_view.dart';
 import '../ui/views/login/login_view.dart';
 import '../ui/views/onboarding/onboarding_view.dart';
+import '../ui/views/onboarding/settings/dorm_selection/dorm_selection_view.dart';
 import '../ui/views/startup/startup_view.dart';
 
 class Routes {
