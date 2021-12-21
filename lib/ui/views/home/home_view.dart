@@ -17,10 +17,14 @@ class HomeView extends StatelessWidget {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            TopProfileBar(),
-            WelcomeMessage(),
-            DeliveryOverview(),
+          children: [
+            Stack(
+              children: const [
+                TopProfileBar(),
+                WelcomeMessage(),
+              ],
+            ),
+            const DeliveryOverview(),
           ],
         ),
       ),

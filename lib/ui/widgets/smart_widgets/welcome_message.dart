@@ -9,9 +9,9 @@ class WelcomeMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<WelcomeMessageModel>.reactive(
       builder: (context, model, child) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.only(left: 20.0, top: 80.0),
         child: Text(
-          'Welcome ${model.getCurrentUserName()}',
+          'Hello ${model.getCurrentUserName()}',
           style: const TextStyle(
             fontSize: 35,
           ),

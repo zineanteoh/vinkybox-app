@@ -38,7 +38,7 @@ class UserService {
     // Dummy data:
     var id = '1234';
     var email = 'zi.nean.teoh@vanderbilt.edu';
-    var fullName = getFullNameFromEmail(email);
+    var fullName = getNameFromEmail(email);
     var myAppUser = AppUser(
       id: id,
       fullName: fullName,
