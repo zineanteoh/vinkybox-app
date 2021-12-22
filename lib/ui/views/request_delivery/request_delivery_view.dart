@@ -2,6 +2,7 @@ import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:group_button/group_button.dart';
 import 'package:stacked/stacked.dart';
+import 'package:vinkybox/constants/request_info.dart';
 import 'package:vinkybox/ui/shared/app_colors.dart';
 import 'package:vinkybox/ui/shared/text_styles.dart';
 import 'package:vinkybox/ui/shared/ui_helpers.dart';
@@ -43,11 +44,7 @@ class RequestDeliveryView extends StatelessWidget {
                     mainGroupAlignment: MainGroupAlignment.start,
                     isRadio: true,
                     spacing: 10,
-                    buttons: const [
-                      'Small',
-                      'Medium',
-                      'Large',
-                    ],
+                    buttons: requestPackageSize,
                     selectedColor: skyblueColor,
                     borderRadius: BorderRadius.circular(30),
                     onSelected: (i, selected) =>
@@ -60,10 +57,7 @@ class RequestDeliveryView extends StatelessWidget {
                     mainGroupAlignment: MainGroupAlignment.start,
                     isRadio: true,
                     spacing: 10,
-                    buttons: const [
-                      'Station B Lockerbank',
-                      'Station B Counter',
-                    ],
+                    buttons: requestPickUpLocation,
                     selectedColor: skyblueColor,
                     borderRadius: BorderRadius.circular(30),
                     onSelected: (i, selected) =>
@@ -77,12 +71,7 @@ class RequestDeliveryView extends StatelessWidget {
                     mainGroupAlignment: MainGroupAlignment.start,
                     isRadio: true,
                     spacing: 10,
-                    buttons: const [
-                      'Main Lobby Entrance',
-                      'My room',
-                      'Seminar Room',
-                      'Somewhere Else',
-                    ],
+                    buttons: requestDropOffLocation,
                     selectedColor: skyblueColor,
                     borderRadius: BorderRadius.circular(30),
                     onSelected: (i, selected) =>
@@ -95,14 +84,7 @@ class RequestDeliveryView extends StatelessWidget {
                     mainGroupAlignment: MainGroupAlignment.start,
                     isRadio: true,
                     spacing: 10,
-                    buttons: const [
-                      'Anytime',
-                      '11 - 12PM',
-                      '12 - 1PM',
-                      '1 - 2PM',
-                      '2 - 3PM',
-                      '3 - 4PM',
-                    ],
+                    buttons: requestTime,
                     selectedColor: skyblueColor,
                     borderRadius: BorderRadius.circular(30),
                     onSelected: (i, selected) =>
