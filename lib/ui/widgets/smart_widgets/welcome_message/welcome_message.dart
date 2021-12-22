@@ -21,9 +21,9 @@ class WelcomeMessage extends StatelessWidget {
                 color: Colors.black38,
               ),
             ),
-            Text(
+            const Text(
               'Good Morning!',
-              style: const TextStyle(
+              style: TextStyle(
                   fontWeight: FontWeight.bold, fontSize: 32),
             ),
           ],

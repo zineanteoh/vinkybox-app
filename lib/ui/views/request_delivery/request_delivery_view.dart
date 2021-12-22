@@ -48,7 +48,7 @@ class RequestDeliveryView extends StatelessWidget {
                     selectedColor: skyblueColor,
                     borderRadius: BorderRadius.circular(30),
                     onSelected: (i, selected) =>
-                        debugPrint('Button #$i selected'),
+                        model.selectPackageSize(i),
                   ),
                   UIHelper.verticalSpaceMedium(),
                   const Text('located at', style: subHeaderStyle),
@@ -61,7 +61,7 @@ class RequestDeliveryView extends StatelessWidget {
                     selectedColor: skyblueColor,
                     borderRadius: BorderRadius.circular(30),
                     onSelected: (i, selected) =>
-                        debugPrint('Button #$i selected'),
+                        model.selectPickUpLocation(i),
                   ),
                   UIHelper.verticalSpaceMedium(),
                   const Text('I want it dropped off at',
@@ -75,7 +75,7 @@ class RequestDeliveryView extends StatelessWidget {
                     selectedColor: skyblueColor,
                     borderRadius: BorderRadius.circular(30),
                     onSelected: (i, selected) =>
-                        debugPrint('Button #$i selected'),
+                        model.selectDropOffLocation(i),
                   ),
                   UIHelper.verticalSpaceMedium(),
                   const Text('Between', style: subHeaderStyle),
@@ -87,14 +87,13 @@ class RequestDeliveryView extends StatelessWidget {
                     buttons: requestTime,
                     selectedColor: skyblueColor,
                     borderRadius: BorderRadius.circular(30),
-                    onSelected: (i, selected) =>
-                        debugPrint('Button #$i selected'),
+                    onSelected: (i, selected) => model.selectTime(i),
                   ),
                   UIHelper.verticalSpaceMedium(),
                   // UIHelper.verticalSpaceLarge(),
                   Center(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: model.submitRequest,
                       style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all<Color>(
