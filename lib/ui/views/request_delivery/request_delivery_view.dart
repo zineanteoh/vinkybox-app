@@ -8,7 +8,9 @@ class RequestDeliveryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<RequestDeliveryViewModel>.reactive(
-      builder: (context, model, child) => Container(),
+      builder: (context, model, child) => Scaffold(
+        body: Container(),
+      ),
       viewModelBuilder: () => RequestDeliveryViewModel(),
     );
   }

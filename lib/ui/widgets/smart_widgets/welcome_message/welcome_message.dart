@@ -8,13 +8,25 @@ class WelcomeMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<WelcomeMessageModel>.reactive(
-      builder: (context, model, child) => Padding(
-        padding: const EdgeInsets.only(left: 20.0, top: 80.0),
-        child: Text(
-          'Hello ${model.getCurrentUserName()}',
-          style: const TextStyle(
-            fontSize: 35,
-          ),
+      builder: (context, model, child) => Container(
+        padding: const EdgeInsets.only(left: 20.0, top: 40.0),
+        // alignment: Alignment.centerRight,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Hello ${model.getCurrentUserName()}',
+              style: const TextStyle(
+                fontSize: 26,
+                color: Colors.black38,
+              ),
+            ),
+            Text(
+              'Good Morning!',
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold, fontSize: 32),
+            ),
+          ],
         ),
       ),
       viewModelBuilder: () => WelcomeMessageModel(),

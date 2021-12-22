@@ -11,7 +11,7 @@ class DeliveryOverview extends StatelessWidget {
       child: Scrollbar(
         child: Column(
           children: <Widget>[
-            UIHelper.verticalSpaceLarge(),
+            UIHelper.verticalSpaceMedium(),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: const RequestDeliveryButton(),

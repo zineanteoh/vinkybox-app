@@ -24,10 +24,10 @@ class RequestDeliveryButton extends StatelessWidget {
                 shadowColor: const Color(0x30000000),
               )
               .constrained(height: 80)
-              .padding(vertical: 12)
               .gestures(
                 onTapChange: (tapState) =>
                     model.updatePressedStatus(tapState),
+                onTap: model.onPress,
               )
               .scale(
                 all: model.pressed ? 0.95 : 1.0,

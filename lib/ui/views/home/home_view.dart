@@ -17,11 +17,15 @@ class HomeView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Stack(
-              children: const [
-                TopProfileBar(),
-                WelcomeMessage(),
-              ],
+            Padding(
+              padding: const EdgeInsets.only(top: 50, left: 30.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: const [
+                  TopProfileBar(),
+                  WelcomeMessage(),
+                ],
+              ),
             ),
             const DeliveryOverview(),
           ],
