@@ -10,7 +10,7 @@ class RequestDeliveryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<RequestDeliveryButtonModel>.reactive(
       builder: (context, model, child) {
-        Widget requestDeliveryButton({required Widget child}) {
+        Widget deliveryButton({required Widget child}) {
           return Styled.widget(child: child)
               .alignment(Alignment.center)
               .borderRadius(all: 15)
@@ -65,7 +65,7 @@ class RequestDeliveryButton extends StatelessWidget {
           ),
         );
 
-        return requestDeliveryButton(
+        return deliveryButton(
           child: <Widget>[
             icon,
             <Widget>[

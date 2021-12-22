@@ -13,8 +13,7 @@ class DeliveryOverview extends StatelessWidget {
           children: <Widget>[
             UIHelper.verticalSpaceMedium(),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: const RequestDeliveryButton(),
+              child: RequestDeliveryButton(),
             ),
             // List of deliveries
             // Expanded(
