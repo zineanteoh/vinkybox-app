@@ -4,7 +4,7 @@ import 'package:vinkybox/api/firestore_api.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
 import 'package:vinkybox/helpers/email_parser.dart';
-import 'package:vinkybox/models/app_user.dart';
+import 'package:vinkybox/models/application_models.dart';
 // import 'package:vinkybox/models/application_models.dart';
 
 // Performs services relating to AppUser using FirestoreApi

@@ -1,0 +1,477 @@
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+
+part of 'application_models.dart';
+
+// **************************************************************************
+// FreezedGenerator
+// **************************************************************************
+
+T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
+AppUser _$AppUserFromJson(Map<String, dynamic> json) {
+  return _AppUser.fromJson(json);
+}
+
+/// @nodoc
+class _$AppUserTearOff {
+  const _$AppUserTearOff();
+
+  _AppUser call(
+      {required String id, String? email, String? fullName, String? dorm}) {
+    return _AppUser(
+      id: id,
+      email: email,
+      fullName: fullName,
+      dorm: dorm,
+    );
+  }
+
+  AppUser fromJson(Map<String, Object?> json) {
+    return AppUser.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $AppUser = _$AppUserTearOff();
+
+/// @nodoc
+mixin _$AppUser {
+  String get id => throw _privateConstructorUsedError;
+  String? get email => throw _privateConstructorUsedError;
+  String? get fullName => throw _privateConstructorUsedError;
+  String? get dorm => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $AppUserCopyWith<AppUser> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AppUserCopyWith<$Res> {
+  factory $AppUserCopyWith(AppUser value, $Res Function(AppUser) then) =
+      _$AppUserCopyWithImpl<$Res>;
+  $Res call({String id, String? email, String? fullName, String? dorm});
+}
+
+/// @nodoc
+class _$AppUserCopyWithImpl<$Res> implements $AppUserCopyWith<$Res> {
+  _$AppUserCopyWithImpl(this._value, this._then);
+
+  final AppUser _value;
+  // ignore: unused_field
+  final $Res Function(AppUser) _then;
+
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? email = freezed,
+    Object? fullName = freezed,
+    Object? dorm = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: email == freezed
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      fullName: fullName == freezed
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dorm: dorm == freezed
+          ? _value.dorm
+          : dorm // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$AppUserCopyWith<$Res> implements $AppUserCopyWith<$Res> {
+  factory _$AppUserCopyWith(_AppUser value, $Res Function(_AppUser) then) =
+      __$AppUserCopyWithImpl<$Res>;
+  @override
+  $Res call({String id, String? email, String? fullName, String? dorm});
+}
+
+/// @nodoc
+class __$AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
+    implements _$AppUserCopyWith<$Res> {
+  __$AppUserCopyWithImpl(_AppUser _value, $Res Function(_AppUser) _then)
+      : super(_value, (v) => _then(v as _AppUser));
+
+  @override
+  _AppUser get _value => super._value as _AppUser;
+
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? email = freezed,
+    Object? fullName = freezed,
+    Object? dorm = freezed,
+  }) {
+    return _then(_AppUser(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: email == freezed
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      fullName: fullName == freezed
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dorm: dorm == freezed
+          ? _value.dorm
+          : dorm // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_AppUser implements _AppUser {
+  _$_AppUser({required this.id, this.email, this.fullName, this.dorm});
+
+  factory _$_AppUser.fromJson(Map<String, dynamic> json) =>
+      _$$_AppUserFromJson(json);
+
+  @override
+  final String id;
+  @override
+  final String? email;
+  @override
+  final String? fullName;
+  @override
+  final String? dorm;
+
+  @override
+  String toString() {
+    return 'AppUser(id: $id, email: $email, fullName: $fullName, dorm: $dorm)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _AppUser &&
+            const DeepCollectionEquality().equals(other.id, id) &&
+            const DeepCollectionEquality().equals(other.email, email) &&
+            const DeepCollectionEquality().equals(other.fullName, fullName) &&
+            const DeepCollectionEquality().equals(other.dorm, dorm));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(id),
+      const DeepCollectionEquality().hash(email),
+      const DeepCollectionEquality().hash(fullName),
+      const DeepCollectionEquality().hash(dorm));
+
+  @JsonKey(ignore: true)
+  @override
+  _$AppUserCopyWith<_AppUser> get copyWith =>
+      __$AppUserCopyWithImpl<_AppUser>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_AppUserToJson(this);
+  }
+}
+
+abstract class _AppUser implements AppUser {
+  factory _AppUser(
+      {required String id,
+      String? email,
+      String? fullName,
+      String? dorm}) = _$_AppUser;
+
+  factory _AppUser.fromJson(Map<String, dynamic> json) = _$_AppUser.fromJson;
+
+  @override
+  String get id;
+  @override
+  String? get email;
+  @override
+  String? get fullName;
+  @override
+  String? get dorm;
+  @override
+  @JsonKey(ignore: true)
+  _$AppUserCopyWith<_AppUser> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+PackageRequest _$PackageRequestFromJson(Map<String, dynamic> json) {
+  return _PackageRequest.fromJson(json);
+}
+
+/// @nodoc
+class _$PackageRequestTearOff {
+  const _$PackageRequestTearOff();
+
+  _PackageRequest call(
+      {required String packageSize,
+      required String pickUpLocation,
+      required String dropOffLocation,
+      required String time,
+      required AppUser user}) {
+    return _PackageRequest(
+      packageSize: packageSize,
+      pickUpLocation: pickUpLocation,
+      dropOffLocation: dropOffLocation,
+      time: time,
+      user: user,
+    );
+  }
+
+  PackageRequest fromJson(Map<String, Object?> json) {
+    return PackageRequest.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $PackageRequest = _$PackageRequestTearOff();
+
+/// @nodoc
+mixin _$PackageRequest {
+  String get packageSize => throw _privateConstructorUsedError;
+  String get pickUpLocation => throw _privateConstructorUsedError;
+  String get dropOffLocation => throw _privateConstructorUsedError;
+  String get time => throw _privateConstructorUsedError;
+  AppUser get user => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $PackageRequestCopyWith<PackageRequest> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PackageRequestCopyWith<$Res> {
+  factory $PackageRequestCopyWith(
+          PackageRequest value, $Res Function(PackageRequest) then) =
+      _$PackageRequestCopyWithImpl<$Res>;
+  $Res call(
+      {String packageSize,
+      String pickUpLocation,
+      String dropOffLocation,
+      String time,
+      AppUser user});
+
+  $AppUserCopyWith<$Res> get user;
+}
+
+/// @nodoc
+class _$PackageRequestCopyWithImpl<$Res>
+    implements $PackageRequestCopyWith<$Res> {
+  _$PackageRequestCopyWithImpl(this._value, this._then);
+
+  final PackageRequest _value;
+  // ignore: unused_field
+  final $Res Function(PackageRequest) _then;
+
+  @override
+  $Res call({
+    Object? packageSize = freezed,
+    Object? pickUpLocation = freezed,
+    Object? dropOffLocation = freezed,
+    Object? time = freezed,
+    Object? user = freezed,
+  }) {
+    return _then(_value.copyWith(
+      packageSize: packageSize == freezed
+          ? _value.packageSize
+          : packageSize // ignore: cast_nullable_to_non_nullable
+              as String,
+      pickUpLocation: pickUpLocation == freezed
+          ? _value.pickUpLocation
+          : pickUpLocation // ignore: cast_nullable_to_non_nullable
+              as String,
+      dropOffLocation: dropOffLocation == freezed
+          ? _value.dropOffLocation
+          : dropOffLocation // ignore: cast_nullable_to_non_nullable
+              as String,
+      time: time == freezed
+          ? _value.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as String,
+      user: user == freezed
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as AppUser,
+    ));
+  }
+
+  @override
+  $AppUserCopyWith<$Res> get user {
+    return $AppUserCopyWith<$Res>(_value.user, (value) {
+      return _then(_value.copyWith(user: value));
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$PackageRequestCopyWith<$Res>
+    implements $PackageRequestCopyWith<$Res> {
+  factory _$PackageRequestCopyWith(
+          _PackageRequest value, $Res Function(_PackageRequest) then) =
+      __$PackageRequestCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {String packageSize,
+      String pickUpLocation,
+      String dropOffLocation,
+      String time,
+      AppUser user});
+
+  @override
+  $AppUserCopyWith<$Res> get user;
+}
+
+/// @nodoc
+class __$PackageRequestCopyWithImpl<$Res>
+    extends _$PackageRequestCopyWithImpl<$Res>
+    implements _$PackageRequestCopyWith<$Res> {
+  __$PackageRequestCopyWithImpl(
+      _PackageRequest _value, $Res Function(_PackageRequest) _then)
+      : super(_value, (v) => _then(v as _PackageRequest));
+
+  @override
+  _PackageRequest get _value => super._value as _PackageRequest;
+
+  @override
+  $Res call({
+    Object? packageSize = freezed,
+    Object? pickUpLocation = freezed,
+    Object? dropOffLocation = freezed,
+    Object? time = freezed,
+    Object? user = freezed,
+  }) {
+    return _then(_PackageRequest(
+      packageSize: packageSize == freezed
+          ? _value.packageSize
+          : packageSize // ignore: cast_nullable_to_non_nullable
+              as String,
+      pickUpLocation: pickUpLocation == freezed
+          ? _value.pickUpLocation
+          : pickUpLocation // ignore: cast_nullable_to_non_nullable
+              as String,
+      dropOffLocation: dropOffLocation == freezed
+          ? _value.dropOffLocation
+          : dropOffLocation // ignore: cast_nullable_to_non_nullable
+              as String,
+      time: time == freezed
+          ? _value.time
+          : time // ignore: cast_nullable_to_non_nullable
+              as String,
+      user: user == freezed
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as AppUser,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_PackageRequest implements _PackageRequest {
+  _$_PackageRequest(
+      {required this.packageSize,
+      required this.pickUpLocation,
+      required this.dropOffLocation,
+      required this.time,
+      required this.user});
+
+  factory _$_PackageRequest.fromJson(Map<String, dynamic> json) =>
+      _$$_PackageRequestFromJson(json);
+
+  @override
+  final String packageSize;
+  @override
+  final String pickUpLocation;
+  @override
+  final String dropOffLocation;
+  @override
+  final String time;
+  @override
+  final AppUser user;
+
+  @override
+  String toString() {
+    return 'PackageRequest(packageSize: $packageSize, pickUpLocation: $pickUpLocation, dropOffLocation: $dropOffLocation, time: $time, user: $user)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _PackageRequest &&
+            const DeepCollectionEquality()
+                .equals(other.packageSize, packageSize) &&
+            const DeepCollectionEquality()
+                .equals(other.pickUpLocation, pickUpLocation) &&
+            const DeepCollectionEquality()
+                .equals(other.dropOffLocation, dropOffLocation) &&
+            const DeepCollectionEquality().equals(other.time, time) &&
+            const DeepCollectionEquality().equals(other.user, user));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(packageSize),
+      const DeepCollectionEquality().hash(pickUpLocation),
+      const DeepCollectionEquality().hash(dropOffLocation),
+      const DeepCollectionEquality().hash(time),
+      const DeepCollectionEquality().hash(user));
+
+  @JsonKey(ignore: true)
+  @override
+  _$PackageRequestCopyWith<_PackageRequest> get copyWith =>
+      __$PackageRequestCopyWithImpl<_PackageRequest>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_PackageRequestToJson(this);
+  }
+}
+
+abstract class _PackageRequest implements PackageRequest {
+  factory _PackageRequest(
+      {required String packageSize,
+      required String pickUpLocation,
+      required String dropOffLocation,
+      required String time,
+      required AppUser user}) = _$_PackageRequest;
+
+  factory _PackageRequest.fromJson(Map<String, dynamic> json) =
+      _$_PackageRequest.fromJson;
+
+  @override
+  String get packageSize;
+  @override
+  String get pickUpLocation;
+  @override
+  String get dropOffLocation;
+  @override
+  String get time;
+  @override
+  AppUser get user;
+  @override
+  @JsonKey(ignore: true)
+  _$PackageRequestCopyWith<_PackageRequest> get copyWith =>
+      throw _privateConstructorUsedError;
+}
