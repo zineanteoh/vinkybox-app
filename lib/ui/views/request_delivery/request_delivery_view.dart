@@ -11,6 +11,87 @@ import 'package:vinkybox/ui/views/request_delivery/request_delivery_viewmodel.da
 class RequestDeliveryView extends StatelessWidget {
   const RequestDeliveryView({Key? key}) : super(key: key);
 
+  Widget requestTopBar(model) {
+    return Row(
+      children: [
+        SizedBox(
+          height: 30,
+          width: 30,
+          child: IconButton(
+              padding: const EdgeInsets.all(0),
+              onPressed: model.navigateBack,
+              icon: const Icon(
+                CarbonIcons.chevron_left,
+                size: 30,
+              )),
+        ),
+        const Padding(
+          padding: EdgeInsets.only(left: 8.0),
+          child: Text(
+            "Reqeust A Delivery",
+            style:
+                TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget requestSection(
+      model, headerTitle, buttonsList, onSelectedFunction) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        UIHelper.verticalSpaceMedium(),
+        Text('$headerTitle', style: subHeaderStyle),
+        UIHelper.verticalSpaceSmall(),
+        GroupButton(
+          mainGroupAlignment: MainGroupAlignment.start,
+          isRadio: true,
+          spacing: 10,
+          buttons: buttonsList,
+          selectedColor: skyblueColor,
+          borderRadius: BorderRadius.circular(30),
+          onSelected: (i, selected) => onSelectedFunction(i),
+        ),
+      ],
+    );
+  }
+
+  Widget requestPackageSizeSection(model) {
+    return requestSection(model, "My package is", requestPackageSize,
+        model.selectPackageSize);
+  }
+
+  Widget requestPickUpLocationSection(model) {
+    return requestSection(model, "located at", requestPickUpLocation,
+        model.selectPickUpLocation);
+  }
+
+  Widget requestDropOffLocationSection(model) {
+    return requestSection(model, "I want it dropped off at",
+        requestDropOffLocation, model.selectDropOffLocation);
+  }
+
+  Widget requestTimeSection(model) {
+    return requestSection(
+        model, "Between", requestTime, model.selectTime);
+  }
+
+  Widget requestSubmit(model) {
+    return Center(
+      child: ElevatedButton(
+        onPressed: model.submitRequest,
+        style: ButtonStyle(
+          backgroundColor:
+              MaterialStateProperty.all<Color>(skyblueColor),
+        ),
+        child: const Text('Submit', style: TextStyle(fontSize: 20)),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<RequestDeliveryViewModel>.reactive(
@@ -18,91 +99,17 @@ class RequestDeliveryView extends StatelessWidget {
         body: Scaffold(
           body: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 20.0, vertical: 50.0),
+              padding: const EdgeInsets.only(left: 20.0, top: 50.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      IconButton(
-                          onPressed: model.navigateBack,
-                          icon: Icon(CarbonIcons.chevron_left)),
-                      const Text(
-                        "Reqeust A Delivery",
-                        style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
+                  requestTopBar(model),
                   UIHelper.verticalSpaceMedium(),
-                  const Text('My package is', style: subHeaderStyle),
-                  UIHelper.verticalSpaceSmall(),
-                  GroupButton(
-                    mainGroupAlignment: MainGroupAlignment.start,
-                    isRadio: true,
-                    spacing: 10,
-                    buttons: requestPackageSize,
-                    selectedColor: skyblueColor,
-                    borderRadius: BorderRadius.circular(30),
-                    onSelected: (i, selected) =>
-                        model.selectPackageSize(i),
-                  ),
+                  requestPackageSizeSection(model),
+                  requestPickUpLocationSection(model),
+                  requestDropOffLocationSection(model),
+                  requestTimeSection(model),
                   UIHelper.verticalSpaceMedium(),
-                  const Text('located at', style: subHeaderStyle),
-                  UIHelper.verticalSpaceSmall(),
-                  GroupButton(
-                    mainGroupAlignment: MainGroupAlignment.start,
-                    isRadio: true,
-                    spacing: 10,
-                    buttons: requestPickUpLocation,
-                    selectedColor: skyblueColor,
-                    borderRadius: BorderRadius.circular(30),
-                    onSelected: (i, selected) =>
-                        model.selectPickUpLocation(i),
-                  ),
-                  UIHelper.verticalSpaceMedium(),
-                  const Text('I want it dropped off at',
-                      style: subHeaderStyle),
-                  UIHelper.verticalSpaceSmall(),
-                  GroupButton(
-                    mainGroupAlignment: MainGroupAlignment.start,
-                    isRadio: true,
-                    spacing: 10,
-                    buttons: requestDropOffLocation,
-                    selectedColor: skyblueColor,
-                    borderRadius: BorderRadius.circular(30),
-                    onSelected: (i, selected) =>
-                        model.selectDropOffLocation(i),
-                  ),
-                  UIHelper.verticalSpaceMedium(),
-                  const Text('Between', style: subHeaderStyle),
-                  UIHelper.verticalSpaceSmall(),
-                  GroupButton(
-                    mainGroupAlignment: MainGroupAlignment.start,
-                    isRadio: true,
-                    spacing: 10,
-                    buttons: requestTime,
-                    selectedColor: skyblueColor,
-                    borderRadius: BorderRadius.circular(30),
-                    onSelected: (i, selected) => model.selectTime(i),
-                  ),
-                  UIHelper.verticalSpaceMedium(),
-                  // UIHelper.verticalSpaceLarge(),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: model.submitRequest,
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(
-                                skyblueColor),
-                      ),
-                      child: const Text('Submit',
-                          style: TextStyle(fontSize: 20)),
-                    ),
-                  ),
+                  requestSubmit(model),
                 ],
               ),
             ),
