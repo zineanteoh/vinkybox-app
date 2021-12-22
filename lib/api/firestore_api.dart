@@ -18,7 +18,7 @@ class FirestoreApi {
           .collection(DeliveryRequestsFirestoreKey);
 
   /// createUser adds an AppUser document to collection
-  Future<void> createUser(AppUser user) async {
+  Future<void> createUser({required AppUser user}) async {
     log.i('user:$user');
 
     try {
