@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:vinkybox/ui/widgets/smart_widgets/welcome_message_model.dart';
+import 'package:vinkybox/ui/widgets/smart_widgets/welcome_message/welcome_message_model.dart';
 
 class WelcomeMessage extends StatelessWidget {
   const WelcomeMessage({Key? key}) : super(key: key);

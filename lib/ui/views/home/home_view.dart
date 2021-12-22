@@ -4,7 +4,7 @@ import 'package:vinkybox/ui/views/home/home_viewmodel.dart';
 import 'package:vinkybox/ui/widgets/dumb_widgets/bottom_toolbar.dart';
 import 'package:vinkybox/ui/widgets/dumb_widgets/delivery_overview.dart';
 import 'package:vinkybox/ui/widgets/dumb_widgets/top_profile_bar.dart';
-import 'package:vinkybox/ui/widgets/smart_widgets/welcome_message.dart';
+import 'package:vinkybox/ui/widgets/smart_widgets/welcome_message/welcome_message.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -13,7 +13,6 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<HomeViewModel>.reactive(
       builder: (context, model, child) => Scaffold(
-        bottomNavigationBar: const BottomToolbar(),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,6 +26,7 @@ class HomeView extends StatelessWidget {
             const DeliveryOverview(),
           ],
         ),
+        bottomNavigationBar: const BottomToolbar(),
       ),
       viewModelBuilder: () => HomeViewModel(),
     );

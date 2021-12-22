@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:styled_widget/styled_widget.dart';
 
-class CallToActionItem extends StatefulWidget {
+class RequestDeliveryButton extends StatefulWidget {
   final IconData icon;
   final Color iconBgColor;
   final String title;
   final String description;
 
-  CallToActionItem(
+  RequestDeliveryButton(
       {Key? key,
       required this.icon,
       required this.iconBgColor,
@@ -15,10 +15,12 @@ class CallToActionItem extends StatefulWidget {
       required this.description})
       : super(key: key);
   @override
-  _CallToActionItemState createState() => _CallToActionItemState();
+  _RequestDeliveryButtonState createState() =>
+      _RequestDeliveryButtonState();
 }
 
-class _CallToActionItemState extends State<CallToActionItem> {
+class _RequestDeliveryButtonState
+    extends State<RequestDeliveryButton> {
   bool pressed = false;
 
   @override
@@ -39,10 +41,14 @@ class _CallToActionItemState extends State<CallToActionItem> {
             .constrained(height: 80)
             .padding(vertical: 12) // margin
             .gestures(
-              onTapChange: (tapStatus) =>
-                  setState(() => pressed = tapStatus),
-              onTapDown: (details) => print('tapDown'),
-              onTap: () => print('onTap'),
+              onTapChange: (tapStatus) => setState(
+                () {
+                  pressed = tapStatus;
+                },
+              ),
+              // onTap: () => print('onTap'),
+              onTapUp: (details) {},
+              onTap: () => print('tapppp'),
             )
             .scale(
               all: pressed ? 0.95 : 1.0,
@@ -62,7 +68,7 @@ class _CallToActionItemState extends State<CallToActionItem> {
 
     final Widget title = Text(
       widget.title,
-      style: TextStyle(
+      style: const TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 16,
       ),
@@ -70,7 +76,7 @@ class _CallToActionItemState extends State<CallToActionItem> {
 
     final Widget description = Text(
       widget.description,
-      style: TextStyle(
+      style: const TextStyle(
         color: Colors.black26,
         fontWeight: FontWeight.bold,
         fontSize: 12,
