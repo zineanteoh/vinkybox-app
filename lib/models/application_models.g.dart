@@ -23,18 +23,20 @@ Map<String, dynamic> _$$_AppUserToJson(_$_AppUser instance) =>
 
 _$_PackageRequest _$$_PackageRequestFromJson(Map<String, dynamic> json) =>
     _$_PackageRequest(
+      user: json['user'] as Map<String, dynamic>,
+      status: json['status'] as String?,
       packageSize: json['packageSize'] as String,
       pickUpLocation: json['pickUpLocation'] as String,
       dropOffLocation: json['dropOffLocation'] as String,
       time: json['time'] as String,
-      user: AppUser.fromJson(json['user'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_PackageRequestToJson(_$_PackageRequest instance) =>
     <String, dynamic>{
+      'user': instance.user,
+      'status': instance.status,
       'packageSize': instance.packageSize,
       'pickUpLocation': instance.pickUpLocation,
       'dropOffLocation': instance.dropOffLocation,
       'time': instance.time,
-      'user': instance.user,
     };

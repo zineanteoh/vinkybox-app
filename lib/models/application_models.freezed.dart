@@ -223,17 +223,19 @@ class _$PackageRequestTearOff {
   const _$PackageRequestTearOff();
 
   _PackageRequest call(
-      {required String packageSize,
+      {required Map<String, dynamic> user,
+      String? status,
+      required String packageSize,
       required String pickUpLocation,
       required String dropOffLocation,
-      required String time,
-      required AppUser user}) {
+      required String time}) {
     return _PackageRequest(
+      user: user,
+      status: status,
       packageSize: packageSize,
       pickUpLocation: pickUpLocation,
       dropOffLocation: dropOffLocation,
       time: time,
-      user: user,
     );
   }
 
@@ -247,11 +249,12 @@ const $PackageRequest = _$PackageRequestTearOff();
 
 /// @nodoc
 mixin _$PackageRequest {
+  Map<String, dynamic> get user => throw _privateConstructorUsedError;
+  String? get status => throw _privateConstructorUsedError;
   String get packageSize => throw _privateConstructorUsedError;
   String get pickUpLocation => throw _privateConstructorUsedError;
   String get dropOffLocation => throw _privateConstructorUsedError;
   String get time => throw _privateConstructorUsedError;
-  AppUser get user => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -265,13 +268,12 @@ abstract class $PackageRequestCopyWith<$Res> {
           PackageRequest value, $Res Function(PackageRequest) then) =
       _$PackageRequestCopyWithImpl<$Res>;
   $Res call(
-      {String packageSize,
+      {Map<String, dynamic> user,
+      String? status,
+      String packageSize,
       String pickUpLocation,
       String dropOffLocation,
-      String time,
-      AppUser user});
-
-  $AppUserCopyWith<$Res> get user;
+      String time});
 }
 
 /// @nodoc
@@ -285,13 +287,22 @@ class _$PackageRequestCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? user = freezed,
+    Object? status = freezed,
     Object? packageSize = freezed,
     Object? pickUpLocation = freezed,
     Object? dropOffLocation = freezed,
     Object? time = freezed,
-    Object? user = freezed,
   }) {
     return _then(_value.copyWith(
+      user: user == freezed
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+      status: status == freezed
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
       packageSize: packageSize == freezed
           ? _value.packageSize
           : packageSize // ignore: cast_nullable_to_non_nullable
@@ -308,18 +319,7 @@ class _$PackageRequestCopyWithImpl<$Res>
           ? _value.time
           : time // ignore: cast_nullable_to_non_nullable
               as String,
-      user: user == freezed
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as AppUser,
     ));
-  }
-
-  @override
-  $AppUserCopyWith<$Res> get user {
-    return $AppUserCopyWith<$Res>(_value.user, (value) {
-      return _then(_value.copyWith(user: value));
-    });
   }
 }
 
@@ -331,14 +331,12 @@ abstract class _$PackageRequestCopyWith<$Res>
       __$PackageRequestCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String packageSize,
+      {Map<String, dynamic> user,
+      String? status,
+      String packageSize,
       String pickUpLocation,
       String dropOffLocation,
-      String time,
-      AppUser user});
-
-  @override
-  $AppUserCopyWith<$Res> get user;
+      String time});
 }
 
 /// @nodoc
@@ -354,13 +352,22 @@ class __$PackageRequestCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? user = freezed,
+    Object? status = freezed,
     Object? packageSize = freezed,
     Object? pickUpLocation = freezed,
     Object? dropOffLocation = freezed,
     Object? time = freezed,
-    Object? user = freezed,
   }) {
     return _then(_PackageRequest(
+      user: user == freezed
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+      status: status == freezed
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
       packageSize: packageSize == freezed
           ? _value.packageSize
           : packageSize // ignore: cast_nullable_to_non_nullable
@@ -377,10 +384,6 @@ class __$PackageRequestCopyWithImpl<$Res>
           ? _value.time
           : time // ignore: cast_nullable_to_non_nullable
               as String,
-      user: user == freezed
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as AppUser,
     ));
   }
 }
@@ -389,15 +392,20 @@ class __$PackageRequestCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_PackageRequest implements _PackageRequest {
   _$_PackageRequest(
-      {required this.packageSize,
+      {required this.user,
+      this.status,
+      required this.packageSize,
       required this.pickUpLocation,
       required this.dropOffLocation,
-      required this.time,
-      required this.user});
+      required this.time});
 
   factory _$_PackageRequest.fromJson(Map<String, dynamic> json) =>
       _$$_PackageRequestFromJson(json);
 
+  @override
+  final Map<String, dynamic> user;
+  @override
+  final String? status;
   @override
   final String packageSize;
   @override
@@ -406,12 +414,10 @@ class _$_PackageRequest implements _PackageRequest {
   final String dropOffLocation;
   @override
   final String time;
-  @override
-  final AppUser user;
 
   @override
   String toString() {
-    return 'PackageRequest(packageSize: $packageSize, pickUpLocation: $pickUpLocation, dropOffLocation: $dropOffLocation, time: $time, user: $user)';
+    return 'PackageRequest(user: $user, status: $status, packageSize: $packageSize, pickUpLocation: $pickUpLocation, dropOffLocation: $dropOffLocation, time: $time)';
   }
 
   @override
@@ -419,24 +425,26 @@ class _$_PackageRequest implements _PackageRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _PackageRequest &&
+            const DeepCollectionEquality().equals(other.user, user) &&
+            const DeepCollectionEquality().equals(other.status, status) &&
             const DeepCollectionEquality()
                 .equals(other.packageSize, packageSize) &&
             const DeepCollectionEquality()
                 .equals(other.pickUpLocation, pickUpLocation) &&
             const DeepCollectionEquality()
                 .equals(other.dropOffLocation, dropOffLocation) &&
-            const DeepCollectionEquality().equals(other.time, time) &&
-            const DeepCollectionEquality().equals(other.user, user));
+            const DeepCollectionEquality().equals(other.time, time));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      const DeepCollectionEquality().hash(user),
+      const DeepCollectionEquality().hash(status),
       const DeepCollectionEquality().hash(packageSize),
       const DeepCollectionEquality().hash(pickUpLocation),
       const DeepCollectionEquality().hash(dropOffLocation),
-      const DeepCollectionEquality().hash(time),
-      const DeepCollectionEquality().hash(user));
+      const DeepCollectionEquality().hash(time));
 
   @JsonKey(ignore: true)
   @override
@@ -451,15 +459,20 @@ class _$_PackageRequest implements _PackageRequest {
 
 abstract class _PackageRequest implements PackageRequest {
   factory _PackageRequest(
-      {required String packageSize,
+      {required Map<String, dynamic> user,
+      String? status,
+      required String packageSize,
       required String pickUpLocation,
       required String dropOffLocation,
-      required String time,
-      required AppUser user}) = _$_PackageRequest;
+      required String time}) = _$_PackageRequest;
 
   factory _PackageRequest.fromJson(Map<String, dynamic> json) =
       _$_PackageRequest.fromJson;
 
+  @override
+  Map<String, dynamic> get user;
+  @override
+  String? get status;
   @override
   String get packageSize;
   @override
@@ -468,8 +481,6 @@ abstract class _PackageRequest implements PackageRequest {
   String get dropOffLocation;
   @override
   String get time;
-  @override
-  AppUser get user;
   @override
   @JsonKey(ignore: true)
   _$PackageRequestCopyWith<_PackageRequest> get copyWith =>

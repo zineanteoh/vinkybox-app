@@ -22,11 +22,12 @@ class AppUser with _$AppUser {
 @freezed
 class PackageRequest with _$PackageRequest {
   factory PackageRequest({
+    required Map<String, dynamic> user,
+    String? status,
     required String packageSize,
     required String pickUpLocation,
     required String dropOffLocation,
     required String time,
-    required AppUser user,
   }) = _PackageRequest;
 
   factory PackageRequest.fromJson(Map<String, dynamic> json) =>

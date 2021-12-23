@@ -30,7 +30,10 @@ class RequestDeliveryViewModel extends BaseViewModel {
         _time != "") {
       // Submit to firestore
       log.i("A package request is sent!");
-      final email = _userService.currentUser.email;
+      _userService.submitNewDeliveryRequest(
+          packageSize: _packageSize,
+          dropOffLocation: _dropOffLocation,
+          pickUpLocation: _pickUpLocation);
     } else {
       log.e("Request did not go through!");
     }

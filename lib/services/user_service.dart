@@ -62,6 +62,22 @@ class UserService {
     log.v('Dorm updated. Current User on file: $_currentUser');
     await _firestoreApi.createUser(user: _currentUser!);
   }
+
+  Future submitNewDeliveryRequest(
+      {required String packageSize,
+      required String pickUpLocation,
+      required String dropOffLocation}) async {
+    await _firestoreApi.createDeliveryRequest(
+      req: PackageRequest(
+          user: _currentUser!.toJson(),
+          status: "New",
+          packageSize: packageSize,
+          pickUpLocation: pickUpLocation,
+          dropOffLocation: dropOffLocation,
+          time: DateTime.now().toString()),
+    );
+    log.v('Package has been requested!');
+  }
   //   setCurrentUser(myAppUser);
   //   _firestoreApi.createUser(_currentUser!);
   // }

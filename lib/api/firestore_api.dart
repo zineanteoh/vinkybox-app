@@ -55,5 +55,20 @@ class FirestoreApi {
     }
   }
 
-  /// addNewDeliveryRequest
+  /// createDeliveryRequest
+  Future<void> createDeliveryRequest(
+      {required PackageRequest req}) async {
+    log.i('package request: $req');
+
+    try {
+      final deliveryDocument =
+          await deliveryRequestsCollection.add(req.toJson());
+      log.v('PackageRequest created at ${deliveryDocument.id}');
+    } catch (error) {
+      throw FirestoreApiException(
+        message: 'Failed to create new delivery request',
+        devDetails: '$error',
+      );
+    }
+  }
 }
