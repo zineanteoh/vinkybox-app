@@ -1,16 +1,39 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.router.dart';
 import 'package:vinkybox/ui/views/startup/startup_view.dart';
+import 'dart:io' show Platform;
+
+const bool USE_EMULATOR = true;
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
+  if (USE_EMULATOR) {
+    await _connectToFirestoreEmulator();
+  }
+
   setupLocator();
   runApp(const MyApp());
+}
+
+Future _connectToFirestoreEmulator() async {
+  final localHostString =
+      Platform.isAndroid ? '10.0.2.2' : 'localhost';
+
+  FirebaseFirestore.instance.settings = Settings(
+    host: '$localHostString:8080',
+    sslEnabled: false,
+    persistenceEnabled: false,
+  );
+
+  FirebaseFirestore.instance
+      .useFirestoreEmulator(localHostString, 8080);
 }
 
 class MyApp extends StatelessWidget {
