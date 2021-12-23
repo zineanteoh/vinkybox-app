@@ -27,9 +27,9 @@ class DormSelectionViewModel extends BaseViewModel {
 
   void submitUserInfo() {
     if (_userDorm != "") {
-      log.i("You have selected: $_userDorm");
+      log.i("Submitting user info");
       // set up user account
-      _userService.createUserInFirestore(userDorm: _userDorm);
+      _userService.submitCurrentUserDorm(userDorm: _userDorm);
       _navigationService.navigateTo(Routes.homeView);
     } else {
       log.e("No dorm selected");

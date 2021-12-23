@@ -42,12 +42,12 @@ class FirebaseAuthenticationService {
       //     await firebaseAuth.signInWithCredential(credential);
 
       // // Add user to Cloud Firestore
-      // _firestoreApi.createUser(Models.User(
+      // _firestoreApi.createUser(AppUser(
       //     id: result.user!.uid, email: result.user!.email));
 
       // // Return result
       // return FirebaseAuthenticationResult(user: result.user);
-      log.i("Testing only");
+      log.v("Testing only");
       return FirebaseAuthenticationResult.error(
           errorMessage: "testing only");
     } catch (e) {

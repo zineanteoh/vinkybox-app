@@ -48,26 +48,19 @@ class UserService {
     }
   }
 
-  bool get hasLoggedInUser => false;
+  // TODO: temporarily set to false (startup_viewmodel)
+  bool get hasLoggedInUser =>
+      false; // _firebaseAuthenticationService.currentUser == null;
 
-  // void setCurrentUser(AppUser user) {
-  //   _currentUser = user;
-  // }
+  void setCurrentUser(AppUser user) {
+    log.v('Current user on file: $user');
+    _currentUser = user;
+  }
 
-  void createUserInFirestore({required String userDorm}) {
-    // TODO: get id and email from firebase auth result
-    // get full name from email
-
-    // Dummy data:
-    var id = '1234';
-    var email = 'zi.nean.teoh@vanderbilt.edu';
-    var fullName = getFullNameFromEmail(email);
-    var myAppUser = AppUser(
-      id: id,
-      fullName: fullName,
-      email: email,
-      dorm: userDorm,
-    );
+  void submitCurrentUserDorm({required String userDorm}) {
+    _currentUser = _currentUser!.copyWith(dorm: userDorm);
+    log.v('Dorm updated. Current User on file: $_currentUser');
+    _firestoreApi.createUser(user: _currentUser!);
   }
   //   setCurrentUser(myAppUser);
   //   _firestoreApi.createUser(_currentUser!);
