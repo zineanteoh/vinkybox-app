@@ -25,11 +25,11 @@ class DormSelectionViewModel extends BaseViewModel {
     print("User has selected: $_userDorm");
   }
 
-  void submitUserInfo() {
+  Future submitUserInfo() async {
     if (_userDorm != "") {
       log.i("Submitting user info");
       // set up user account
-      _userService.submitCurrentUserDorm(userDorm: _userDorm);
+      await _userService.submitCurrentUserDorm(userDorm: _userDorm);
       _navigationService.navigateTo(Routes.homeView);
     } else {
       log.e("No dorm selected");

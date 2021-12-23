@@ -57,10 +57,10 @@ class UserService {
     _currentUser = user;
   }
 
-  void submitCurrentUserDorm({required String userDorm}) {
+  Future submitCurrentUserDorm({required String userDorm}) async {
     _currentUser = _currentUser!.copyWith(dorm: userDorm);
     log.v('Dorm updated. Current User on file: $_currentUser');
-    _firestoreApi.createUser(user: _currentUser!);
+    await _firestoreApi.createUser(user: _currentUser!);
   }
   //   setCurrentUser(myAppUser);
   //   _firestoreApi.createUser(_currentUser!);
