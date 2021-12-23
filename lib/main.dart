@@ -4,6 +4,7 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.router.dart';
 import 'package:vinkybox/ui/views/login/login_view.dart';
+import 'package:vinkybox/ui/views/startup/startup_view.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         title: 'VinkyBox',
         navigatorKey: StackedService.navigatorKey,
         onGenerateRoute: StackedRouter().onGenerateRoute,
-        home: LoginView(),
+        home: StartUpView(),
         debugShowCheckedModeBanner: false);
   }
 }

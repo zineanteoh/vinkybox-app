@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:vinkybox/api/firestore_api.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
+import 'package:vinkybox/models/application_models.dart';
 // import 'package:vinkybox/models/application_models.dart';
 
 // Performs Google_Sign_In authentication with Firebase here
@@ -42,12 +43,12 @@ class FirebaseAuthenticationService {
       //     await firebaseAuth.signInWithCredential(credential);
 
       // // Add user to Cloud Firestore
-      // _firestoreApi.createUser(Models.User(
+      // _firestoreApi.createUser(AppUser(
       //     id: result.user!.uid, email: result.user!.email));
 
       // // Return result
       // return FirebaseAuthenticationResult(user: result.user);
-      log.i("Testing only");
+      log.v("Testing only");
       return FirebaseAuthenticationResult.error(
           errorMessage: "testing only");
     } catch (e) {

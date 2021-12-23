@@ -3,7 +3,7 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
 import 'package:vinkybox/constants/request_info.dart';
-import 'package:vinkybox/models/package_request.dart';
+import 'package:vinkybox/models/application_models.dart';
 import 'package:vinkybox/services/user_service.dart';
 
 class RequestDeliveryViewModel extends BaseViewModel {

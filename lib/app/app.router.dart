@@ -13,6 +13,7 @@ import 'package:stacked/stacked_annotations.dart';
 
 import '../ui/views/home/home_view.dart';
 import '../ui/views/login/login_view.dart';
+import '../ui/views/marketplace/marketplace_view.dart';
 import '../ui/views/onboarding/onboarding_view.dart';
 import '../ui/views/onboarding/settings/dorm_selection/dorm_selection_view.dart';
 import '../ui/views/request_delivery/request_delivery_view.dart';
@@ -25,6 +26,7 @@ class Routes {
   static const String dormSelectionView = '/dorm-selection-view';
   static const String homeView = '/home-view';
   static const String requestDeliveryView = '/request-delivery-view';
+  static const String marketPlaceView = '/market-place-view';
   static const all = <String>{
     startUpView,
     loginView,
@@ -32,6 +34,7 @@ class Routes {
     dormSelectionView,
     homeView,
     requestDeliveryView,
+    marketPlaceView,
   };
 }
 
@@ -45,6 +48,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.dormSelectionView, page: DormSelectionView),
     RouteDef(Routes.homeView, page: HomeView),
     RouteDef(Routes.requestDeliveryView, page: RequestDeliveryView),
+    RouteDef(Routes.marketPlaceView, page: MarketPlaceView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -82,6 +86,12 @@ class StackedRouter extends RouterBase {
     RequestDeliveryView: (data) {
       return CupertinoPageRoute<dynamic>(
         builder: (context) => const RequestDeliveryView(),
+        settings: data,
+      );
+    },
+    MarketPlaceView: (data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => const MarketPlaceView(),
         settings: data,
       );
     },
