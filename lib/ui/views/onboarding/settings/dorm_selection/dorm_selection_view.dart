@@ -63,7 +63,7 @@ class DormSelectionView extends StatelessWidget {
               UIHelper.verticalSpaceLarge(),
               Container(
                 child: model.isBusy
-                    ? CircularProgressIndicator()
+                    ? const CircularProgressIndicator()
                     : ElevatedButton(
                         onPressed: () => model.submitUserInfo(),
                         style: ElevatedButton.styleFrom(

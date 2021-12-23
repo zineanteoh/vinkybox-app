@@ -4,7 +4,6 @@ import 'package:vinkybox/api/firestore_api.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
 import 'package:vinkybox/models/application_models.dart';
-// import 'package:vinkybox/models/application_models.dart';
 
 // Performs Google_Sign_In authentication with Firebase here
 class FirebaseAuthenticationService {

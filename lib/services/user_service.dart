@@ -3,7 +3,6 @@
 import 'package:vinkybox/api/firestore_api.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
-import 'package:vinkybox/helpers/email_parser.dart';
 import 'package:vinkybox/models/application_models.dart';
 import 'package:vinkybox/services/firebase_authentication_service.dart';
 

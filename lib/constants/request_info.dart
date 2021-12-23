@@ -25,3 +25,10 @@ const List<String> requestTime = [
   "2 - 3PM",
   "3 - 4PM",
 ];
+
+const List<String> status = [
+  "new",
+  "pending",
+  "delivering",
+  "delivered"
+];

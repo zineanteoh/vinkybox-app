@@ -22,7 +22,7 @@ class DormSelectionViewModel extends BaseViewModel {
   void selectUserDorm(int index) {
     _userDorm = dormList[index];
     notifyListeners();
-    print("User has selected: $_userDorm");
+    // print("User has selected: $_userDorm");
   }
 
   Future submitUserInfo() async {

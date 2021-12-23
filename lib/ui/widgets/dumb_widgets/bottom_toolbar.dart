@@ -12,7 +12,7 @@ class BottomToolbar extends StatelessWidget {
       height: 50,
       indicatorHeight: 2.5,
       onTap: (index) {
-        print('Selected index: $index');
+        // print('Selected index: $index');
       },
       curve: Curves.easeInBack,
       activeColor: skyblueColor,
