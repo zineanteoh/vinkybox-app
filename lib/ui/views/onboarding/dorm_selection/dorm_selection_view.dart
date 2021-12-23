@@ -4,7 +4,7 @@ import 'package:vinkybox/constants/dorm_list.dart';
 import 'package:vinkybox/ui/shared/app_colors.dart';
 import 'package:vinkybox/ui/shared/text_styles.dart';
 import 'package:vinkybox/ui/shared/ui_helpers.dart';
-import 'package:vinkybox/ui/views/onboarding/settings/dorm_selection/dorm_selection_viewmodel.dart';
+import 'package:vinkybox/ui/views/onboarding/dorm_selection/dorm_selection_viewmodel.dart';
 
 class DormSelectionView extends StatelessWidget {
   const DormSelectionView({Key? key}) : super(key: key);

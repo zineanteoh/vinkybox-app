@@ -6,8 +6,9 @@ import 'package:vinkybox/services/user_service.dart';
 import 'package:vinkybox/ui/views/home/home_view.dart';
 import 'package:vinkybox/ui/views/login/login_view.dart';
 import 'package:vinkybox/ui/views/marketplace/marketplace_view.dart';
+import 'package:vinkybox/ui/views/my_packages/my_packages_view.dart';
 import 'package:vinkybox/ui/views/onboarding/onboarding_view.dart';
-import 'package:vinkybox/ui/views/onboarding/settings/dorm_selection/dorm_selection_view.dart';
+import 'package:vinkybox/ui/views/onboarding/dorm_selection/dorm_selection_view.dart';
 import 'package:vinkybox/ui/views/request_delivery/request_delivery_view.dart';
 import 'package:vinkybox/ui/views/startup/startup_view.dart';
 
@@ -23,6 +24,7 @@ import 'package:vinkybox/ui/views/startup/startup_view.dart';
     CupertinoRoute(page: DormSelectionView),
     CupertinoRoute(page: HomeView),
     CupertinoRoute(page: RequestDeliveryView),
+    CupertinoRoute(page: MyPackagesView),
     CupertinoRoute(page: MarketPlaceView),
   ],
 
