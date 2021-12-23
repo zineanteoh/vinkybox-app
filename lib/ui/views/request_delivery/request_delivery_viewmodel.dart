@@ -34,6 +34,9 @@ class RequestDeliveryViewModel extends BaseViewModel {
           packageSize: _packageSize,
           dropOffLocation: _dropOffLocation,
           pickUpLocation: _pickUpLocation);
+
+      // Navigate back
+      navigateBack();
     } else {
       log.e("Request did not go through!");
     }
