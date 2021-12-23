@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:vinkybox/app/app.logger.dart';
 import 'package:vinkybox/constants/app_keys.dart';
 import 'package:vinkybox/exceptions/firestore_api_exception.dart';
-import 'package:vinkybox/models/app_user.dart';
+import 'package:vinkybox/models/application_models.dart';
 
 // Performs APIs relating to Cloud Firestore NoSQL database
 // ... add user info to collection
@@ -18,7 +18,7 @@ class FirestoreApi {
           .collection(DeliveryRequestsFirestoreKey);
 
   /// createUser adds an AppUser document to collection
-  Future<void> createUser(AppUser user) async {
+  Future<void> createUser({required AppUser user}) async {
     log.i('user:$user');
 
     try {
@@ -47,7 +47,7 @@ class FirestoreApi {
       final userData = userDoc.data() as Map<String, dynamic>;
       log.v('User found. Data: $userData');
 
-      return AppUser.fromData(userData);
+      return AppUser.fromJson(userData);
     } else {
       throw FirestoreApiException(
           message:
@@ -55,5 +55,20 @@ class FirestoreApi {
     }
   }
 
-  /// addNewDeliveryRequest
+  /// createDeliveryRequest
+  Future<void> createDeliveryRequest(
+      {required PackageRequest req}) async {
+    log.i('package request: $req');
+
+    try {
+      final deliveryDocument =
+          await deliveryRequestsCollection.add(req.toJson());
+      log.v('PackageRequest created at ${deliveryDocument.id}');
+    } catch (error) {
+      throw FirestoreApiException(
+        message: 'Failed to create new delivery request',
+        devDetails: '$error',
+      );
+    }
+  }
 }

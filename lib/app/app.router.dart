@@ -13,22 +13,28 @@ import 'package:stacked/stacked_annotations.dart';
 
 import '../ui/views/home/home_view.dart';
 import '../ui/views/login/login_view.dart';
+import '../ui/views/marketplace/marketplace_view.dart';
 import '../ui/views/onboarding/onboarding_view.dart';
 import '../ui/views/onboarding/settings/dorm_selection/dorm_selection_view.dart';
+import '../ui/views/request_delivery/request_delivery_view.dart';
 import '../ui/views/startup/startup_view.dart';
 
 class Routes {
   static const String startUpView = '/';
   static const String loginView = '/login-view';
-  static const String homeView = '/home-view';
   static const String onboardingView = '/onboarding-view';
   static const String dormSelectionView = '/dorm-selection-view';
+  static const String homeView = '/home-view';
+  static const String requestDeliveryView = '/request-delivery-view';
+  static const String marketPlaceView = '/market-place-view';
   static const all = <String>{
     startUpView,
     loginView,
-    homeView,
     onboardingView,
     dormSelectionView,
+    homeView,
+    requestDeliveryView,
+    marketPlaceView,
   };
 }
 
@@ -38,9 +44,11 @@ class StackedRouter extends RouterBase {
   final _routes = <RouteDef>[
     RouteDef(Routes.startUpView, page: StartUpView),
     RouteDef(Routes.loginView, page: LoginView),
-    RouteDef(Routes.homeView, page: HomeView),
     RouteDef(Routes.onboardingView, page: OnboardingView),
     RouteDef(Routes.dormSelectionView, page: DormSelectionView),
+    RouteDef(Routes.homeView, page: HomeView),
+    RouteDef(Routes.requestDeliveryView, page: RequestDeliveryView),
+    RouteDef(Routes.marketPlaceView, page: MarketPlaceView),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -57,12 +65,6 @@ class StackedRouter extends RouterBase {
         settings: data,
       );
     },
-    HomeView: (data) {
-      return CupertinoPageRoute<dynamic>(
-        builder: (context) => const HomeView(),
-        settings: data,
-      );
-    },
     OnboardingView: (data) {
       return CupertinoPageRoute<dynamic>(
         builder: (context) => const OnboardingView(),
@@ -72,6 +74,24 @@ class StackedRouter extends RouterBase {
     DormSelectionView: (data) {
       return CupertinoPageRoute<dynamic>(
         builder: (context) => const DormSelectionView(),
+        settings: data,
+      );
+    },
+    HomeView: (data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => const HomeView(),
+        settings: data,
+      );
+    },
+    RequestDeliveryView: (data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => const RequestDeliveryView(),
+        settings: data,
+      );
+    },
+    MarketPlaceView: (data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => const MarketPlaceView(),
         settings: data,
       );
     },

@@ -4,8 +4,8 @@ import 'package:vinkybox/api/firestore_api.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
 import 'package:vinkybox/helpers/email_parser.dart';
-import 'package:vinkybox/models/app_user.dart';
-// import 'package:vinkybox/models/application_models.dart';
+import 'package:vinkybox/models/application_models.dart';
+import 'package:vinkybox/services/firebase_authentication_service.dart';
 
 // Performs services relating to AppUser using FirestoreApi
 // ... create a new user in Firestore users collection
@@ -13,44 +13,74 @@ class UserService {
   final log = getLogger('UserService');
 
   final _firestoreApi = locator<FirestoreApi>();
+  final _firebaseAuthenticationService =
+      locator<FirebaseAuthenticationService>();
 
-  Future<void> syncUserAccount() async {}
-  Future<void> syncOrCreateUserAccount() async {}
+  AppUser? _currentUser;
+  AppUser get currentUser => _currentUser!;
 
-  // User? _currentUser;
+  Future<void> syncUserAccount() async {
+    final firebaseUserId =
+        _firebaseAuthenticationService.currentUser!.uid;
 
-  // User get currentUser => _currentUser!;
+    log.v('Sync user $firebaseUserId');
 
-  late AppUser _currentUser;
+    final userAccount =
+        await _firestoreApi.getUser(userId: firebaseUserId);
 
-  AppUser get currentUser => _currentUser;
+    if (userAccount != null) {
+      log.v('Account exists. Save as _currentUser');
+      _currentUser = userAccount;
+    }
+  }
 
-  bool get hasLoggedInUser => false;
+  Future<void> syncOrCreateUserAccount(
+      {required AppUser user}) async {
+    log.i('user: $user');
+
+    await syncUserAccount();
+
+    if (_currentUser == null) {
+      log.v('We have no user account. Create a new user...');
+      await _firestoreApi.createUser(user: user);
+      _currentUser = user;
+      log.v('_currentUser has been saved');
+    }
+  }
+
+  // TODO: temporarily set to false (startup_viewmodel)
+  bool get hasLoggedInUser =>
+      false; // _firebaseAuthenticationService.currentUser == null;
 
   void setCurrentUser(AppUser user) {
+    log.v('Current user on file: $user');
     _currentUser = user;
   }
 
-  void createUserInFirestore({required String userDorm}) {
-    // TODO: get id and email from firebase auth result
-    // get full name from email
-
-    // Dummy data:
-    var id = '1234';
-    var email = 'zi.nean.teoh@vanderbilt.edu';
-    var fullName = getNameFromEmail(email);
-    var myAppUser = AppUser(
-      id: id,
-      fullName: fullName,
-      email: email,
-      dorm: userDorm,
-    );
-
-    setCurrentUser(myAppUser);
-    _firestoreApi.createUser(_currentUser);
+  Future submitCurrentUserDorm({required String userDorm}) async {
+    _currentUser = _currentUser!.copyWith(dorm: userDorm);
+    log.v('Dorm updated. Current User on file: $_currentUser');
+    await _firestoreApi.createUser(user: _currentUser!);
   }
 
-  void submitDeliveryRequest() {}
+  Future submitNewDeliveryRequest(
+      {required String packageSize,
+      required String pickUpLocation,
+      required String dropOffLocation}) async {
+    await _firestoreApi.createDeliveryRequest(
+      req: PackageRequest(
+          user: _currentUser!.toJson(),
+          status: "New",
+          packageSize: packageSize,
+          pickUpLocation: pickUpLocation,
+          dropOffLocation: dropOffLocation,
+          time: DateTime.now().toString()),
+    );
+    log.v('Package has been requested!');
+  }
+  //   setCurrentUser(myAppUser);
+  //   _firestoreApi.createUser(_currentUser!);
+  // }
 
   // void setCurrentUser(User user) {
   //   _currentUser = user;

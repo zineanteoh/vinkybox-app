@@ -56,7 +56,7 @@ class OnboardingView extends StatelessWidget {
         next: const Icon(Icons.arrow_forward),
         done: const Text('Done',
             style: TextStyle(fontWeight: FontWeight.w600)),
-        curve: Curves.fastLinearToSlowEaseIn,
+        curve: Curves.linearToEaseOut,
         controlsMargin: const EdgeInsets.all(16),
         controlsPadding:
             const EdgeInsets.fromLTRB(8.0, 4.0, 8.0, 4.0),
