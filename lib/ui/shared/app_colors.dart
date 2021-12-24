@@ -8,3 +8,5 @@ const Color limeGreenColor = Color.fromARGB(255, 81, 235, 156);
 
 const Color darkBeigeColor = Color.fromARGB(255, 236, 189, 117);
 const Color lightBeigeColor = Color.fromARGB(255, 251, 238, 217);
+
+const Color indianRedColor = Color.fromARGB(255, 242, 94, 96);
