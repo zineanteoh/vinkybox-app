@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
+import 'package:timelines/timelines.dart';
+import 'package:vinkybox/constants/request_info.dart';
 import 'package:vinkybox/ui/shared/app_colors.dart';
 import 'package:vinkybox/ui/shared/ui_helpers.dart';
 import 'package:vinkybox/ui/views/latest_requests/latest_requests_viewmodel.dart';
@@ -11,7 +13,7 @@ class LatestRequestsView extends StatelessWidget {
 
   Widget _buildRequestList() {
     return ListView.builder(
-      itemCount: 100,
+      itemCount: 20,
       itemBuilder: (context, index) => _buildRequestItem(index),
       shrinkWrap: false,
     );
@@ -68,15 +70,42 @@ class LatestRequestsView extends StatelessWidget {
     ],
   ).padding(vertical: 12, horizontal: 20);
 
-  final Widget status = const Center(
-    child: Text(
-      'Status: new',
-      style: TextStyle(
-        fontSize: 18,
-        // color: limeGreenColor,
+  final Widget status = ConstrainedBox(
+    constraints: const BoxConstraints(maxHeight: 15),
+    child: Timeline.tileBuilder(
+      theme: TimelineThemeData(
+        direction: Axis.horizontal,
+        nodePosition: 0,
+        color: const Color(0xffc2c5c9),
+        connectorTheme: const ConnectorThemeData(
+          thickness: 3.0,
+        ),
+      ),
+      shrinkWrap: true,
+      builder: TimelineTileBuilder.connected(
+        connectorBuilder: (context, index, type) {
+          // TODO: make this dynamic, based on delivery status
+          if (index == -1) {
+            return const SolidLineConnector(color: limeGreenColor);
+          } else {
+            return const SolidLineConnector();
+          }
+        },
+        indicatorBuilder: (context, index) {
+          // TODO: make this dynamic, based on delivery status
+          if (index == 0) {
+            return const DotIndicator(color: limeGreenColor);
+          } else {
+            return const DotIndicator();
+          }
+        },
+        itemExtentBuilder: (context, index) => 50,
+        itemCount: 4,
       ),
     ),
-  ).padding(horizontal: 20, vertical: 12);
+  );
+
+  // .padding(horizontal: 20, vertical: 12);
 
   Widget requestItem({required Widget child}) {
     return Styled.widget(child: child)
@@ -110,6 +139,7 @@ class LatestRequestsView extends StatelessWidget {
                   headerText: "Latest Requests",
                 ),
                 UIHelper.verticalSpaceMedium(),
+                // status
                 Expanded(child: _buildRequestList()),
               ],
             ),

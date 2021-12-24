@@ -26,7 +26,7 @@ const List<String> requestTime = [
   "3 - 4PM",
 ];
 
-const List<String> status = [
+const List<String> deliveryStatus = [
   "new",
   "pending",
   "delivering",
