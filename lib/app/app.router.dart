@@ -104,8 +104,11 @@ class StackedRouter extends RouterBase {
       );
     },
     LatestRequestsView: (data) {
+      var args = data.getArgs<LatestRequestsViewArguments>(
+        orElse: () => LatestRequestsViewArguments(),
+      );
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => const LatestRequestsView(),
+        builder: (context) => LatestRequestsView(key: args.key),
         settings: data,
       );
     },
@@ -116,4 +119,14 @@ class StackedRouter extends RouterBase {
       );
     },
   };
+}
+
+/// ************************************************************************
+/// Arguments holder classes
+/// *************************************************************************
+
+/// LatestRequestsView arguments holder class
+class LatestRequestsViewArguments {
+  final Key? key;
+  LatestRequestsViewArguments({this.key});
 }

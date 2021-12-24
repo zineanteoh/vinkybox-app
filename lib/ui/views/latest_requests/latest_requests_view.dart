@@ -7,7 +7,7 @@ import 'package:vinkybox/ui/views/latest_requests/latest_requests_viewmodel.dart
 import 'package:vinkybox/ui/widgets/dumb_widgets/header_bar.dart';
 
 class LatestRequestsView extends StatelessWidget {
-  const LatestRequestsView({Key? key}) : super(key: key);
+  LatestRequestsView({Key? key}) : super(key: key);
 
   Widget _buildRequestList() {
     return ListView.builder(
@@ -38,19 +38,33 @@ class LatestRequestsView extends StatelessWidget {
           style: TextStyle(fontSize: 14, color: Colors.black38))
       .padding(top: 4, left: 20);
 
-  final Widget location = Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: const [
-      Text('Station B Counter',
-          style: TextStyle(
-              color: skyblueColor,
-              fontSize: 20,
-              fontWeight: FontWeight.bold)),
-      Text('West',
-          style: TextStyle(
-              color: skyblueColor,
-              fontSize: 20,
-              fontWeight: FontWeight.bold)),
+  final Widget location = Column(
+    children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text('Pick Up',
+              style:
+                  TextStyle(color: Colors.blue[200], fontSize: 14)),
+          Text('Drop Off',
+              style: TextStyle(color: Colors.blue[200], fontSize: 14))
+        ],
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const [
+          Text('Station B Counter',
+              style: TextStyle(
+                  color: skyblueColor,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold)),
+          Text('West',
+              style: TextStyle(
+                  color: skyblueColor,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold)),
+        ],
+      )
     ],
   ).padding(vertical: 12, horizontal: 20);
 
