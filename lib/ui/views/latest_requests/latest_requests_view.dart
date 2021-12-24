@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:timelines/timelines.dart';
@@ -11,11 +13,37 @@ import 'package:vinkybox/ui/widgets/dumb_widgets/header_bar.dart';
 class LatestRequestsView extends StatelessWidget {
   LatestRequestsView({Key? key}) : super(key: key);
 
-  Widget _buildRequestList() {
-    return ListView.builder(
-      itemCount: 20,
-      itemBuilder: (context, index) => _buildRequestItem(index),
-      shrinkWrap: false,
+  Widget _buildRequestList(LatestRequestsViewModel model) {
+    return SmartRefresher(
+      enablePullDown: true,
+      controller: model.refreshController,
+      footer: CustomFooter(
+        builder: (BuildContext context, LoadStatus? mode) {
+          Widget body;
+          if (mode == LoadStatus.idle) {
+            body = Text("pull up load");
+          } else if (mode == LoadStatus.loading) {
+            body = CupertinoActivityIndicator();
+          } else if (mode == LoadStatus.failed) {
+            body = Text("Load Failed!Click retry!");
+          } else if (mode == LoadStatus.canLoading) {
+            body = Text("release to load more");
+          } else {
+            body = Text("No more Data");
+          }
+          return Container(
+            height: 55.0,
+            child: Center(child: body),
+          );
+        },
+      ),
+      onRefresh: model.onRefresh,
+      onLoading: model.onLoading,
+      child: ListView.builder(
+        itemCount: 20,
+        itemBuilder: (context, index) => _buildRequestItem(index),
+        shrinkWrap: false,
+      ),
     );
   }
 
@@ -154,7 +182,7 @@ class LatestRequestsView extends StatelessWidget {
                 ),
                 UIHelper.verticalSpaceMedium(),
                 // status
-                Expanded(child: _buildRequestList()),
+                Expanded(child: _buildRequestList(model)),
               ],
             ),
           ),
