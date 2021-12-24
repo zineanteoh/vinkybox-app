@@ -4,6 +4,7 @@ import 'package:vinkybox/api/firestore_api.dart';
 import 'package:vinkybox/services/firebase_authentication_service.dart';
 import 'package:vinkybox/services/user_service.dart';
 import 'package:vinkybox/ui/views/home/home_view.dart';
+import 'package:vinkybox/ui/views/latest_requests/latest_requests_view.dart';
 import 'package:vinkybox/ui/views/login/login_view.dart';
 import 'package:vinkybox/ui/views/marketplace/marketplace_view.dart';
 import 'package:vinkybox/ui/views/my_packages/my_packages_view.dart';
@@ -25,6 +26,7 @@ import 'package:vinkybox/ui/views/startup/startup_view.dart';
     CupertinoRoute(page: HomeView),
     CupertinoRoute(page: RequestDeliveryView),
     CupertinoRoute(page: MyPackagesView),
+    CupertinoRoute(page: LatestRequestsView),
     CupertinoRoute(page: MarketPlaceView),
   ],
 

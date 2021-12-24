@@ -12,6 +12,7 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
 import '../ui/views/home/home_view.dart';
+import '../ui/views/latest_requests/latest_requests_view.dart';
 import '../ui/views/login/login_view.dart';
 import '../ui/views/marketplace/marketplace_view.dart';
 import '../ui/views/my_packages/my_packages_view.dart';
@@ -28,6 +29,7 @@ class Routes {
   static const String homeView = '/home-view';
   static const String requestDeliveryView = '/request-delivery-view';
   static const String myPackagesView = '/my-packages-view';
+  static const String latestRequestsView = '/latest-requests-view';
   static const String marketPlaceView = '/market-place-view';
   static const all = <String>{
     startUpView,
@@ -37,6 +39,7 @@ class Routes {
     homeView,
     requestDeliveryView,
     myPackagesView,
+    latestRequestsView,
     marketPlaceView,
   };
 }
@@ -52,6 +55,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.homeView, page: HomeView),
     RouteDef(Routes.requestDeliveryView, page: RequestDeliveryView),
     RouteDef(Routes.myPackagesView, page: MyPackagesView),
+    RouteDef(Routes.latestRequestsView, page: LatestRequestsView),
     RouteDef(Routes.marketPlaceView, page: MarketPlaceView),
   ];
   @override
@@ -96,6 +100,12 @@ class StackedRouter extends RouterBase {
     MyPackagesView: (data) {
       return CupertinoPageRoute<dynamic>(
         builder: (context) => const MyPackagesView(),
+        settings: data,
+      );
+    },
+    LatestRequestsView: (data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => const LatestRequestsView(),
         settings: data,
       );
     },
