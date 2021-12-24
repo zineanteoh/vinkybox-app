@@ -2,6 +2,7 @@ import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:vinkybox/api/firestore_api.dart';
 import 'package:vinkybox/services/firebase_authentication_service.dart';
+import 'package:vinkybox/services/page_controller_service.dart';
 import 'package:vinkybox/services/user_service.dart';
 import 'package:vinkybox/ui/views/home/home_view.dart';
 import 'package:vinkybox/ui/views/latest_requests/latest_requests_view.dart';
@@ -35,6 +36,7 @@ import 'package:vinkybox/ui/views/startup/startup_view.dart';
     LazySingleton(classType: NavigationService),
     LazySingleton(classType: UserService),
     LazySingleton(classType: FirestoreApi),
+    LazySingleton(classType: PageControllerService),
     Singleton(classType: FirebaseAuthenticationService),
   ],
 
