@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:vinkybox/ui/shared/app_colors.dart';
-import 'package:vinkybox/ui/shared/text_styles.dart';
 import 'package:vinkybox/ui/shared/ui_helpers.dart';
 import 'package:vinkybox/ui/views/latest_requests/latest_requests_viewmodel.dart';
 import 'package:vinkybox/ui/widgets/dumb_widgets/header_bar.dart';
@@ -21,57 +20,64 @@ class LatestRequestsView extends StatelessWidget {
   Widget _buildRequestItem(index) {
     return requestItem(
       child: <Widget>[
-        // Name
-        const Text(
-          'Zi Teoh',
-          style: TextStyle(
-            fontSize: 18,
-          ),
-        ).padding(top: 12, left: 12),
-        // Time
-        const Text(
-          '2:50PM, Jan 1',
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.black38,
-          ),
-        ).padding(top: 4, left: 12),
-        // Pick up & drop off
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
-            Text('Station B Counter',
-                style: TextStyle(
-                    color: skyblueColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold)),
-            Text('West',
-                style: TextStyle(
-                    color: skyblueColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold)),
-          ],
-        ).padding(all: 12),
-        // Status
-        const Center(
-            child: Text(
-          'Status: new',
-          style: TextStyle(
-            fontSize: 18,
-            // color: limeGreenColor,
-          ),
-        )).padding(horizontal: 20, vertical: 12),
+        name,
+        time,
+        location,
+        status,
       ].toColumn(
         crossAxisAlignment: CrossAxisAlignment.start,
       ),
     );
   }
 
+  final Widget name =
+      const Text('Zi Teoh', style: TextStyle(fontSize: 18))
+          .padding(top: 20, left: 20);
+
+  final Widget time = const Text('2:50PM, Jan 1',
+          style: TextStyle(fontSize: 14, color: Colors.black38))
+      .padding(top: 4, left: 20);
+
+  final Widget location = Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: const [
+      Text('Station B Counter',
+          style: TextStyle(
+              color: skyblueColor,
+              fontSize: 20,
+              fontWeight: FontWeight.bold)),
+      Text('West',
+          style: TextStyle(
+              color: skyblueColor,
+              fontSize: 20,
+              fontWeight: FontWeight.bold)),
+    ],
+  ).padding(vertical: 12, horizontal: 20);
+
+  final Widget status = const Center(
+    child: Text(
+      'Status: new',
+      style: TextStyle(
+        fontSize: 18,
+        // color: limeGreenColor,
+      ),
+    ),
+  ).padding(horizontal: 20, vertical: 12);
+
   Widget requestItem({required Widget child}) {
     return Styled.widget(child: child)
+        .alignment(Alignment.center)
+        .borderRadius(all: 15)
+        .ripple()
         .backgroundColor(Colors.white)
-        .padding(vertical: 10)
-        .borderRadius(all: 10);
+        .clipRRect(all: 25)
+        .borderRadius(all: 25)
+        .elevation(
+          20,
+          borderRadius: BorderRadius.circular(25),
+          shadowColor: const Color(0x30000000),
+        )
+        .padding(vertical: 10);
   }
 
   @override
