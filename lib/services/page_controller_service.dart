@@ -26,7 +26,7 @@ class PageControllerService with ReactiveServiceMixin {
     _pageController.value.animateToPage(
       index,
       curve: Curves.easeInBack,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 300),
     );
   }
 }
