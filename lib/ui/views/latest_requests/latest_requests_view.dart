@@ -9,6 +9,7 @@ import 'package:vinkybox/ui/shared/app_colors.dart';
 import 'package:vinkybox/ui/shared/ui_helpers.dart';
 import 'package:vinkybox/ui/views/latest_requests/latest_requests_viewmodel.dart';
 import 'package:vinkybox/ui/widgets/dumb_widgets/header_bar.dart';
+import 'package:vinkybox/ui/widgets/smart_widgets/delivery_request_item/delivery_request_item.dart';
 
 class LatestRequestsView extends StatelessWidget {
   LatestRequestsView({Key? key}) : super(key: key);
@@ -21,15 +22,15 @@ class LatestRequestsView extends StatelessWidget {
         builder: (BuildContext context, LoadStatus? mode) {
           Widget body;
           if (mode == LoadStatus.idle) {
-            body = Text("pull up load");
+            body = const Text("pull up load");
           } else if (mode == LoadStatus.loading) {
-            body = CupertinoActivityIndicator();
+            body = const CupertinoActivityIndicator();
           } else if (mode == LoadStatus.failed) {
-            body = Text("Load Failed!Click retry!");
+            body = const Text("Load Failed!Click retry!");
           } else if (mode == LoadStatus.canLoading) {
-            body = Text("release to load more");
+            body = const Text("release to load more");
           } else {
-            body = Text("No more Data");
+            body = const Text("No more Data");
           }
           return Container(
             height: 55.0,
@@ -147,22 +148,8 @@ class LatestRequestsView extends StatelessWidget {
     ),
   ).padding(top: 12, bottom: 20);
 
-  // .padding(horizontal: 20, vertical: 12);
-
   Widget requestItem({required Widget child}) {
-    return Styled.widget(child: child)
-        .alignment(Alignment.center)
-        .borderRadius(all: 15)
-        .ripple()
-        .backgroundColor(Colors.white)
-        .clipRRect(all: 25)
-        .borderRadius(all: 25)
-        .elevation(
-          20,
-          borderRadius: BorderRadius.circular(25),
-          shadowColor: const Color(0x30000000),
-        )
-        .padding(vertical: 10);
+    return DeliveryRequestItem(myChild: child);
   }
 
   @override
