@@ -1,3 +1,5 @@
 import 'package:stacked/stacked.dart';
 
-class DeliveryViewModel extends BaseViewModel {}
+class DeliveryViewModel extends BaseViewModel {
+  // share
+}

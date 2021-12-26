@@ -7,6 +7,9 @@ import 'package:vinkybox/services/user_service.dart';
 class DeliveryService {
   final log = getLogger('DeliveryService');
 
+  List<dynamic> _deliveryRequestList = [];
+  List<dynamic> get deliveryRequestList => _deliveryRequestList;
+
   final _firestoreApi = locator<FirestoreApi>();
   final _userService = locator<UserService>();
 
@@ -26,7 +29,9 @@ class DeliveryService {
     log.v('Package has been requested!');
   }
 
-  Future fetchDeliveryRequestList() async {
-    //
+  Future<List<dynamic>> fetchDeliveryRequestList() async {
+    _deliveryRequestList =
+        await _firestoreApi.fetchDeliveryRequestList();
+    return _deliveryRequestList;
   }
 }

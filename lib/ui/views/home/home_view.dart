@@ -17,7 +17,7 @@ class HomeView extends StatelessWidget {
           controller: model.pageController,
           onPageChanged: (value) => model.onPageChange(value),
           children: <Widget>[
-            const DeliveryView().padding(
+            DeliveryView().padding(
               horizontal: 20,
               vertical: 50,
             ),
