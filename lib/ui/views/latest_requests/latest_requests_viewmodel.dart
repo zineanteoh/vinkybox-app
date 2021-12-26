@@ -9,6 +9,7 @@ class LatestRequestsViewModel extends BaseViewModel {
   final log = getLogger("LatestRequestsViewModel");
   final _navigationService = locator<NavigationService>();
   final _deliveryService = locator<DeliveryService>();
+  RefreshController get refreshController => _refreshController;
 
   get deliveryRequestList => _deliveryService.deliveryRequestList;
 
@@ -19,8 +20,6 @@ class LatestRequestsViewModel extends BaseViewModel {
   // Pull_to_refresh
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
-
-  RefreshController get refreshController => _refreshController;
 
   Future loadLatestRequests() async {
     await Future.delayed(const Duration(milliseconds: 1000));
@@ -35,15 +34,15 @@ class LatestRequestsViewModel extends BaseViewModel {
     // if failed,use refreshFailed()
     _refreshController.refreshCompleted();
   }
-
-  // // loading is used to load for more data as user scrolls down
-  // void onLoading() async {
-  //   // monitor network fetch
-  //   await Future.delayed(const Duration(milliseconds: 1000));
-  //   // if failed,use loadFailed(),if no data return,use LoadNodata()
-  //   // add data here
-  //   // items.add((items.length + 1).toString());
-  //   // if (mounted) setState(() {});
-  //   _refreshController.loadComplete();
-  // }
 }
+
+// // loading is used to load for more data as user scrolls down
+// void onLoading() async {
+//   // monitor network fetch
+//   await Future.delayed(const Duration(milliseconds: 1000));
+//   // if failed,use loadFailed(),if no data return,use LoadNodata()
+//   // add data here
+//   // items.add((items.length + 1).toString());
+//   // if (mounted) setState(() {});
+//   _refreshController.loadComplete();
+// }

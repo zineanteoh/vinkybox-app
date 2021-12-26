@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
-import 'package:vinkybox/ui/widgets/smart_widgets/my_packages_button.dart/my_packages_button_model.dart';
+import 'package:vinkybox/ui/widgets/smart_widgets/my_packages_button/my_packages_button_model.dart';
 
 class MyPackagesButton extends StatelessWidget {
   const MyPackagesButton({Key? key}) : super(key: key);
