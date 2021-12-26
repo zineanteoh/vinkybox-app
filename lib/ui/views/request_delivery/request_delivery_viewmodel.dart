@@ -4,13 +4,13 @@ import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
 import 'package:vinkybox/constants/request_info.dart';
 import 'package:vinkybox/models/application_models.dart';
-import 'package:vinkybox/services/user_service.dart';
+import 'package:vinkybox/services/delivery_service.dart';
 
 class RequestDeliveryViewModel extends BaseViewModel {
   final log = getLogger("RequestDeliveryViewModel");
 
   final _navigationService = locator<NavigationService>();
-  final _userService = locator<UserService>();
+  final _deliveryService = locator<DeliveryService>();
 
   late PackageRequest currentRequest;
   String _packageSize = "";
@@ -22,7 +22,7 @@ class RequestDeliveryViewModel extends BaseViewModel {
     _navigationService.back();
   }
 
-  void submitRequest() {
+  Future submitRequest() async {
     // if all selected
     if (_packageSize != "" &&
         _pickUpLocation != "" &&
@@ -30,10 +30,25 @@ class RequestDeliveryViewModel extends BaseViewModel {
         _time != "") {
       // Submit to firestore
       log.i("A package request is sent!");
-      _userService.submitNewDeliveryRequest(
+      final result = await _deliveryService.submitNewDeliveryRequest(
           packageSize: _packageSize,
           dropOffLocation: _dropOffLocation,
           pickUpLocation: _pickUpLocation);
+
+      // TODO: dialogservice
+      if (result is String) {
+        // show error: could not submit package request
+        // await _dialogService.showDialog(
+        //     title: 'Could not submit delivery request',
+        //     description: result,
+        // );
+      } else {
+        // show success
+        // await _dialogService.showDialog(
+        //   title: 'Success',
+        //   description: 'Your delivery request has been created',
+        // );
+      }
 
       // Navigate back
       navigateBack();

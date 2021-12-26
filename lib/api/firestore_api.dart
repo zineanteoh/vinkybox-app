@@ -10,10 +10,10 @@ import 'package:vinkybox/models/application_models.dart';
 class FirestoreApi {
   final log = getLogger('FirestoreApi');
 
-  final CollectionReference usersCollection =
+  final CollectionReference _usersCollection =
       FirebaseFirestore.instance.collection(UsersFirestoreKey);
 
-  final CollectionReference deliveryRequestsCollection =
+  final CollectionReference _deliveryRequestsCollection =
       FirebaseFirestore.instance
           .collection(DeliveryRequestsFirestoreKey);
 
@@ -22,7 +22,7 @@ class FirestoreApi {
     log.i('user:$user');
 
     try {
-      final userDocument = usersCollection.doc(user.id);
+      final userDocument = _usersCollection.doc(user.id);
       await userDocument.set(user.toJson());
       log.v('UserCreated at ${userDocument.path}');
     } catch (error) {
@@ -38,7 +38,7 @@ class FirestoreApi {
     log.i('userId:$userId');
 
     if (userId.isNotEmpty) {
-      final userDoc = await usersCollection.doc(userId).get();
+      final userDoc = await _usersCollection.doc(userId).get();
       if (!userDoc.exists) {
         log.v('We have no user with id $userId in our database');
         return null;
@@ -62,7 +62,7 @@ class FirestoreApi {
 
     try {
       final deliveryDocument =
-          await deliveryRequestsCollection.add(req.toJson());
+          await _deliveryRequestsCollection.add(req.toJson());
       log.v('PackageRequest created at ${deliveryDocument.id}');
     } catch (error) {
       throw FirestoreApiException(
@@ -70,5 +70,31 @@ class FirestoreApi {
         devDetails: '$error',
       );
     }
+  }
+
+  /// Fetch delivery request list
+  Future<List<dynamic>> fetchDeliveryRequestList() async {
+    List<dynamic> deliveryRequests = [];
+    try {
+      // final delivery
+      deliveryRequests = await _deliveryRequestsCollection
+          .limit(20)
+          .orderBy('time', descending: false)
+          .get()
+          .then(
+        (QuerySnapshot querySnapshot) {
+          querySnapshot.docs.forEach(
+            (doc) {
+              deliveryRequests.add(doc.data());
+            },
+          );
+          return deliveryRequests;
+        },
+      );
+    } catch (e) {
+      log.e(
+          "An error occurred. Could not fetch delivery request list: ${e.toString()}");
+    }
+    return deliveryRequests;
   }
 }
