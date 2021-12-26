@@ -41,17 +41,18 @@ class LatestRequestsView extends StatelessWidget {
       onRefresh: model.onRefresh,
       onLoading: model.onLoading,
       child: ListView.builder(
-        itemCount: 20,
-        itemBuilder: (context, index) => _buildRequestItem(index),
+        itemCount: model.deliveryRequestList.length,
+        itemBuilder: (context, index) =>
+            _buildRequestItem(model.deliveryRequestList[index]),
         shrinkWrap: false,
       ),
     );
   }
 
-  Widget _buildRequestItem(index) {
+  Widget _buildRequestItem(document) {
     return requestItem(
       child: <Widget>[
-        name,
+        name(document['user']['fullName'].toString()),
         time,
         location,
         status,
@@ -61,9 +62,14 @@ class LatestRequestsView extends StatelessWidget {
     );
   }
 
-  final Widget name =
-      const Text('Zi Teoh', style: TextStyle(fontSize: 18))
-          .padding(top: 20, left: 20);
+  Widget name(String name) {
+    return Text(name, style: TextStyle(fontSize: 18))
+        .padding(top: 20, left: 20);
+  }
+
+  // final Widget name =
+  //     const Text('Zi Teoh', style: TextStyle(fontSize: 18))
+  //         .padding(top: 20, left: 20);
 
   final Widget time = const Text('2:50PM, Jan 1',
           style: TextStyle(fontSize: 14, color: Colors.black38))
@@ -155,6 +161,7 @@ class LatestRequestsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<LatestRequestsViewModel>.reactive(
+      onModelReady: (model) => model.onModelReadyLoad(),
       builder: (context, model, child) => Scaffold(
         body: SafeArea(
           child: Container(

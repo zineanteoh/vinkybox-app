@@ -1,30 +1,43 @@
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:vinkybox/api/firestore_api.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
 
 class LatestRequestsViewModel extends BaseViewModel {
   final log = getLogger("LatestRequestsViewModel");
 
+  List<dynamic> _deliveryRequestList = [];
+  get deliveryRequestList => _deliveryRequestList;
+
   final _navigationService = locator<NavigationService>();
+  final _firestoreApi = locator<FirestoreApi>();
 
   void navigateBack() {
     _navigationService.back();
   }
 
   // Pull_to_refresh
-
-  RefreshController _refreshController =
+  final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
   RefreshController get refreshController => _refreshController;
 
-  void onRefresh() async {
+  Future onModelReadyLoad() async {
+    _deliveryRequestList =
+        await _firestoreApi.fetchDeliveryRequestList();
+    notifyListeners();
+  }
+
+  Future onRefresh() async {
     // monitor network fetch
-    await Future.delayed(const Duration(milliseconds: 1000));
+    await Future.delayed(const Duration(milliseconds: 500));
+    _deliveryRequestList =
+        await _firestoreApi.fetchDeliveryRequestList();
     // if failed,use refreshFailed()
     _refreshController.refreshCompleted();
+    notifyListeners();
   }
 
   void onLoading() async {
