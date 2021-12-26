@@ -13,6 +13,8 @@ class LatestRequestsViewModel extends BaseViewModel {
 
   get deliveryRequestList => _deliveryService.deliveryRequestList;
 
+  bool get requestIsEmpty => deliveryRequestList.length == 0;
+
   void navigateBack() {
     _navigationService.back();
   }
@@ -22,9 +24,11 @@ class LatestRequestsViewModel extends BaseViewModel {
       RefreshController(initialRefresh: false);
 
   Future loadLatestRequests() async {
+    setBusy(true);
     await Future.delayed(const Duration(milliseconds: 1000));
     _deliveryService.fetchDeliveryRequestList();
     notifyListeners();
+    setBusy(false);
   }
 
   Future onRefresh() async {

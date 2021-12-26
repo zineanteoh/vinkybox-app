@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
+import 'package:styled_widget/styled_widget.dart';
 import 'package:vinkybox/ui/shared/ui_helpers.dart';
 import 'package:vinkybox/ui/views/latest_requests/latest_requests_viewmodel.dart';
 import 'package:vinkybox/ui/widgets/dumb_widgets/header_bar.dart';
@@ -21,9 +22,16 @@ class LatestRequestsView extends StatelessWidget {
       controller: model.refreshController,
       onRefresh: model.onRefresh,
       child: ListView.builder(
-        itemCount: model.deliveryRequestList.length,
-        itemBuilder: (context, index) => DeliveryRequestItem(
-            deliveryRequest: model.deliveryRequestList[index]),
+        itemCount: model.requestIsEmpty
+            ? 1
+            : model.deliveryRequestList.length,
+        itemBuilder: (context, index) {
+          return model.requestIsEmpty
+              ? const Text('There are no requests at the moment!')
+                  .alignment(Alignment.center)
+              : DeliveryRequestItem(
+                  deliveryRequest: model.deliveryRequestList[index]);
+        },
         shrinkWrap: false,
       ),
     );

@@ -24,10 +24,12 @@ class _DeliveryViewState extends State<DeliveryView>
 
   Widget latestRequestsPreview(DeliveryViewModel model) {
     return Container(
-      child: model.isBusy && model.deliveryRequestList.isEmpty
+      child: model.isBusy
           ? const CircularProgressIndicator()
-          : DeliveryRequestItem(
-              deliveryRequest: model.deliveryRequestList[0]),
+          : model.deliveryRequestList.isEmpty
+              ? const Text('There are no requests at the moment!')
+              : DeliveryRequestItem(
+                  deliveryRequest: model.deliveryRequestList[0]),
     );
   }
 
