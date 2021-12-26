@@ -19,7 +19,7 @@ class DeliveryRequestItem extends StatelessWidget {
         time(document['time']),
         location(
             document['pickUpLocation'], document['user']['dorm']),
-        status,
+        status(),
       ].toColumn(
         crossAxisAlignment: CrossAxisAlignment.start,
       ),
@@ -72,54 +72,56 @@ class DeliveryRequestItem extends StatelessWidget {
     ).padding(vertical: 12, horizontal: 20);
   }
 
-  final Widget status = Center(
-    child: Column(
-      children: [
-        ConstrainedBox(
-          constraints: const BoxConstraints(maxHeight: 15),
-          child: Timeline.tileBuilder(
-            theme: TimelineThemeData(
-              direction: Axis.horizontal,
-              nodePosition: 0,
-              color: const Color(0xffc2c5c9),
-              connectorTheme: const ConnectorThemeData(
-                thickness: 3.0,
+  Widget status() {
+    return Center(
+      child: Column(
+        children: [
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxHeight: 15),
+            child: Timeline.tileBuilder(
+              theme: TimelineThemeData(
+                direction: Axis.horizontal,
+                nodePosition: 0,
+                color: const Color(0xffc2c5c9),
+                connectorTheme: const ConnectorThemeData(
+                  thickness: 3.0,
+                ),
+              ),
+              shrinkWrap: true,
+              builder: TimelineTileBuilder.connected(
+                connectorBuilder: (context, index, type) {
+                  // TODO: make this dynamic, based on delivery status
+                  if (index == -1) {
+                    return const SolidLineConnector(
+                        color: limeGreenColor);
+                  } else {
+                    return const SolidLineConnector();
+                  }
+                },
+                indicatorBuilder: (context, index) {
+                  // TODO: make this dynamic, based on delivery status
+                  if (index == 0) {
+                    return const DotIndicator(color: limeGreenColor);
+                  } else {
+                    return const DotIndicator();
+                  }
+                },
+                itemExtentBuilder: (context, index) => 50,
+                itemCount: 4,
               ),
             ),
-            shrinkWrap: true,
-            builder: TimelineTileBuilder.connected(
-              connectorBuilder: (context, index, type) {
-                // TODO: make this dynamic, based on delivery status
-                if (index == -1) {
-                  return const SolidLineConnector(
-                      color: limeGreenColor);
-                } else {
-                  return const SolidLineConnector();
-                }
-              },
-              indicatorBuilder: (context, index) {
-                // TODO: make this dynamic, based on delivery status
-                if (index == 0) {
-                  return const DotIndicator(color: limeGreenColor);
-                } else {
-                  return const DotIndicator();
-                }
-              },
-              itemExtentBuilder: (context, index) => 50,
-              itemCount: 4,
-            ),
           ),
-        ),
-        // TODO: make this dynamic, based on delivery status
-        const Text('New Request!',
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black54))
-            .padding(top: 10),
-      ],
-    ),
-  ).padding(top: 12, bottom: 20);
+          // TODO: make this dynamic, based on delivery status
+          const Text('New Request!',
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black54))
+              .padding(top: 10),
+        ],
+      ),
+    ).padding(top: 12, bottom: 20);
+  }
 
   Widget _getItem(
       {required Widget child,
