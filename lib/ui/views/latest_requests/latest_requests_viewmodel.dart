@@ -35,8 +35,11 @@ class LatestRequestsViewModel extends BaseViewModel {
 
   Future onRefresh() async {
     // monitor network fetch
-    loadLatestRequests();
-    await Future.delayed(const Duration(milliseconds: 750));
+
+    await Future.delayed(const Duration(milliseconds: 1000));
+    _deliveryRequestList =
+        await _firestoreApi.fetchDeliveryRequestList();
+    notifyListeners();
     // if failed,use refreshFailed()
     _refreshController.refreshCompleted();
   }
