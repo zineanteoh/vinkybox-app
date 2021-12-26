@@ -77,8 +77,11 @@ class FirestoreApi {
     List<dynamic> deliveryRequests = [];
     try {
       // final delivery
-      deliveryRequests =
-          await _deliveryRequestsCollection.limit(20).get().then(
+      deliveryRequests = await _deliveryRequestsCollection
+          .limit(20)
+          .orderBy('time', descending: false)
+          .get()
+          .then(
         (QuerySnapshot querySnapshot) {
           querySnapshot.docs.forEach(
             (doc) {

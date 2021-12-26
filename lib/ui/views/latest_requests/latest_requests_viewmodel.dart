@@ -24,20 +24,21 @@ class LatestRequestsViewModel extends BaseViewModel {
 
   RefreshController get refreshController => _refreshController;
 
-  Future onModelReadyLoad() async {
+  Future loadLatestRequests() async {
+    setBusy(true);
+    await Future.delayed(const Duration(milliseconds: 1000));
     _deliveryRequestList =
         await _firestoreApi.fetchDeliveryRequestList();
     notifyListeners();
+    setBusy(false);
   }
 
   Future onRefresh() async {
     // monitor network fetch
-    await Future.delayed(const Duration(milliseconds: 500));
-    _deliveryRequestList =
-        await _firestoreApi.fetchDeliveryRequestList();
+    loadLatestRequests();
+    await Future.delayed(const Duration(milliseconds: 750));
     // if failed,use refreshFailed()
     _refreshController.refreshCompleted();
-    notifyListeners();
   }
 
   void onLoading() async {
