@@ -16,13 +16,9 @@ class HomeView extends StatelessWidget {
         body: PageView(
           controller: model.pageController,
           onPageChanged: (value) => model.onPageChange(value),
-          children: <Widget>[
-            DeliveryView().padding(
-              horizontal: 20,
-              vertical: 50,
-            ),
-            const MarketPlaceView()
-                .padding(horizontal: 20, vertical: 50),
+          children: const <Widget>[
+            DeliveryView(),
+            MarketPlaceView(),
           ],
         ),
         bottomNavigationBar: const BottomToolbar(),

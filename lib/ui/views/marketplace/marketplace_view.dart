@@ -14,7 +14,6 @@ class MarketPlaceView extends StatelessWidget {
       builder: (context, model, child) => Scaffold(
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Column(
               children: [

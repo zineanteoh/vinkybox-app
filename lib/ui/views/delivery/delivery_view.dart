@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:styled_widget/styled_widget.dart';
 import 'package:vinkybox/ui/shared/ui_helpers.dart';
 import 'package:vinkybox/ui/views/delivery/delivery_viewmodel.dart';
 import 'package:vinkybox/ui/widgets/dumb_widgets/latest_requests_header.dart';
@@ -9,12 +10,21 @@ import 'package:vinkybox/ui/widgets/smart_widgets/request_delivery_button/reques
 import 'package:vinkybox/ui/widgets/smart_widgets/top_profile_bar/top_profile_bar.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/welcome_message/welcome_message.dart';
 
-class DeliveryView extends StatelessWidget {
+class DeliveryView extends StatefulWidget {
   const DeliveryView({Key? key}) : super(key: key);
+
+  @override
+  State<DeliveryView> createState() => _DeliveryViewState();
+}
+
+class _DeliveryViewState extends State<DeliveryView>
+    with AutomaticKeepAliveClientMixin<DeliveryView> {
+  @override
+  bool get wantKeepAlive => true;
 
   Widget latestRequestsPreview(DeliveryViewModel model) {
     return Container(
-      child: model.isBusy
+      child: model.isBusy && model.deliveryRequestList.isEmpty
           ? const CircularProgressIndicator()
           : DeliveryRequestItem(
               deliveryRequest: model.deliveryRequestList[0]),
@@ -55,6 +65,9 @@ class DeliveryView extends StatelessWidget {
             latestRequest(),
             latestRequestsPreview(model),
           ],
+        ).padding(
+          horizontal: 20,
+          vertical: 50,
         ),
       ),
       viewModelBuilder: () => DeliveryViewModel(),
