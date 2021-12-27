@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
-import 'package:vinkybox/ui/widgets/smart_widgets/request_delivery_button.dart/request_delivery_button_model.dart';
+import 'package:vinkybox/ui/widgets/smart_widgets/request_delivery_button/request_delivery_button_model.dart';
 
 class RequestDeliveryButton extends StatelessWidget {
   const RequestDeliveryButton({Key? key}) : super(key: key);
