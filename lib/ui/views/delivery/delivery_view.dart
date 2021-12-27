@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:vinkybox/ui/shared/ui_helpers.dart';
@@ -22,18 +23,25 @@ class _DeliveryViewState extends State<DeliveryView>
   @override
   bool get wantKeepAlive => true;
 
-  Widget latestRequestsPreview(DeliveryViewModel model) {
-    return Container(
-      child: model.isBusy
-          ? const CircularProgressIndicator()
-          : model.deliveryRequestList.isEmpty
-              ? const Text('There are no requests at the moment!')
-              : DeliveryRequestItem(
-                  deliveryRequest: model.deliveryRequestList[0]),
+  Widget latestRequests(DeliveryViewModel model) {
+    return Column(
+      children: [
+        UIHelper.verticalSpaceMedium(),
+        UIHelper.verticalSpaceMedium(),
+        const LatestRequestsHeader(),
+        Container(
+          child: model.isBusy
+              ? const CircularProgressIndicator()
+              : model.isRequestEmpty
+                  ? const Text('There are no requests at the moment!')
+                  : DeliveryRequestItem(
+                      deliveryRequest: model.deliveryRequestList[0]),
+        ),
+      ],
     );
   }
 
-  Widget latestRequest() {
+  Widget userActionButtons() {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,9 +50,6 @@ class _DeliveryViewState extends State<DeliveryView>
         const RequestDeliveryButton(),
         UIHelper.verticalSpaceMedium(),
         const MyPackagesButton(),
-        UIHelper.verticalSpaceMedium(),
-        UIHelper.verticalSpaceMedium(),
-        const LatestRequestsHeader(),
       ],
     );
   }
@@ -64,8 +69,27 @@ class _DeliveryViewState extends State<DeliveryView>
                 WelcomeMessage(),
               ],
             ),
-            latestRequest(),
-            latestRequestsPreview(model),
+            Expanded(
+              child: SmartRefresher(
+                header: const ClassicHeader(
+                  completeText: 'Request is up to date!',
+                  idleText: 'Pull to Refresh',
+                  refreshingText: 'Fetching Requests...',
+                ),
+                enablePullDown: true,
+                controller: model.refreshController,
+                onRefresh: model.loadLatestRequests,
+                child: ListView.builder(
+                  itemCount: 1,
+                  itemBuilder: (context, index) => Column(
+                    children: [
+                      userActionButtons(),
+                      latestRequests(model),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ],
         ).padding(
           horizontal: 20,

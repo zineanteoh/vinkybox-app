@@ -1,19 +1,29 @@
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
 import 'package:vinkybox/app/app.locator.dart';
+import 'package:vinkybox/app/app.logger.dart';
 import 'package:vinkybox/services/delivery_service.dart';
 
 class DeliveryViewModel extends BaseViewModel {
-  // share
+  final log = getLogger('DeliveryViewModel');
   final _deliveryService = locator<DeliveryService>();
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
+  RefreshController get refreshController => _refreshController;
 
   List<dynamic> get deliveryRequestList =>
       _deliveryService.deliveryRequestList;
 
+  bool get isRequestEmpty => deliveryRequestList.length == 0;
+
   Future loadLatestRequests() async {
     setBusy(true);
-    await Future.delayed(const Duration(milliseconds: 1000));
-    _deliveryService.fetchDeliveryRequestList();
+    log.i('loading latest requests...');
+    await _deliveryService.fetchDeliveryRequestList();
+    await Future.delayed(const Duration(milliseconds: 700));
     notifyListeners();
     setBusy(false);
+    _refreshController.refreshCompleted();
   }
 }
