@@ -9,7 +9,17 @@ class TempHomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<TempHomeViewModel>.reactive(
       viewModelBuilder: () => TempHomeViewModel(),
-      builder: (context, model, child) => Scaffold(),
+      builder: (context, model, child) => Scaffold(
+        body: Center(
+          child: Text('hello'),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.location_searching),
+          onPressed: () {
+            model.navigate();
+          },
+        ),
+      ),
     );
   }
 }

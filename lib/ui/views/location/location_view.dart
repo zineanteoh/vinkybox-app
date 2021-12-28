@@ -20,21 +20,12 @@ class LocationView extends StatelessWidget {
                 zoomGesturesEnabled: true,
                 myLocationButtonEnabled: true,
                 myLocationEnabled: true,
-                onMapCreated: (GoogleMapController controller) {
-                  model.setMapController(controller);
-                  model.setIsMapCreated(true);
-                  model.changeMapMode();
-                },
+                onMapCreated: model.onMapCreated,
                 initialCameraPosition: model.initialCameraPosition,
+                markers: model.markers,
               ),
             )
           ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.location_searching),
-          onPressed: () {
-            // model.getCurrentLocation();
-          },
         ),
       ),
       viewModelBuilder: () => LocationViewModel(),
