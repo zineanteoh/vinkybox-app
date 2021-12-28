@@ -9,6 +9,7 @@ class LocationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<LocationViewModel>.reactive(
+      onModelReady: (model) => model.init(),
       builder: (context, model, child) => Scaffold(
         body: Stack(
           children: [

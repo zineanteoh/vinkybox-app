@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:collection';
 
+import 'package:carbon_icons/carbon_icons.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:stacked/stacked.dart';
@@ -23,22 +25,39 @@ class LocationViewModel extends BaseViewModel {
   Set<Marker> _markers = HashSet<Marker>();
   Set<Marker> get markers => _markers;
 
+  // Bitmap
+  late BitmapDescriptor _markerIcon;
+
+  void init() async {
+    await setMarkerIcon();
+    addWestMarker();
+  }
+
   void onMapCreated(GoogleMapController controller) {
     setMapController(controller);
     changeMapMode();
 
-    addWestMarker();
-
     setIsMapCreated(true);
   }
 
-  /// temporary method to add a marker
+  // set marker icon
+  Future setMarkerIcon() async {
+    _markerIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(), 'assets/images/squirrel.png');
+  }
+
+  // temporary method to add a marker
   void addWestMarker() {
-    _markers.add(const Marker(
-        markerId: MarkerId('0'),
-        position: LatLng(36.140420491942166, -86.79948097118331),
-        infoWindow: InfoWindow(
-            title: 'West House', snippet: 'Drop off Location')));
+    _markers.add(
+      Marker(
+        markerId: const MarkerId('0'),
+        position:
+            const LatLng(36.140420491942166, -86.79948097118331),
+        infoWindow: const InfoWindow(
+            title: 'West House', snippet: 'Drop off Location'),
+        icon: _markerIcon,
+      ),
+    );
   }
 
   void setMapController(GoogleMapController newController) {
