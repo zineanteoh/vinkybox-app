@@ -11,14 +11,15 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
+import '../ui/views/delivery/latest_requests/latest_requests_view.dart';
+import '../ui/views/delivery/my_packages/my_packages_view.dart';
+import '../ui/views/delivery/request_delivery/request_delivery_view.dart';
 import '../ui/views/home/home_view.dart';
-import '../ui/views/latest_requests/latest_requests_view.dart';
+import '../ui/views/location/location_view.dart';
 import '../ui/views/login/login_view.dart';
 import '../ui/views/marketplace/marketplace_view.dart';
-import '../ui/views/my_packages/my_packages_view.dart';
 import '../ui/views/onboarding/dorm_selection/dorm_selection_view.dart';
 import '../ui/views/onboarding/onboarding_view.dart';
-import '../ui/views/request_delivery/request_delivery_view.dart';
 import '../ui/views/startup/startup_view.dart';
 
 class Routes {
@@ -30,6 +31,7 @@ class Routes {
   static const String requestDeliveryView = '/request-delivery-view';
   static const String myPackagesView = '/my-packages-view';
   static const String latestRequestsView = '/latest-requests-view';
+  static const String locationView = '/location-view';
   static const String marketPlaceView = '/market-place-view';
   static const all = <String>{
     startUpView,
@@ -40,6 +42,7 @@ class Routes {
     requestDeliveryView,
     myPackagesView,
     latestRequestsView,
+    locationView,
     marketPlaceView,
   };
 }
@@ -56,6 +59,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.requestDeliveryView, page: RequestDeliveryView),
     RouteDef(Routes.myPackagesView, page: MyPackagesView),
     RouteDef(Routes.latestRequestsView, page: LatestRequestsView),
+    RouteDef(Routes.locationView, page: LocationView),
     RouteDef(Routes.marketPlaceView, page: MarketPlaceView),
   ];
   @override
@@ -104,11 +108,14 @@ class StackedRouter extends RouterBase {
       );
     },
     LatestRequestsView: (data) {
-      var args = data.getArgs<LatestRequestsViewArguments>(
-        orElse: () => LatestRequestsViewArguments(),
-      );
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => LatestRequestsView(key: args.key),
+        builder: (context) => const LatestRequestsView(),
+        settings: data,
+      );
+    },
+    LocationView: (data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => const LocationView(),
         settings: data,
       );
     },
@@ -119,14 +126,4 @@ class StackedRouter extends RouterBase {
       );
     },
   };
-}
-
-/// ************************************************************************
-/// Arguments holder classes
-/// *************************************************************************
-
-/// LatestRequestsView arguments holder class
-class LatestRequestsViewArguments {
-  final Key? key;
-  LatestRequestsViewArguments({this.key});
 }

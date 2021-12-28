@@ -1,4 +1,3 @@
-import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:group_button/group_button.dart';
 import 'package:stacked/stacked.dart';
@@ -6,7 +5,7 @@ import 'package:vinkybox/constants/request_info.dart';
 import 'package:vinkybox/ui/shared/app_colors.dart';
 import 'package:vinkybox/ui/shared/text_styles.dart';
 import 'package:vinkybox/ui/shared/ui_helpers.dart';
-import 'package:vinkybox/ui/views/request_delivery/request_delivery_viewmodel.dart';
+import 'package:vinkybox/ui/views/delivery/request_delivery/request_delivery_viewmodel.dart';
 import 'package:vinkybox/ui/widgets/dumb_widgets/header_bar.dart';
 
 class RequestDeliveryView extends StatelessWidget {
