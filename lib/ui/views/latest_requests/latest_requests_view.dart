@@ -40,7 +40,6 @@ class LatestRequestsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<LatestRequestsViewModel>.reactive(
-      onModelReady: (model) => model.loadLatestRequests(),
       builder: (context, model, child) => Scaffold(
         body: SafeArea(
           child: Container(
