@@ -16,6 +16,15 @@ class LocationView extends StatelessWidget {
               height: MediaQuery.of(context).size.height,
               width: double.infinity,
               child: GoogleMap(
+                mapType: MapType.normal,
+                zoomGesturesEnabled: true,
+                myLocationButtonEnabled: true,
+                myLocationEnabled: true,
+                onMapCreated: (GoogleMapController controller) {
+                  model.setMapController(controller);
+                  model.setIsMapCreated(true);
+                  model.changeMapMode();
+                },
                 initialCameraPosition: CameraPosition(
                   target: LatLng(36.140841, -86.798927),
                   zoom: 15,
