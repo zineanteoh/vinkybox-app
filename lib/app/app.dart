@@ -9,6 +9,7 @@ import 'package:vinkybox/ui/views/delivery/latest_requests/latest_requests_view.
 import 'package:vinkybox/ui/views/delivery/request_delivery/request_delivery_view.dart';
 import 'package:vinkybox/ui/views/home/home_view.dart';
 import 'package:vinkybox/ui/views/location/location_view.dart';
+import 'package:vinkybox/ui/views/location/temp_home_view.dart';
 import 'package:vinkybox/ui/views/login/login_view.dart';
 import 'package:vinkybox/ui/views/marketplace/marketplace_view.dart';
 import 'package:vinkybox/ui/views/delivery/my_packages/my_packages_view.dart';
@@ -37,6 +38,7 @@ import 'package:vinkybox/ui/views/startup/startup_view.dart';
     CupertinoRoute(page: LatestRequestsView),
 
     // Maps
+    CupertinoRoute(page: TempHomeView),
     CupertinoRoute(page: LocationView),
 
     // Marketplace

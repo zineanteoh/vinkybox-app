@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.router.dart';
-import 'package:vinkybox/ui/views/location/location_view.dart';
+import 'package:vinkybox/ui/views/location/temp_home_view.dart';
 import 'package:vinkybox/ui/views/startup/startup_view.dart';
 import 'dart:io' show Platform;
 
@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
         navigatorKey: StackedService.navigatorKey,
         onGenerateRoute: StackedRouter().onGenerateRoute,
         // home: const StartUpView(),
-        home: const LocationView(),
+        home: const TempHomeView(),
         debugShowCheckedModeBanner: false);
   }
 }

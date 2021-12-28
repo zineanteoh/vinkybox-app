@@ -16,6 +16,7 @@ import '../ui/views/delivery/my_packages/my_packages_view.dart';
 import '../ui/views/delivery/request_delivery/request_delivery_view.dart';
 import '../ui/views/home/home_view.dart';
 import '../ui/views/location/location_view.dart';
+import '../ui/views/location/temp_home_view.dart';
 import '../ui/views/login/login_view.dart';
 import '../ui/views/marketplace/marketplace_view.dart';
 import '../ui/views/onboarding/dorm_selection/dorm_selection_view.dart';
@@ -31,6 +32,7 @@ class Routes {
   static const String requestDeliveryView = '/request-delivery-view';
   static const String myPackagesView = '/my-packages-view';
   static const String latestRequestsView = '/latest-requests-view';
+  static const String tempHomeView = '/temp-home-view';
   static const String locationView = '/location-view';
   static const String marketPlaceView = '/market-place-view';
   static const all = <String>{
@@ -42,6 +44,7 @@ class Routes {
     requestDeliveryView,
     myPackagesView,
     latestRequestsView,
+    tempHomeView,
     locationView,
     marketPlaceView,
   };
@@ -59,6 +62,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.requestDeliveryView, page: RequestDeliveryView),
     RouteDef(Routes.myPackagesView, page: MyPackagesView),
     RouteDef(Routes.latestRequestsView, page: LatestRequestsView),
+    RouteDef(Routes.tempHomeView, page: TempHomeView),
     RouteDef(Routes.locationView, page: LocationView),
     RouteDef(Routes.marketPlaceView, page: MarketPlaceView),
   ];
@@ -110,6 +114,12 @@ class StackedRouter extends RouterBase {
     LatestRequestsView: (data) {
       return CupertinoPageRoute<dynamic>(
         builder: (context) => const LatestRequestsView(),
+        settings: data,
+      );
+    },
+    TempHomeView: (data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => const TempHomeView(),
         settings: data,
       );
     },
