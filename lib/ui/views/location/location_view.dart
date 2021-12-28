@@ -25,13 +25,16 @@ class LocationView extends StatelessWidget {
                   model.setIsMapCreated(true);
                   model.changeMapMode();
                 },
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(36.140841, -86.798927),
-                  zoom: 15,
-                ),
+                initialCameraPosition: model.initialCameraPosition,
               ),
             )
           ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.location_searching),
+          onPressed: () {
+            // model.getCurrentLocation();
+          },
         ),
       ),
       viewModelBuilder: () => LocationViewModel(),
