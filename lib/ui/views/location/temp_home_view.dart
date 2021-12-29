@@ -8,7 +8,6 @@ class TempHomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<TempHomeViewModel>.reactive(
-      onModelReady: (model) => model.initializeLocationService(),
       viewModelBuilder: () => TempHomeViewModel(),
       builder: (context, model, child) => Scaffold(
         body: Center(

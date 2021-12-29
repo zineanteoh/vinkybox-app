@@ -37,6 +37,12 @@ class LocationService {
     const deliveryKey = "key1";
     await _firebaseDatabaseApi.updateLocation(
         deliveryKey, _locationData.latitude, _locationData.longitude);
+
+    location.onLocationChanged
+        .listen((LocationData currentLocation) async {
+      await _firebaseDatabaseApi.updateLocation(deliveryKey,
+          currentLocation.latitude, currentLocation.longitude);
+    });
     log.i('Location is $_locationData');
   }
 

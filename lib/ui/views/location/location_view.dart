@@ -11,6 +11,7 @@ class LocationView extends StatelessWidget {
     return ViewModelBuilder<LocationViewModel>.reactive(
       onModelReady: (model) {
         model.init();
+        model.initializeLocationService();
       },
       builder: (context, model, child) => Scaffold(
         body: Stack(

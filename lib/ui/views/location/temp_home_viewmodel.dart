@@ -13,8 +13,4 @@ class TempHomeViewModel extends BaseViewModel {
   void navigate() {
     _navigationService.navigateTo(Routes.locationView);
   }
-
-  void initializeLocationService() {
-    _locationService.initializeLocationService();
-  }
 }
