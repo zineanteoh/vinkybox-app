@@ -35,6 +35,7 @@ dependencies:
   firebase_analytics: ^9.0.4
   firebase_auth: ^3.3.4
   firebase_core: ^1.10.6
+  firebase_database: ^9.0.4
   flutter:
     sdk: flutter
   freezed_annotation: ^1.1.0

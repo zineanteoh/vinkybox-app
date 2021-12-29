@@ -9,6 +9,7 @@ import 'package:vinkybox/ui/views/location/temp_home_view.dart';
 import 'package:vinkybox/ui/views/startup/startup_view.dart';
 import 'dart:io' show Platform;
 
+// firebase emulators:start --import=exported-dev-data --export-on-exit=exported-dev-data
 const bool USE_EMULATOR = true;
 
 Future main() async {
