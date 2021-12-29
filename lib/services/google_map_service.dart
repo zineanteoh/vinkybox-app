@@ -25,6 +25,11 @@ class GoogleMapService {
   // Bitmap
   late BitmapDescriptor _markerIcon;
 
+  Future init() async {
+    await setMarkerIcon();
+    addWestMarker();
+  }
+
   void onMapCreated(GoogleMapController controller) {
     setMapController(controller);
     changeMapMode();
@@ -39,7 +44,7 @@ class GoogleMapService {
   }
 
   // temporary method to add a marker
-  void addWestMarker() {
+  Future addWestMarker() async {
     _markers.add(
       Marker(
         markerId: const MarkerId('0'),
@@ -62,7 +67,6 @@ class GoogleMapService {
 
   void changeMapMode() {
     getJsonFile("assets/light_map.json").then(setMapStyle);
-    // notifyListeners();
   }
 
   Future<String> getJsonFile(String path) async {

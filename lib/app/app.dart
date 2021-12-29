@@ -1,5 +1,6 @@
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:vinkybox/api/firebase_database_api.dart';
 import 'package:vinkybox/api/firestore_api.dart';
 import 'package:vinkybox/services/delivery_service.dart';
 import 'package:vinkybox/services/firebase_authentication_service.dart';
@@ -50,6 +51,7 @@ import 'package:vinkybox/ui/views/startup/startup_view.dart';
   // Auto generate app.locator.dart
   dependencies: [
     LazySingleton(classType: FirestoreApi),
+    LazySingleton(classType: FirebaseDatabaseApi),
     LazySingleton(classType: NavigationService),
     LazySingleton(classType: UserService),
     LazySingleton(classType: DeliveryService),

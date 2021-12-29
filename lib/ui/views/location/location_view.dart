@@ -9,7 +9,9 @@ class LocationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<LocationViewModel>.reactive(
-      onModelReady: (model) => model.init(),
+      onModelReady: (model) {
+        model.init();
+      },
       builder: (context, model, child) => Scaffold(
         body: Stack(
           children: [
@@ -18,7 +20,7 @@ class LocationView extends StatelessWidget {
               width: double.infinity,
               child: GoogleMap(
                 mapType: MapType.normal,
-                zoomGesturesEnabled: true,
+                zoomGesturesEnabled: false,
                 myLocationButtonEnabled: true,
                 myLocationEnabled: true,
                 onMapCreated: model.onMapCreated,

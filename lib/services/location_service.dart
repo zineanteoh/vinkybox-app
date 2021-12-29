@@ -1,8 +1,13 @@
 import 'package:location/location.dart';
+import 'package:vinkybox/api/firebase_database_api.dart';
+import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
+import 'package:vinkybox/services/user_service.dart';
 
 class LocationService {
   final log = getLogger('LocationService');
+
+  final _firebaseDatabaseApi = locator<FirebaseDatabaseApi>();
 
   Location location = Location();
   late LocationData _locationData;
@@ -28,6 +33,10 @@ class LocationService {
     }
 
     _locationData = await location.getLocation();
+    // Hard coding delivery key (a unique key that identifies package delivery)
+    const deliveryKey = "key1";
+    await _firebaseDatabaseApi.updateLocation(
+        deliveryKey, _locationData.latitude, _locationData.longitude);
     log.i('Location is $_locationData');
   }
 
