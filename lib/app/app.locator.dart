@@ -13,6 +13,8 @@ import 'package:stacked_services/stacked_services.dart';
 import '../api/firestore_api.dart';
 import '../services/delivery_service.dart';
 import '../services/firebase_authentication_service.dart';
+import '../services/google_map_service.dart';
+import '../services/location_service.dart';
 import '../services/page_controller_service.dart';
 import '../services/user_service.dart';
 
@@ -28,6 +30,8 @@ void setupLocator({String? environment, EnvironmentFilter? environmentFilter}) {
   locator.registerLazySingleton(() => NavigationService());
   locator.registerLazySingleton(() => UserService());
   locator.registerLazySingleton(() => DeliveryService());
+  locator.registerLazySingleton(() => LocationService());
+  locator.registerLazySingleton(() => GoogleMapService());
   locator.registerLazySingleton(() => PageControllerService());
   locator.registerSingleton(FirebaseAuthenticationService());
 }

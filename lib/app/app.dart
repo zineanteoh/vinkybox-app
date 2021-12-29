@@ -3,6 +3,8 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:vinkybox/api/firestore_api.dart';
 import 'package:vinkybox/services/delivery_service.dart';
 import 'package:vinkybox/services/firebase_authentication_service.dart';
+import 'package:vinkybox/services/google_map_service.dart';
+import 'package:vinkybox/services/location_service.dart';
 import 'package:vinkybox/services/page_controller_service.dart';
 import 'package:vinkybox/services/user_service.dart';
 import 'package:vinkybox/ui/views/delivery/latest_requests/latest_requests_view.dart';
@@ -51,6 +53,8 @@ import 'package:vinkybox/ui/views/startup/startup_view.dart';
     LazySingleton(classType: NavigationService),
     LazySingleton(classType: UserService),
     LazySingleton(classType: DeliveryService),
+    LazySingleton(classType: LocationService),
+    LazySingleton(classType: GoogleMapService),
     LazySingleton(classType: PageControllerService),
     Singleton(classType: FirebaseAuthenticationService),
   ],

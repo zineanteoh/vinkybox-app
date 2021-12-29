@@ -8,10 +8,24 @@ class TempHomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<TempHomeViewModel>.reactive(
+      onModelReady: (model) => model.initializeLocationService(),
       viewModelBuilder: () => TempHomeViewModel(),
       builder: (context, model, child) => Scaffold(
         body: Center(
-          child: Text('hello'),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('hello'),
+              ElevatedButton(
+                onPressed: () {},
+                child: Text('read examples'),
+              ),
+              ElevatedButton(
+                onPressed: () {},
+                child: Text('write examples'),
+              ),
+            ],
+          ),
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.location_searching),

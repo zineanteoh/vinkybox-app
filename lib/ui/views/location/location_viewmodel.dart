@@ -1,32 +1,20 @@
 import 'dart:async';
-import 'dart:collection';
-
-import 'package:carbon_icons/carbon_icons.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:stacked/stacked.dart';
+import 'package:vinkybox/app/app.locator.dart';
+import 'package:vinkybox/services/google_map_service.dart';
 
 class LocationViewModel extends BaseViewModel {
-  bool _isMapCreated = false;
-  bool get isMapCreated => _isMapCreated;
+  final _googleMapService = locator<GoogleMapService>();
 
-  late GoogleMapController _controller;
-  GoogleMapController get controller => _controller;
+  bool get isMapCreated => _googleMapService.isMapCreated;
 
-  // Positions
-  static const CameraPosition initialPosition = CameraPosition(
-    target: LatLng(36.14479001860207, -86.80285895018181),
-    zoom: 16,
-  );
-  CameraPosition get initialCameraPosition => initialPosition;
+  GoogleMapController get controller => _googleMapService.controller;
 
-  // Markers
-  Set<Marker> _markers = HashSet<Marker>();
-  Set<Marker> get markers => _markers;
+  CameraPosition get initialCameraPosition =>
+      _googleMapService.initialCameraPosition;
 
-  // Bitmap
-  late BitmapDescriptor _markerIcon;
+  Set<Marker> get markers => _googleMapService.markers;
 
   void init() async {
     await setMarkerIcon();
@@ -42,42 +30,32 @@ class LocationViewModel extends BaseViewModel {
 
   // set marker icon
   Future setMarkerIcon() async {
-    _markerIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(), 'assets/images/squirrel.png');
+    _googleMapService.setMarkerIcon();
   }
 
   // temporary method to add a marker
   void addWestMarker() {
-    _markers.add(
-      Marker(
-        markerId: const MarkerId('0'),
-        position:
-            const LatLng(36.140420491942166, -86.79948097118331),
-        infoWindow: const InfoWindow(
-            title: 'West House', snippet: 'Drop off Location'),
-        icon: _markerIcon,
-      ),
-    );
+    _googleMapService.addWestMarker();
   }
 
   void setMapController(GoogleMapController newController) {
-    _controller = newController;
+    _googleMapService.setMapController(newController);
   }
 
   void setIsMapCreated(bool value) {
-    _isMapCreated = value;
+    _googleMapService.setIsMapCreated(value);
   }
 
   void changeMapMode() {
-    getJsonFile("assets/light_map.json").then(setMapStyle);
+    _googleMapService.changeMapMode();
     notifyListeners();
   }
 
   Future<String> getJsonFile(String path) async {
-    return await rootBundle.loadString(path);
+    return _googleMapService.getJsonFile(path);
   }
 
   void setMapStyle(String mapStyle) {
-    _controller.setMapStyle(mapStyle);
+    _googleMapService.setMapStyle(mapStyle);
   }
 }
