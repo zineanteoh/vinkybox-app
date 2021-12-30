@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:vinkybox/app/app.logger.dart';
 import 'package:vinkybox/constants/app_keys.dart';
@@ -41,6 +39,15 @@ class FirebaseDatabaseApi {
   Future<DataSnapshot> getSourceLocation(String deliveryKey) async {
     return _locationUpdatesRef
         .child('$deliveryKey/source/location')
+        .get()
+        .then((DataSnapshot snapshot) => snapshot);
+  }
+
+  /// getDestinationLocation retrieves the location of the drop off location
+  Future<DataSnapshot> getDestinationLocation(
+      String deliveryKey) async {
+    return _locationUpdatesRef
+        .child('$deliveryKey/destination/location')
         .get()
         .then((DataSnapshot snapshot) => snapshot);
   }

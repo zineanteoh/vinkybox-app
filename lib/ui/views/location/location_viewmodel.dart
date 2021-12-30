@@ -29,11 +29,13 @@ class LocationViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  // Enable location tracking by reading/writing to RTDB. Updates google map markers
   void initializeLocationService() {
-    _locationService.initializeLocationService();
+    _locationService.initializeLocationService(notifyListeners);
   }
 
-  void navigateCameraToSourceLocation() {
-    _googleMapService.navigateToSourceLocation();
+  void navigateCameraToSourceLocation() async {
+    Map location = await _locationService.getSourceLocation();
+    _googleMapService.navigateToSourceLocation(location);
   }
 }

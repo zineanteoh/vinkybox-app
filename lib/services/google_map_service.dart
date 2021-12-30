@@ -3,13 +3,11 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:vinkybox/app/app.locator.dart';
+import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
+import 'package:location/location.dart';
 import 'package:vinkybox/app/app.logger.dart';
-import 'package:vinkybox/services/location_service.dart';
 
 class GoogleMapService {
-  final _locationService = locator<LocationService>();
-
   final log = getLogger('GoogleMapService');
 
   bool _isMapCreated = false;
@@ -29,12 +27,14 @@ class GoogleMapService {
   Set<Marker> _markers = HashSet<Marker>();
   Set<Marker> get markers => _markers;
 
-  // Bitmap
-  late BitmapDescriptor _markerIcon;
+  // Bitmap icons
+  late BitmapDescriptor _destinationMarkerIcon;
+  late BitmapDescriptor _sourceMarkerIcon;
 
   Future init() async {
-    await setMarkerIcon();
-    addWestMarker();
+    await setMarkerIcons();
+    addDestinationMarker();
+    addSourceMarker();
   }
 
   void onMapCreated(GoogleMapController controller) {
@@ -42,26 +42,6 @@ class GoogleMapService {
     changeMapMode();
 
     setIsMapCreated(true);
-  }
-
-  // set marker icon
-  Future setMarkerIcon() async {
-    _markerIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(), 'assets/images/squirrel.png');
-  }
-
-  // temporary method to add a marker
-  Future addWestMarker() async {
-    _markers.add(
-      Marker(
-        markerId: const MarkerId('0'),
-        position:
-            const LatLng(36.140420491942166, -86.79948097118331),
-        infoWindow: const InfoWindow(
-            title: 'West House', snippet: 'Drop off Location'),
-        icon: _markerIcon,
-      ),
-    );
   }
 
   void setMapController(GoogleMapController newController) {
@@ -84,9 +64,55 @@ class GoogleMapService {
     _controller.setMapStyle(mapStyle);
   }
 
+  // <---- Methods associated with Markers go below ---->
+
+  Future setMarkerIcons() async {
+    _destinationMarkerIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(), 'assets/images/squirrel.png');
+    _sourceMarkerIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(), 'assets/images/package.png');
+  }
+
+  void addDestinationMarker() {
+    _markers.add(
+      Marker(
+        markerId: const MarkerId('0'),
+        position:
+            const LatLng(36.140420491942166, -86.79948097118331),
+        infoWindow: const InfoWindow(
+            title: 'West House', snippet: 'Drop off Location'),
+        icon: _destinationMarkerIcon,
+      ),
+    );
+  }
+
+  void addSourceMarker() {
+    _markers.add(Marker(
+      markerId: const MarkerId('1'),
+      position: const LatLng(36.145262, -86.802859),
+      infoWindow: const InfoWindow(
+          title: 'Vinky', snippet: 'Your Package is with him/her!'),
+      icon: _sourceMarkerIcon,
+    ));
+  }
+
+  Future updateMarker(LocationData location) async {
+    List<Marker> updatedMarkers = [];
+
+    // Change LatLng for source marker
+    updatedMarkers.add(_markers.toList().first.copyWith(
+        positionParam:
+            LatLng(location.latitude!, location.longitude!)));
+    // Keep destination marker the same
+    updatedMarkers.add(_markers.toList().last.copyWith());
+
+    // Update markers on map
+    MarkerUpdates.from(_markers, Set<Marker>.from(updatedMarkers));
+    _markers = Set<Marker>.from(updatedMarkers);
+  }
+
   // Navigate camera to source location
-  void navigateToSourceLocation() async {
-    Map sourceLocation = await _locationService.getSourceLocation();
+  void navigateToSourceLocation(Map sourceLocation) async {
     log.i('${sourceLocation}');
 
     _controller.animateCamera(CameraUpdate.newLatLngZoom(
