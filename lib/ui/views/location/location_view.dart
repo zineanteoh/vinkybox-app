@@ -12,7 +12,11 @@ class LocationView extends StatelessWidget {
     return ViewModelBuilder<LocationViewModel>.reactive(
       onModelReady: (model) {
         model.init();
-        model.initializeLocationService();
+        if (model.isDelivering) {
+          model.initializeLocationTracking();
+        } else {
+          model.initializePackageTracking();
+        }
       },
       builder: (context, model, child) => Scaffold(
         body: Stack(
@@ -41,7 +45,7 @@ class LocationView extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            model.navigateCameraToSourceLocation();
+            model.navigateCameraToPackageLocation();
           },
         ),
       ),

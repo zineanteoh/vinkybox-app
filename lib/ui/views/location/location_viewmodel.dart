@@ -3,10 +3,12 @@ import 'package:stacked/stacked.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/services/google_map_service.dart';
 import 'package:vinkybox/services/location_service.dart';
+import 'package:vinkybox/services/package_tracking_service.dart';
 
 class LocationViewModel extends BaseViewModel {
   final _googleMapService = locator<GoogleMapService>();
   final _locationService = locator<LocationService>();
+  final _packageTrackingService = locator<PackageTrackingService>();
 
   bool get isMapCreated => _googleMapService.isMapCreated;
 
@@ -29,13 +31,19 @@ class LocationViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  // Enable location tracking by reading/writing to RTDB. Updates google map markers
-  void initializeLocationService() {
-    _locationService.initializeLocationService(notifyListeners);
+  // Enable location tracking by writing to RTDB & updating google map markers
+  void initializeLocationTracking() {
+    _locationService.initializeLocationTracking(notifyListeners);
   }
 
-  void navigateCameraToSourceLocation() async {
-    Map location = await _locationService.getSourceLocation();
-    _googleMapService.navigateToSourceLocation(location);
+  // Enable package tracking by only reading from RTDB & updating markers
+  void initializePackageTracking() {
+    _packageTrackingService.activatePackageTrackingListeners(
+        'key1', notifyListeners);
+  }
+
+  void navigateCameraToPackageLocation() async {
+    Map location = await _locationService.getPackageLocation();
+    _googleMapService.navigateToPackageLocation(location);
   }
 }

@@ -13,7 +13,7 @@ class LocationService {
   final _firebaseDatabaseApi = locator<FirebaseDatabaseApi>();
   final _googleMapService = locator<GoogleMapService>();
 
-  Location _location = Location();
+  final Location _location = Location();
   late LocationData _locationData;
   LocationData get locationData => _locationData;
   late bool _serviceEnabled;
@@ -28,11 +28,8 @@ class LocationService {
   // Hard coding delivery key (a unique key that identifies package delivery)
   final deliveryKey = "key1";
 
-  Future initializeLocationService(
-      Function notifyLocationViewListeners) async {
-    log.i('Initializing locatino service $isDelivering');
-    // TEMPORARY
-    if (!isDelivering) return;
+  Future initializeLocationTracking(Function notifyListeners) async {
+    log.i('Initializing location service $isDelivering');
     log.i('Requesting permission...');
 
     _serviceEnabled = await _location.serviceEnabled();
@@ -54,24 +51,26 @@ class LocationService {
     }
 
     _locationData = await _location.getLocation();
-    await _firebaseDatabaseApi.updateSourceLocation(
+    await _firebaseDatabaseApi.updatePackageLocation(
         deliveryKey, _locationData.latitude, _locationData.longitude);
 
     _location.onLocationChanged.listen(
       (LocationData currentLocation) async {
-        await _firebaseDatabaseApi.updateSourceLocation(deliveryKey,
+        await _firebaseDatabaseApi.updatePackageLocation(deliveryKey,
             currentLocation.latitude, currentLocation.longitude);
         // Update markers on map
-        await _googleMapService.updateMarker(currentLocation);
-        notifyLocationViewListeners();
+        await _googleMapService.updateMarker(
+            currentLocation.latitude!,
+            currentLocation.longitude!,
+            notifyListeners);
       },
     );
     log.i('Location is $_locationData');
   }
 
-  Future<Map> getSourceLocation() async {
+  Future<Map> getPackageLocation() async {
     DataSnapshot snapshot =
-        await _firebaseDatabaseApi.getSourceLocation('key1');
+        await _firebaseDatabaseApi.getPackageLocation('key1');
 
     String encodedJson = jsonEncode(snapshot.value);
     Map valueMap = jsonDecode(encodedJson);

@@ -1,22 +1,29 @@
+import 'dart:convert';
+
 import 'package:firebase_database/firebase_database.dart';
+import 'package:location/location.dart';
+import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
 import 'package:vinkybox/constants/app_keys.dart';
 import 'package:vinkybox/models/application_models.dart';
+import 'package:vinkybox/services/google_map_service.dart';
 
 class FirebaseDatabaseApi {
   final log = getLogger('FirebaseDatabaseApi');
 
-  final _locationUpdatesRef =
+  final locationUpdatesRef =
       FirebaseDatabase.instance.ref(LocationUpdatesRealtimeDBKey);
   // final _locationUpdates
 
-  Future _updateLocation(
-      String deliveryKey, String locationType, lat, lng) async {
-    log.i('Updating location to database $deliveryKey $lat $lng');
-    AppLocation location =
-        AppLocation(lat: lat.toString(), lng: lng.toString());
+  Future _updateLocation(String deliveryKey, String locationType,
+      latitude, longitude) async {
+    log.i(
+        'Updating location to database $deliveryKey $latitude $longitude');
+    AppLocation location = AppLocation(
+        latitude: latitude.toString(),
+        longitude: longitude.toString());
     try {
-      await _locationUpdatesRef
+      await locationUpdatesRef
           .child('$deliveryKey/$locationType/location')
           .update(location.toJson());
     } catch (e) {
@@ -24,31 +31,34 @@ class FirebaseDatabaseApi {
     }
   }
 
-  /// updateSourceLocation updates the location of the deliverer
-  Future updateSourceLocation(String deliveryKey, lat, lng) async {
-    _updateLocation(deliveryKey, 'source', lat, lng);
+  /// updatePackageLocation updates the location of the package
+  Future updatePackageLocation(
+      String deliveryKey, latitude, longitude) async {
+    _updateLocation(deliveryKey, 'package', latitude, longitude);
   }
 
   /// updateDestinationLocation writes the drop off location
   Future updateDestinationLocation(
-      String deliveryKey, lat, lng) async {
-    _updateLocation(deliveryKey, 'destination', lat, lng);
+      String deliveryKey, latitude, longitude) async {
+    _updateLocation(deliveryKey, 'destination', latitude, longitude);
   }
 
-  /// getSourceLocation retrieves the location of the deliverer
-  Future<DataSnapshot> getSourceLocation(String deliveryKey) async {
-    return _locationUpdatesRef
-        .child('$deliveryKey/source/location')
+  Future<DataSnapshot> _getLocation(
+      String deliveryKey, String locationType) async {
+    return locationUpdatesRef
+        .child('$deliveryKey/$locationType/location')
         .get()
         .then((DataSnapshot snapshot) => snapshot);
+  }
+
+  /// getPackageLocation retrieves the location of the deliverer
+  Future<DataSnapshot> getPackageLocation(String deliveryKey) async {
+    return _getLocation(deliveryKey, 'package');
   }
 
   /// getDestinationLocation retrieves the location of the drop off location
   Future<DataSnapshot> getDestinationLocation(
       String deliveryKey) async {
-    return _locationUpdatesRef
-        .child('$deliveryKey/destination/location')
-        .get()
-        .then((DataSnapshot snapshot) => snapshot);
+    return _getLocation(deliveryKey, 'destination');
   }
 }

@@ -29,12 +29,12 @@ class GoogleMapService {
 
   // Bitmap icons
   late BitmapDescriptor _destinationMarkerIcon;
-  late BitmapDescriptor _sourceMarkerIcon;
+  late BitmapDescriptor _packageMarkerIcon;
 
   Future init() async {
     await setMarkerIcons();
     addDestinationMarker();
-    addSourceMarker();
+    addPackageMarker();
   }
 
   void onMapCreated(GoogleMapController controller) {
@@ -68,9 +68,9 @@ class GoogleMapService {
 
   Future setMarkerIcons() async {
     _destinationMarkerIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(), 'assets/images/squirrel.png');
-    _sourceMarkerIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(), 'assets/images/package.png');
+        const ImageConfiguration(), 'assets/images/squirrel.png');
+    _packageMarkerIcon = await BitmapDescriptor.fromAssetImage(
+        const ImageConfiguration(), 'assets/images/package.png');
   }
 
   void addDestinationMarker() {
@@ -86,38 +86,43 @@ class GoogleMapService {
     );
   }
 
-  void addSourceMarker() {
+  void addPackageMarker() {
     _markers.add(Marker(
       markerId: const MarkerId('1'),
       position: const LatLng(36.145262, -86.802859),
       infoWindow: const InfoWindow(
           title: 'Vinky', snippet: 'Your Package is with him/her!'),
-      icon: _sourceMarkerIcon,
+      icon: _packageMarkerIcon,
     ));
   }
 
-  Future updateMarker(LocationData location) async {
+  /// updateMarker updates marker location and calls viewmodel's notifyListener function
+  Future updateMarker(double latitude, double longitude,
+      Function notifyListeners) async {
     List<Marker> updatedMarkers = [];
 
-    // Change LatLng for source marker
-    updatedMarkers.add(_markers.toList().first.copyWith(
-        positionParam:
-            LatLng(location.latitude!, location.longitude!)));
+    // Change LatLng for package marker
+    updatedMarkers.add(_markers
+        .toList()
+        .first
+        .copyWith(positionParam: LatLng(latitude, longitude)));
     // Keep destination marker the same
     updatedMarkers.add(_markers.toList().last.copyWith());
 
     // Update markers on map
     MarkerUpdates.from(_markers, Set<Marker>.from(updatedMarkers));
     _markers = Set<Marker>.from(updatedMarkers);
+
+    notifyListeners();
   }
 
-  // Navigate camera to source location
-  void navigateToSourceLocation(Map sourceLocation) async {
-    log.i('${sourceLocation}');
+  // Navigate camera to package location
+  void navigateToPackageLocation(Map packageLocation) async {
+    log.i('${packageLocation}');
 
     _controller.animateCamera(CameraUpdate.newLatLngZoom(
-        LatLng(double.parse(sourceLocation['lat']),
-            double.parse(sourceLocation['lng'])),
+        LatLng(double.parse(packageLocation['latitude']),
+            double.parse(packageLocation['longitude'])),
         16));
   }
 }

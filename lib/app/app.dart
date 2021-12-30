@@ -6,6 +6,7 @@ import 'package:vinkybox/services/delivery_service.dart';
 import 'package:vinkybox/services/firebase_authentication_service.dart';
 import 'package:vinkybox/services/google_map_service.dart';
 import 'package:vinkybox/services/location_service.dart';
+import 'package:vinkybox/services/package_tracking_service.dart';
 import 'package:vinkybox/services/page_controller_service.dart';
 import 'package:vinkybox/services/user_service.dart';
 import 'package:vinkybox/ui/views/delivery/latest_requests/latest_requests_view.dart';
@@ -50,14 +51,22 @@ import 'package:vinkybox/ui/views/startup/startup_view.dart';
 
   // Auto generate app.locator.dart
   dependencies: [
+    // Database
     LazySingleton(classType: FirestoreApi),
     LazySingleton(classType: FirebaseDatabaseApi),
+
+    // App-related
     LazySingleton(classType: NavigationService),
+    LazySingleton(classType: PageControllerService),
+
+    // Models
     LazySingleton(classType: UserService),
     LazySingleton(classType: DeliveryService),
+
+    // Location-based
     LazySingleton(classType: LocationService),
     LazySingleton(classType: GoogleMapService),
-    LazySingleton(classType: PageControllerService),
+    LazySingleton(classType: PackageTrackingService),
     Singleton(classType: FirebaseAuthenticationService),
   ],
 

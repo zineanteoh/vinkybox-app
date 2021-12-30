@@ -16,6 +16,7 @@ import '../services/delivery_service.dart';
 import '../services/firebase_authentication_service.dart';
 import '../services/google_map_service.dart';
 import '../services/location_service.dart';
+import '../services/package_tracking_service.dart';
 import '../services/page_controller_service.dart';
 import '../services/user_service.dart';
 
@@ -30,10 +31,11 @@ void setupLocator({String? environment, EnvironmentFilter? environmentFilter}) {
   locator.registerLazySingleton(() => FirestoreApi());
   locator.registerLazySingleton(() => FirebaseDatabaseApi());
   locator.registerLazySingleton(() => NavigationService());
+  locator.registerLazySingleton(() => PageControllerService());
   locator.registerLazySingleton(() => UserService());
   locator.registerLazySingleton(() => DeliveryService());
   locator.registerLazySingleton(() => LocationService());
   locator.registerLazySingleton(() => GoogleMapService());
-  locator.registerLazySingleton(() => PageControllerService());
+  locator.registerLazySingleton(() => PackageTrackingService());
   locator.registerSingleton(FirebaseAuthenticationService());
 }
