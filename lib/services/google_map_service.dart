@@ -3,8 +3,15 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:vinkybox/app/app.locator.dart';
+import 'package:vinkybox/app/app.logger.dart';
+import 'package:vinkybox/services/location_service.dart';
 
 class GoogleMapService {
+  final _locationService = locator<LocationService>();
+
+  final log = getLogger('GoogleMapService');
+
   bool _isMapCreated = false;
   bool get isMapCreated => _isMapCreated;
 
@@ -75,5 +82,16 @@ class GoogleMapService {
 
   void setMapStyle(String mapStyle) {
     _controller.setMapStyle(mapStyle);
+  }
+
+  // Navigate camera to source location
+  void navigateToSourceLocation() async {
+    Map sourceLocation = await _locationService.getSourceLocation();
+    log.i('${sourceLocation}');
+
+    _controller.animateCamera(CameraUpdate.newLatLngZoom(
+        LatLng(double.parse(sourceLocation['lat']),
+            double.parse(sourceLocation['lng'])),
+        16));
   }
 }

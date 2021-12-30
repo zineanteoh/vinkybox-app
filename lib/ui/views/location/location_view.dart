@@ -34,6 +34,13 @@ class LocationView extends StatelessWidget {
             )
           ],
         ),
+        floatingActionButton: model.isDelivering
+            ? Container()
+            : FloatingActionButton(
+                onPressed: () {
+                  model.navigateCameraToSourceLocation();
+                },
+              ),
       ),
       viewModelBuilder: () => LocationViewModel(),
     );

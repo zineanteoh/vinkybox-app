@@ -487,83 +487,84 @@ abstract class _PackageRequest implements PackageRequest {
       throw _privateConstructorUsedError;
 }
 
-Location _$LocationFromJson(Map<String, dynamic> json) {
+AppLocation _$AppLocationFromJson(Map<String, dynamic> json) {
   return _Location.fromJson(json);
 }
 
 /// @nodoc
-class _$LocationTearOff {
-  const _$LocationTearOff();
+class _$AppLocationTearOff {
+  const _$AppLocationTearOff();
 
-  _Location call({required String latitude, required String longitude}) {
+  _Location call({required String lat, required String lng}) {
     return _Location(
-      latitude: latitude,
-      longitude: longitude,
+      lat: lat,
+      lng: lng,
     );
   }
 
-  Location fromJson(Map<String, Object?> json) {
-    return Location.fromJson(json);
+  AppLocation fromJson(Map<String, Object?> json) {
+    return AppLocation.fromJson(json);
   }
 }
 
 /// @nodoc
-const $Location = _$LocationTearOff();
+const $AppLocation = _$AppLocationTearOff();
 
 /// @nodoc
-mixin _$Location {
-  String get latitude => throw _privateConstructorUsedError;
-  String get longitude => throw _privateConstructorUsedError;
+mixin _$AppLocation {
+  String get lat => throw _privateConstructorUsedError;
+  String get lng => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $LocationCopyWith<Location> get copyWith =>
+  $AppLocationCopyWith<AppLocation> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $LocationCopyWith<$Res> {
-  factory $LocationCopyWith(Location value, $Res Function(Location) then) =
-      _$LocationCopyWithImpl<$Res>;
-  $Res call({String latitude, String longitude});
+abstract class $AppLocationCopyWith<$Res> {
+  factory $AppLocationCopyWith(
+          AppLocation value, $Res Function(AppLocation) then) =
+      _$AppLocationCopyWithImpl<$Res>;
+  $Res call({String lat, String lng});
 }
 
 /// @nodoc
-class _$LocationCopyWithImpl<$Res> implements $LocationCopyWith<$Res> {
-  _$LocationCopyWithImpl(this._value, this._then);
+class _$AppLocationCopyWithImpl<$Res> implements $AppLocationCopyWith<$Res> {
+  _$AppLocationCopyWithImpl(this._value, this._then);
 
-  final Location _value;
+  final AppLocation _value;
   // ignore: unused_field
-  final $Res Function(Location) _then;
+  final $Res Function(AppLocation) _then;
 
   @override
   $Res call({
-    Object? latitude = freezed,
-    Object? longitude = freezed,
+    Object? lat = freezed,
+    Object? lng = freezed,
   }) {
     return _then(_value.copyWith(
-      latitude: latitude == freezed
-          ? _value.latitude
-          : latitude // ignore: cast_nullable_to_non_nullable
+      lat: lat == freezed
+          ? _value.lat
+          : lat // ignore: cast_nullable_to_non_nullable
               as String,
-      longitude: longitude == freezed
-          ? _value.longitude
-          : longitude // ignore: cast_nullable_to_non_nullable
+      lng: lng == freezed
+          ? _value.lng
+          : lng // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
 }
 
 /// @nodoc
-abstract class _$LocationCopyWith<$Res> implements $LocationCopyWith<$Res> {
+abstract class _$LocationCopyWith<$Res> implements $AppLocationCopyWith<$Res> {
   factory _$LocationCopyWith(_Location value, $Res Function(_Location) then) =
       __$LocationCopyWithImpl<$Res>;
   @override
-  $Res call({String latitude, String longitude});
+  $Res call({String lat, String lng});
 }
 
 /// @nodoc
-class __$LocationCopyWithImpl<$Res> extends _$LocationCopyWithImpl<$Res>
+class __$LocationCopyWithImpl<$Res> extends _$AppLocationCopyWithImpl<$Res>
     implements _$LocationCopyWith<$Res> {
   __$LocationCopyWithImpl(_Location _value, $Res Function(_Location) _then)
       : super(_value, (v) => _then(v as _Location));
@@ -573,17 +574,17 @@ class __$LocationCopyWithImpl<$Res> extends _$LocationCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? latitude = freezed,
-    Object? longitude = freezed,
+    Object? lat = freezed,
+    Object? lng = freezed,
   }) {
     return _then(_Location(
-      latitude: latitude == freezed
-          ? _value.latitude
-          : latitude // ignore: cast_nullable_to_non_nullable
+      lat: lat == freezed
+          ? _value.lat
+          : lat // ignore: cast_nullable_to_non_nullable
               as String,
-      longitude: longitude == freezed
-          ? _value.longitude
-          : longitude // ignore: cast_nullable_to_non_nullable
+      lng: lng == freezed
+          ? _value.lng
+          : lng // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -592,19 +593,19 @@ class __$LocationCopyWithImpl<$Res> extends _$LocationCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Location implements _Location {
-  _$_Location({required this.latitude, required this.longitude});
+  _$_Location({required this.lat, required this.lng});
 
   factory _$_Location.fromJson(Map<String, dynamic> json) =>
       _$$_LocationFromJson(json);
 
   @override
-  final String latitude;
+  final String lat;
   @override
-  final String longitude;
+  final String lng;
 
   @override
   String toString() {
-    return 'Location(latitude: $latitude, longitude: $longitude)';
+    return 'AppLocation(lat: $lat, lng: $lng)';
   }
 
   @override
@@ -612,15 +613,15 @@ class _$_Location implements _Location {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _Location &&
-            const DeepCollectionEquality().equals(other.latitude, latitude) &&
-            const DeepCollectionEquality().equals(other.longitude, longitude));
+            const DeepCollectionEquality().equals(other.lat, lat) &&
+            const DeepCollectionEquality().equals(other.lng, lng));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(latitude),
-      const DeepCollectionEquality().hash(longitude));
+      const DeepCollectionEquality().hash(lat),
+      const DeepCollectionEquality().hash(lng));
 
   @JsonKey(ignore: true)
   @override
@@ -633,16 +634,15 @@ class _$_Location implements _Location {
   }
 }
 
-abstract class _Location implements Location {
-  factory _Location({required String latitude, required String longitude}) =
-      _$_Location;
+abstract class _Location implements AppLocation {
+  factory _Location({required String lat, required String lng}) = _$_Location;
 
   factory _Location.fromJson(Map<String, dynamic> json) = _$_Location.fromJson;
 
   @override
-  String get latitude;
+  String get lat;
   @override
-  String get longitude;
+  String get lng;
   @override
   @JsonKey(ignore: true)
   _$LocationCopyWith<_Location> get copyWith =>

@@ -32,4 +32,8 @@ class LocationViewModel extends BaseViewModel {
   void initializeLocationService() {
     _locationService.initializeLocationService();
   }
+
+  void navigateCameraToSourceLocation() {
+    _googleMapService.navigateToSourceLocation();
+  }
 }

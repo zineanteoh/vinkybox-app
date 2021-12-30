@@ -42,12 +42,12 @@ Map<String, dynamic> _$$_PackageRequestToJson(_$_PackageRequest instance) =>
     };
 
 _$_Location _$$_LocationFromJson(Map<String, dynamic> json) => _$_Location(
-      latitude: json['latitude'] as String,
-      longitude: json['longitude'] as String,
+      lat: json['lat'] as String,
+      lng: json['lng'] as String,
     );
 
 Map<String, dynamic> _$$_LocationToJson(_$_Location instance) =>
     <String, dynamic>{
-      'latitude': instance.latitude,
-      'longitude': instance.longitude,
+      'lat': instance.lat,
+      'lng': instance.lng,
     };
