@@ -17,6 +17,9 @@ class LocationViewModel extends BaseViewModel {
 
   Set<Marker> get markers => _googleMapService.markers;
 
+  // TEMPORARY
+  bool get isDelivering => _locationService.isDelivering;
+
   void init() {
     _googleMapService.init();
   }

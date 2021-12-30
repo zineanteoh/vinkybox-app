@@ -16,14 +16,17 @@ class LocationView extends StatelessWidget {
       builder: (context, model, child) => Scaffold(
         body: Stack(
           children: [
+            model.isDelivering
+                ? const Text('Delivering Package')
+                : const Text('Tracking Package'),
             Container(
               height: MediaQuery.of(context).size.height,
               width: double.infinity,
               child: GoogleMap(
                 mapType: MapType.normal,
                 zoomGesturesEnabled: false,
-                myLocationButtonEnabled: true,
-                myLocationEnabled: true,
+                myLocationButtonEnabled: model.isDelivering, // temp
+                myLocationEnabled: model.isDelivering, // temp
                 onMapCreated: model.onMapCreated,
                 initialCameraPosition: model.initialCameraPosition,
                 markers: model.markers,

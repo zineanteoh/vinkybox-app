@@ -10,7 +10,8 @@ class TempHomeViewModel extends BaseViewModel {
   final _navigationService = locator<NavigationService>();
   final _locationService = locator<LocationService>();
 
-  void navigate() {
+  void navigateToLocationView(bool val) {
+    _locationService.setIsDeliverying(val);
     _navigationService.navigateTo(Routes.locationView);
   }
 }

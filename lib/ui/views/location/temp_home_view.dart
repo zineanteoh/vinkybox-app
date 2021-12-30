@@ -16,21 +16,19 @@ class TempHomeView extends StatelessWidget {
             children: [
               Text('hello'),
               ElevatedButton(
-                onPressed: () {},
-                child: Text('read examples'),
+                onPressed: () {
+                  model.navigateToLocationView(true);
+                },
+                child: const Text('deliver package'),
               ),
               ElevatedButton(
-                onPressed: () {},
-                child: Text('write examples'),
+                onPressed: () {
+                  model.navigateToLocationView(false);
+                },
+                child: const Text('track package'),
               ),
             ],
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.location_searching),
-          onPressed: () {
-            model.navigate();
-          },
         ),
       ),
     );
