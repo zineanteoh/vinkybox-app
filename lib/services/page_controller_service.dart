@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 class PageControllerService with ReactiveServiceMixin {
-  ReactiveValue<int> _currentBottomToolbarIndex =
+  final ReactiveValue<int> _currentBottomToolbarIndex =
       ReactiveValue<int>(0);
 
-  ReactiveValue<PageController> _pageController =
+  final ReactiveValue<PageController> _pageController =
       ReactiveValue<PageController>(PageController(initialPage: 0));
 
   PageControllerService() {

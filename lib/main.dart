@@ -1,15 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.router.dart';
+import 'package:vinkybox/constants/app_keys.dart';
+import 'package:vinkybox/ui/views/location/temp_home_view.dart';
 import 'package:vinkybox/ui/views/startup/startup_view.dart';
 import 'dart:io' show Platform;
 
 // Run the following to start emulator
-// firebase emulators:start --only firestore
+// firebase emulators:start --import=exported-dev-data --export-on-exit=exported-dev-data
 const bool USE_EMULATOR = true;
 
 Future main() async {
@@ -34,6 +37,9 @@ Future _connectToFirestoreEmulator() async {
     persistenceEnabled: false,
   );
 
+  FirebaseDatabase.instance
+      .useDatabaseEmulator(localHostString, 9000);
+
   FirebaseFirestore.instance
       .useFirestoreEmulator(localHostString, 8080);
 }
@@ -48,7 +54,8 @@ class MyApp extends StatelessWidget {
         title: 'VinkyBox',
         navigatorKey: StackedService.navigatorKey,
         onGenerateRoute: StackedRouter().onGenerateRoute,
-        home: const StartUpView(),
+        // home: const StartUpView(),
+        home: const TempHomeView(),
         debugShowCheckedModeBanner: false);
   }
 }

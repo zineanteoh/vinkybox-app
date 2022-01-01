@@ -33,3 +33,14 @@ class PackageRequest with _$PackageRequest {
   factory PackageRequest.fromJson(Map<String, dynamic> json) =>
       _$PackageRequestFromJson(json);
 }
+
+@freezed
+class AppLocation with _$AppLocation {
+  factory AppLocation({
+    required String latitude,
+    required String longitude,
+  }) = _Location;
+
+  factory AppLocation.fromJson(Map<String, dynamic> json) =>
+      _$AppLocationFromJson(json);
+}
