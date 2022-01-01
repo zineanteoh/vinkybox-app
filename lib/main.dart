@@ -9,7 +9,7 @@ import 'package:vinkybox/ui/views/startup/startup_view.dart';
 import 'dart:io' show Platform;
 
 // Run the following to start emulator
-// firebase emulators:start --only firestore
+// firebase emulators:start --import=exported-dev-data --export-on-exit=exported-dev-data
 const bool USE_EMULATOR = true;
 
 Future main() async {
