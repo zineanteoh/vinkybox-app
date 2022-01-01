@@ -7,7 +7,7 @@ import 'package:vinkybox/ui/widgets/smart_widgets/delivery_request_item/delivery
 
 class DeliveryRequestItem extends StatelessWidget {
   final dynamic deliveryRequest;
-  DeliveryRequestItem({required this.deliveryRequest, Key? key})
+  const DeliveryRequestItem({required this.deliveryRequest, Key? key})
       : super(key: key);
 
   Widget _buildRequestItem(

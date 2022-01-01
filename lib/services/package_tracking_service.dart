@@ -21,9 +21,9 @@ class PackageTrackingService {
         .listen(
       (event) {
         String encodedJson = jsonEncode(event.snapshot.value);
-        log.i('Encodedjson: ${encodedJson}');
+        log.i('Encodedjson: $encodedJson');
         Map<String, dynamic> valueMap = jsonDecode(encodedJson);
-        log.i('valueMap: ${valueMap}');
+        log.i('valueMap: $valueMap');
         double latitude = double.parse(valueMap['latitude']);
         double longitude = double.parse(valueMap['longitude']);
         _googleMapService.updateMarker(

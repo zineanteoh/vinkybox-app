@@ -21,7 +21,7 @@ class LocationView extends StatelessWidget {
       builder: (context, model, child) => Scaffold(
         body: Stack(
           children: [
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height,
               width: double.infinity,
               child: GoogleMap(
@@ -35,10 +35,10 @@ class LocationView extends StatelessWidget {
               ),
             ),
             model.isDelivering
-                ? Text('Delivering Package')
+                ? const Text('Delivering Package')
                     .alignment(Alignment.topCenter)
                     .padding(top: 60.0)
-                : Text('Tracking Package')
+                : const Text('Tracking Package')
                     .alignment(Alignment.topCenter)
                     .padding(top: 60.0),
           ],

@@ -15,7 +15,7 @@ class DeliveryViewModel extends BaseViewModel {
   List<dynamic> get deliveryRequestList =>
       _deliveryService.deliveryRequestList;
 
-  bool get isRequestEmpty => deliveryRequestList.length == 0;
+  bool get isRequestEmpty => deliveryRequestList.isEmpty;
 
   Future loadLatestRequests() async {
     setBusy(true);

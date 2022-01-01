@@ -14,7 +14,7 @@ class TempHomeView extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('hello'),
+              const Text('hello'),
               ElevatedButton(
                 onPressed: () {
                   model.navigateToLocationView(true);

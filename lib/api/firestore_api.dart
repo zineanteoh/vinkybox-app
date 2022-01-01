@@ -83,11 +83,9 @@ class FirestoreApi {
           .get()
           .then(
         (QuerySnapshot querySnapshot) {
-          querySnapshot.docs.forEach(
-            (doc) {
-              deliveryRequests.add(doc.data());
-            },
-          );
+          for (var doc in querySnapshot.docs) {
+            deliveryRequests.add(doc.data());
+          }
           return deliveryRequests;
         },
       );
