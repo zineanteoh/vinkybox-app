@@ -12,13 +12,10 @@ class FirebaseDatabaseApi {
   final log = getLogger('FirebaseDatabaseApi');
 
   final locationUpdatesRef =
-      FirebaseDatabase.instance.ref(LocationUpdatesRealtimeDBKey);
-  // final _locationUpdates
+      FirebaseDatabase.instance.ref(locationUpdatesRealtimeDBKey);
 
   Future _updateLocation(String deliveryKey, String locationType,
       latitude, longitude) async {
-    log.i(
-        'Updating location to database $deliveryKey $latitude $longitude');
     AppLocation location = AppLocation(
         latitude: latitude.toString(),
         longitude: longitude.toString());

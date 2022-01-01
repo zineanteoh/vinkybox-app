@@ -43,10 +43,28 @@ class LocationView extends StatelessWidget {
                     .padding(top: 60.0),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            model.navigateCameraToPackageLocation();
-          },
+        floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            // model.isDelivering
+            //     ? FloatingActionButton(
+            //         onPressed: () =>
+            //             model.unsubscribeLocationTracking(),
+            //         backgroundColor: Colors.green,
+            //         heroTag: 'location',
+            //       )
+            //     : FloatingActionButton(
+            //         onPressed: () =>
+            //             model.unsubscrivePackageTracking(),
+            //         backgroundColor: Colors.lightBlue,
+            //         heroTag: 'package',
+            //       ),
+            FloatingActionButton(
+              onPressed: () {
+                model.navigateCameraToPackageLocation();
+              },
+            ),
+          ],
         ),
       ),
       viewModelBuilder: () => LocationViewModel(),

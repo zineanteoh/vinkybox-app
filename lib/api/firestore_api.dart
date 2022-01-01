@@ -11,11 +11,11 @@ class FirestoreApi {
   final log = getLogger('FirestoreApi');
 
   final CollectionReference _usersCollection =
-      FirebaseFirestore.instance.collection(UsersFirestoreKey);
+      FirebaseFirestore.instance.collection(usersFirestoreKey);
 
   final CollectionReference _deliveryRequestsCollection =
       FirebaseFirestore.instance
-          .collection(DeliveryRequestsFirestoreKey);
+          .collection(deliveryRequestsFirestoreKey);
 
   /// createUser adds an AppUser document to collection
   Future<void> createUser({required AppUser user}) async {

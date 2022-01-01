@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:firebase_database/firebase_database.dart';
@@ -14,10 +15,12 @@ class LocationService {
   final _googleMapService = locator<GoogleMapService>();
 
   final Location _location = Location();
-  late LocationData _locationData;
-  LocationData get locationData => _locationData;
   late bool _serviceEnabled;
   late PermissionStatus _permissionGranted;
+  late LocationData _locationData;
+  LocationData get locationData => _locationData;
+
+  late StreamSubscription<LocationData> _locationListeners;
 
   // TEMPORARY
   bool isDelivering = true;
@@ -54,7 +57,7 @@ class LocationService {
     await _firebaseDatabaseApi.updatePackageLocation(
         deliveryKey, _locationData.latitude, _locationData.longitude);
 
-    _location.onLocationChanged.listen(
+    _locationListeners = _location.onLocationChanged.listen(
       (LocationData currentLocation) async {
         await _firebaseDatabaseApi.updatePackageLocation(deliveryKey,
             currentLocation.latitude, currentLocation.longitude);
@@ -86,5 +89,9 @@ class LocationService {
     Map valueMap = jsonDecode(encodedJson);
 
     return valueMap;
+  }
+
+  void unsubscriveLocationTracking() {
+    _locationListeners.cancel();
   }
 }

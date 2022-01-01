@@ -36,10 +36,18 @@ class LocationViewModel extends BaseViewModel {
     _locationService.initializeLocationTracking(notifyListeners);
   }
 
+  void unsubscribeLocationTracking() {
+    _locationService.unsubscriveLocationTracking();
+  }
+
   // Enable package tracking by only reading from RTDB & updating markers
   void initializePackageTracking() {
     _packageTrackingService.activatePackageTrackingListeners(
         'key1', notifyListeners);
+  }
+
+  void unsubscrivePackageTracking() {
+    _packageTrackingService.unsubscribePackageTracking();
   }
 
   void navigateCameraToPackageLocation() async {

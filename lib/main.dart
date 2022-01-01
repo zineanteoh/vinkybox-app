@@ -41,9 +41,6 @@ Future _connectToFirestoreEmulator() async {
 
   FirebaseFirestore.instance
       .useFirestoreEmulator(localHostString, 8080);
-
-  // FirebaseDatabase.instance
-  //     .useDatabaseEmulator(localHostString, 9000);
 }
 
 class MyApp extends StatelessWidget {
