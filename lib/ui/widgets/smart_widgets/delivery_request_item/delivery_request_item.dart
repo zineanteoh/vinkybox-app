@@ -1,7 +1,9 @@
+import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:timelines/timelines.dart';
+import 'package:vinkybox/constants/request_info.dart';
 import 'package:vinkybox/ui/shared/app_colors.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/delivery_request_item/delivery_request_item_model.dart';
 
@@ -15,11 +17,12 @@ class DeliveryRequestItem extends StatelessWidget {
     return _getItem(
       model: model,
       child: <Widget>[
-        name(document['user']['fullName']),
-        time(document['time']),
+        // name(document['user']['fullName']),
+        packageSize(document['packageSize']),
+        // time(document['time']),
         location(
             document['pickUpLocation'], document['user']['dorm']),
-        status(),
+        status(document['status']),
       ].toColumn(
         crossAxisAlignment: CrossAxisAlignment.start,
       ),
@@ -29,6 +32,25 @@ class DeliveryRequestItem extends StatelessWidget {
   Widget name(String name) {
     return Text(name, style: const TextStyle(fontSize: 18))
         .padding(top: 20, left: 20);
+  }
+
+  Widget packageSize(String size) {
+    Widget getBoxSizeIcon(String size) {
+      int index = requestPackageSize.indexOf(size);
+      return Icon(packageSizeIcon[index]);
+    }
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        getBoxSizeIcon(size),
+        Text('$size',
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+            )),
+      ],
+    ).padding(top: 20);
   }
 
   Widget time(String time) {
@@ -72,55 +94,55 @@ class DeliveryRequestItem extends StatelessWidget {
     ).padding(vertical: 12, horizontal: 20);
   }
 
-  Widget status() {
-    return Center(
-      child: Column(
-        children: [
-          ConstrainedBox(
-            constraints: const BoxConstraints(maxHeight: 15),
-            child: Timeline.tileBuilder(
-              theme: TimelineThemeData(
-                direction: Axis.horizontal,
-                nodePosition: 0,
-                color: const Color(0xffc2c5c9),
-                connectorTheme: const ConnectorThemeData(
-                  thickness: 3.0,
-                ),
-              ),
-              shrinkWrap: true,
-              builder: TimelineTileBuilder.connected(
-                connectorBuilder: (context, index, type) {
-                  // TODO: make this dynamic, based on delivery status
-                  if (index == -1) {
-                    return const SolidLineConnector(
-                        color: limeGreenColor);
-                  } else {
-                    return const SolidLineConnector();
-                  }
-                },
-                indicatorBuilder: (context, index) {
-                  // TODO: make this dynamic, based on delivery status
-                  if (index == 0) {
-                    return const DotIndicator(color: limeGreenColor);
-                  } else {
-                    return const DotIndicator();
-                  }
-                },
-                itemExtentBuilder: (context, index) => 50,
-                itemCount: 4,
+  Widget status(String status) {
+    return Column(
+      children: [
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxHeight: 15),
+          child: Timeline.tileBuilder(
+            theme: TimelineThemeData(
+              direction: Axis.horizontal,
+              nodePosition: 0,
+              color: const Color(0xffc2c5c9),
+              connectorTheme: const ConnectorThemeData(
+                thickness: 3.0,
               ),
             ),
+            shrinkWrap: true,
+            builder: TimelineTileBuilder.connected(
+              connectorBuilder: (context, index, type) {
+                // Status line connector
+                int deliveryIndex = deliveryStatus.indexOf(status);
+                if (index < deliveryIndex) {
+                  return const SolidLineConnector(
+                      color: limeGreenColor);
+                } else {
+                  return const SolidLineConnector();
+                }
+              },
+              indicatorBuilder: (context, index) {
+                // Status dot indicator
+                int deliveryIndex = deliveryStatus.indexOf(status);
+                if (index <= deliveryIndex) {
+                  return const DotIndicator(color: limeGreenColor);
+                } else {
+                  return const DotIndicator();
+                }
+              },
+              itemExtentBuilder: (context, index) => 50,
+              itemCount: 4,
+            ),
           ),
-          // TODO: make this dynamic, based on delivery status
-          const Text('New Request!',
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black54))
-              .padding(top: 10),
-        ],
-      ),
-    ).padding(top: 12, bottom: 20);
+        ),
+        // Delivery status message
+        Text(_getDeliveryStatusMessage(status),
+                style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black54))
+            .padding(top: 10),
+      ],
+    ).alignment(Alignment.center).padding(top: 12, bottom: 20);
   }
 
   Widget _getItem(
@@ -161,5 +183,20 @@ class DeliveryRequestItem extends StatelessWidget {
           _buildRequestItem(deliveryRequest, model),
       viewModelBuilder: () => DeliveryRequestItemModel(),
     );
+  }
+}
+
+String _getDeliveryStatusMessage(String status) {
+  switch (status) {
+    case 'new':
+      return 'New Request!';
+    case 'collecting':
+      return 'Package is being collected';
+    case 'delivering':
+      return 'Delivering...';
+    case 'delivered':
+      return 'Delivered Successfully!';
+    default:
+      return 'Request is cancelled';
   }
 }

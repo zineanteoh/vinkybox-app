@@ -20,7 +20,7 @@ class DeliveryService {
     await _firestoreApi.createDeliveryRequest(
       req: PackageRequest(
           user: _userService.currentUser.toJson(),
-          status: "New",
+          status: "new",
           packageSize: packageSize,
           pickUpLocation: pickUpLocation,
           dropOffLocation: dropOffLocation,

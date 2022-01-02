@@ -1,7 +1,16 @@
+import 'package:carbon_icons/carbon_icons.dart';
+import 'package:flutter/material.dart';
+
 const List<String> requestPackageSize = [
   "Small",
   "Medium",
   "Large",
+];
+
+const List<IconData> packageSizeIcon = [
+  CarbonIcons.box,
+  CarbonIcons.box,
+  CarbonIcons.box,
 ];
 
 const List<String> requestPickUpLocation = [
