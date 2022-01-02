@@ -20,11 +20,6 @@ class MyPackagesViewModel extends BaseViewModel {
     _navigationService.back();
   }
 
-  final RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
-
-  RefreshController get refreshController => _refreshController;
-
   Future loadLatestRequests() async {
     setBusy(true);
     await Future.delayed(const Duration(milliseconds: 1000));
