@@ -4,6 +4,7 @@ import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:vinkybox/ui/views/delivery/my_packages/my_packages_viewmodel.dart';
 import 'package:vinkybox/ui/widgets/dumb_widgets/header_bar.dart';
+import 'package:vinkybox/ui/widgets/smart_widgets/delivery_request_item/delivery_request_item.dart';
 
 class MyPackagesView extends StatelessWidget {
   const MyPackagesView({Key? key}) : super(key: key);
@@ -29,15 +30,21 @@ class MyPackagesView extends StatelessWidget {
                 controller: model.refreshController,
                 onRefresh: model.onRefresh,
                 child: ListView.builder(
-                  itemCount: 0,
-                  itemBuilder: (context, index) => Column(
-                    children: [
-                      // my packages children
-                    ],
-                  ),
+                  itemCount: model.myPackagesIsEmpty
+                      ? 1
+                      : model.myPackagesList.length,
+                  itemBuilder: (context, index) {
+                    return model.myPackagesIsEmpty
+                        ? const Text(
+                                'You have not requested any packages!')
+                            .alignment(Alignment.center)
+                        : DeliveryRequestItem(
+                            deliveryRequest:
+                                model.myPackagesList[index]);
+                  },
                 ),
               ),
-            )
+            ),
           ].toColumn().padding(left: 20.0, top: 50.0),
         ),
       ),

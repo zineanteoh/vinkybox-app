@@ -11,6 +11,9 @@ class DeliveryService {
   List<dynamic> _deliveryRequestList = [];
   List<dynamic> get deliveryRequestList => _deliveryRequestList;
 
+  List<dynamic> _myPackagesList = [];
+  List<dynamic> get myPackagesList => _myPackagesList;
+
   final _firestoreApi = locator<FirestoreApi>();
   final _userService = locator<UserService>();
 
@@ -27,6 +30,7 @@ class DeliveryService {
           dropOffLocation: dropOffLocation,
           time: DateTime.now().toString()),
     );
+    updateMyPackagesList();
     log.v('Package has been requested!');
   }
 
@@ -34,5 +38,13 @@ class DeliveryService {
     _deliveryRequestList =
         await _firestoreApi.fetchDeliveryRequestList();
     return _deliveryRequestList;
+  }
+
+  void updateMyPackagesList() {
+    _myPackagesList = _deliveryRequestList
+        .where((packageRequest) =>
+            packageRequest['user']['id'] ==
+            _userService.currentUser.id)
+        .toList();
   }
 }
