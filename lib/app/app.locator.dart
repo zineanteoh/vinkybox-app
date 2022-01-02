@@ -32,6 +32,7 @@ void setupLocator({String? environment, EnvironmentFilter? environmentFilter}) {
   locator.registerLazySingleton(() => FirebaseDatabaseApi());
   locator.registerLazySingleton(() => NavigationService());
   locator.registerLazySingleton(() => PageControllerService());
+  locator.registerLazySingleton(() => DialogService());
   locator.registerLazySingleton(() => UserService());
   locator.registerLazySingleton(() => DeliveryService());
   locator.registerLazySingleton(() => LocationService());

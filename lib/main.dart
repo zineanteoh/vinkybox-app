@@ -54,8 +54,8 @@ class MyApp extends StatelessWidget {
         title: 'VinkyBox',
         navigatorKey: StackedService.navigatorKey,
         onGenerateRoute: StackedRouter().onGenerateRoute,
-        // home: const StartUpView(),
-        home: const TempHomeView(),
+        home: const StartUpView(),
+        // home: const TempHomeView(),
         debugShowCheckedModeBanner: false);
   }
 }

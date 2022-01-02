@@ -1,5 +1,8 @@
+import 'dart:ffi';
+
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:vinkybox/api/firestore_api.dart';
 // import 'package:stacked_services/stacked_services.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
@@ -16,7 +19,7 @@ class LoginViewModel extends BaseViewModel {
       locator<FirebaseAuthenticationService>();
   final log = getLogger('LoginViewModel');
 
-  void loginWithGoogle() {
+  void loginWithGoogle() async {
     log.v('[Temporary] Pretending to login with Google');
 
     _firebaseAuthenticationService.signInWithGoogle();
@@ -31,5 +34,49 @@ class LoginViewModel extends BaseViewModel {
     ));
     final _navigationServce = locator<NavigationService>();
     _navigationServce.navigateTo(Routes.onboardingView);
+  }
+
+  // TEMPORARY -- loging in as user
+  void temporaryLogin(int i) async {
+    String tempEmail;
+    String tempId;
+    String tempDorm;
+    if (i == 1) {
+      tempId = "00001";
+      tempEmail = "phoebe.yu@vanderbilt.edu";
+      tempDorm = "Sutherland";
+    } else if (i == 2) {
+      tempId = "00002";
+      tempEmail = "jane.sun@vanderbilt.edu";
+      tempDorm = "Sutherland";
+    } else {
+      tempId = "00003";
+      tempEmail = "zi.nean.teoh@vanderbilt.edu";
+      tempDorm = "West";
+    }
+    _userService.setCurrentUser(AppUser(
+      id: tempId,
+      email: tempEmail,
+      fullName: getFullNameFromEmail(tempEmail),
+      dorm: tempDorm,
+    ));
+
+    // Check if user in firestore (SUPER BRUTEFORCE)
+    final _firestoreApi = locator<FirestoreApi>();
+    final _navigationService = locator<NavigationService>();
+    AppUser userr = AppUser(id: "0", fullName: "doesn't exist");
+    await _firestoreApi.getUser(userId: tempId).then((AppUser? user) {
+      userr = user!;
+    }).catchError((onError) {
+      _navigationService.navigateTo(Routes.onboardingView);
+    });
+
+    // await _userService.submitCurrentUserDorm(userDorm: _userDorm);
+
+    if (userr.id == "0") {
+      _navigationService.navigateTo(Routes.onboardingView);
+    } else {
+      _navigationService.navigateTo(Routes.homeView);
+    }
   }
 }
