@@ -11,6 +11,11 @@ class MyPackagesViewModel extends BaseViewModel {
   final _navigationService = locator<NavigationService>();
   final _deliveryService = locator<DeliveryService>();
 
+  // Pull_to_refresh
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+  RefreshController get refreshController => _refreshController;
+
   void navigateBack() {
     _navigationService.back();
   }
