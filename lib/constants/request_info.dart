@@ -5,16 +5,14 @@ const List<String> requestPackageSize = [
 ];
 
 const List<String> requestPickUpLocation = [
-  "Station B Lockerbank",
-  "Station B Counter",
+  "Lockerbank",
+  "Counter",
 ];
 
 // Note: This list is likely to be user-customizable. Dummy strings for now
 const List<String> requestDropOffLocation = [
+  "In-person Pick Up",
   "Main Lobby Entrance",
-  "My Room",
-  "Seminar Room",
-  "Somewhere Else",
 ];
 
 const List<String> requestTime = [
@@ -28,7 +26,7 @@ const List<String> requestTime = [
 
 const List<String> deliveryStatus = [
   "new",
-  "pending",
+  "collecting", // package is being collected
   "delivering",
   "delivered"
 ];

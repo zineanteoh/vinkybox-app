@@ -39,8 +39,8 @@ class RequestDeliveryView extends StatelessWidget {
   }
 
   Widget requestPickUpLocationSection(model) {
-    return requestSection(model, "located at", requestPickUpLocation,
-        model.selectPickUpLocation);
+    return requestSection(model, "located at Station B",
+        requestPickUpLocation, model.selectPickUpLocation);
   }
 
   Widget requestDropOffLocationSection(model) {
