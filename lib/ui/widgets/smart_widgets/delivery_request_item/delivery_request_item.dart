@@ -9,18 +9,30 @@ import 'package:vinkybox/ui/widgets/smart_widgets/delivery_request_item/delivery
 
 class DeliveryRequestItem extends StatelessWidget {
   final dynamic deliveryRequest;
-  const DeliveryRequestItem({required this.deliveryRequest, Key? key})
+  DeliveryRequestItem({required this.deliveryRequest, Key? key})
       : super(key: key);
 
+  _showModalBottomSheet(
+      BuildContext context, DeliveryRequestItemModel model) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return <Widget>[
+          _packageSize(model.packageSizeInfo),
+        ].toColumn();
+      },
+    );
+  }
+
   // Widget function that builds the UI for a delivery request item
-  Widget _buildRequestItem(
-      dynamic document, DeliveryRequestItemModel model) {
+  Widget _buildRequestItem(BuildContext context,
+      DeliveryRequestItemModel model, dynamic request) {
     return <Widget>[
-      // _name(document['user']['fullName']),
-      _packageSize(document['packageSize']),
-      // _time(document['time']),
-      _location(document['pickUpLocation'], document['user']['dorm']),
-      _status(document['status']),
+      // _name(model.nameInfo),
+      _packageSize(model.packageSizeInfo),
+      // _time(model.timeInfo),
+      _location(model.pickUpLocationInfo, model.dropOffLocationInfo),
+      _status(model.statusInfo),
     ]
         .toColumn(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,7 +51,9 @@ class DeliveryRequestItem extends StatelessWidget {
         .gestures(
           onTapChange: (tapState) =>
               model.updatePressedStatus(tapState),
-          onTap: () {},
+          onTap: () {
+            _showModalBottomSheet(context, model);
+          },
         )
         .scale(
           all: model.pressed ? 0.95 : 1.0,
@@ -55,12 +69,16 @@ class DeliveryRequestItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<DeliveryRequestItemModel>.reactive(
+      onModelReady: (model) =>
+          model.onModelReadyLoad(deliveryRequest),
       builder: (context, model, child) =>
-          _buildRequestItem(deliveryRequest, model),
+          _buildRequestItem(context, model, deliveryRequest),
       viewModelBuilder: () => DeliveryRequestItemModel(),
     );
   }
 }
+
+// Helper methods for DeliveryRequestItem
 
 String _getDeliveryStatusMessage(String status) {
   switch (status) {
