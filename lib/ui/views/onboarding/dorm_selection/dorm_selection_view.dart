@@ -31,6 +31,7 @@ class DormSelectionView extends StatelessWidget {
                         const EdgeInsets.fromLTRB(70, 10, 70, 10),
                     child: TextButton(
                       onPressed: () => showModalBottomSheet(
+                        backgroundColor: Colors.white,
                         context: context,
                         builder: (context) {
                           return ListView.builder(

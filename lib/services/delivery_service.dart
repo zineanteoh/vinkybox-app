@@ -1,6 +1,7 @@
 import 'package:vinkybox/api/firestore_api.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
+import 'package:vinkybox/constants/request_info.dart';
 import 'package:vinkybox/models/application_models.dart';
 import 'package:vinkybox/services/user_service.dart';
 
@@ -20,7 +21,7 @@ class DeliveryService {
     await _firestoreApi.createDeliveryRequest(
       req: PackageRequest(
           user: _userService.currentUser.toJson(),
-          status: "New",
+          status: deliveryStatus[0],
           packageSize: packageSize,
           pickUpLocation: pickUpLocation,
           dropOffLocation: dropOffLocation,

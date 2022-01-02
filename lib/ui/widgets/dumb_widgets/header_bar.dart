@@ -24,11 +24,11 @@ class HeaderBar extends StatelessWidget {
               )),
         ),
         Padding(
-          padding: EdgeInsets.only(left: 8.0),
+          padding: const EdgeInsets.only(left: 8.0),
           child: Text(
             headerText,
-            style:
-                TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+                fontSize: 28, fontWeight: FontWeight.bold),
           ),
         ),
       ],

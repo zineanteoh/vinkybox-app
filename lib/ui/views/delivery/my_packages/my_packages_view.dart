@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:vinkybox/ui/shared/ui_helpers.dart';
-import 'package:vinkybox/ui/views/my_packages/my_packages_viewmodel.dart';
+import 'package:vinkybox/ui/views/delivery/my_packages/my_packages_viewmodel.dart';
 import 'package:vinkybox/ui/widgets/dumb_widgets/header_bar.dart';
 
 class MyPackagesView extends StatelessWidget {
