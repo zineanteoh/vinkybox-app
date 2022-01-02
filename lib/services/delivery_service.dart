@@ -37,6 +37,7 @@ class DeliveryService {
   Future<List<dynamic>> fetchDeliveryRequestList() async {
     _deliveryRequestList =
         await _firestoreApi.fetchDeliveryRequestList();
+    updateMyPackagesList();
     return _deliveryRequestList;
   }
 
