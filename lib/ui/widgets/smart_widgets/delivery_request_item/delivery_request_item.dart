@@ -9,7 +9,7 @@ import 'package:vinkybox/ui/widgets/smart_widgets/delivery_request_item/delivery
 
 class DeliveryRequestItem extends StatelessWidget {
   final dynamic deliveryRequest;
-  DeliveryRequestItem({required this.deliveryRequest, Key? key})
+  const DeliveryRequestItem({required this.deliveryRequest, Key? key})
       : super(key: key);
 
   _showModalBottomSheet(
@@ -17,15 +17,23 @@ class DeliveryRequestItem extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return <Widget>[
-          _packageSize(model.packageSizeInfo),
-          _time(model.timeInfo),
-          _location(model.pickUpLocationInfo, model.dormInfo),
-          _status(model.statusInfo),
-          _actionButtons(model, context),
-        ]
-            .toColumn(mainAxisSize: MainAxisSize.min)
-            .padding(bottom: 70);
+        return Container(
+          decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30),
+                topRight: Radius.circular(30),
+              )),
+          child: <Widget>[
+            _packageSize(model.packageSizeInfo),
+            _time(model.timeInfo),
+            _location(model.pickUpLocationInfo, model.dormInfo),
+            _status(model.statusInfo),
+            _actionButtons(model, context),
+          ]
+              .toColumn(mainAxisSize: MainAxisSize.min)
+              .padding(bottom: 70),
+        );
       },
     );
   }

@@ -56,6 +56,10 @@ class MyApp extends StatelessWidget {
         onGenerateRoute: StackedRouter().onGenerateRoute,
         home: const StartUpView(),
         // home: const TempHomeView(),
+        theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
+          canvasColor: Colors.transparent,
+        ),
         debugShowCheckedModeBanner: false);
   }
 }
