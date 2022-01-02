@@ -19,7 +19,13 @@ class DeliveryRequestItem extends StatelessWidget {
       builder: (BuildContext context) {
         return <Widget>[
           _packageSize(model.packageSizeInfo),
-        ].toColumn();
+          _time(model.timeInfo),
+          _location(model.pickUpLocationInfo, model.dormInfo),
+          _status(model.statusInfo),
+          _actionButtons(model, context),
+        ]
+            .toColumn(mainAxisSize: MainAxisSize.min)
+            .padding(bottom: 70);
       },
     );
   }
@@ -30,8 +36,7 @@ class DeliveryRequestItem extends StatelessWidget {
     return <Widget>[
       // _name(model.nameInfo),
       _packageSize(model.packageSizeInfo),
-      // _time(model.timeInfo),
-      _location(model.pickUpLocationInfo, model.dropOffLocationInfo),
+      _location(model.pickUpLocationInfo, model.dormInfo),
       _status(model.statusInfo),
     ]
         .toColumn(
@@ -110,7 +115,7 @@ Widget _packageSize(String size) {
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       getBoxSizeIcon(size),
-      Text('$size',
+      Text(' $size',
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w500,
@@ -123,7 +128,7 @@ Widget _time(String time) {
   // '2:50PM, Jan 1',
   return Text(time,
           style: const TextStyle(fontSize: 14, color: Colors.black38))
-      .padding(top: 4, left: 20);
+      .padding(vertical: 15);
 }
 
 Widget _location(String pickUpLocation, String dropOffLocation) {
@@ -207,4 +212,77 @@ Widget _status(String status) {
           .padding(top: 10),
     ],
   ).alignment(Alignment.center).padding(top: 12, bottom: 20);
+}
+
+Widget _actionButtons(
+    DeliveryRequestItemModel model, BuildContext context) {
+  return <Widget>[
+    const Text('Cancel',
+            style: TextStyle(
+                color: Color.fromARGB(255, 109, 109, 109),
+                fontSize: 24,
+                fontWeight: FontWeight.w600))
+        .padding(vertical: 10, horizontal: 25)
+        .borderRadius(all: 10)
+        .ripple()
+        .backgroundColor(Color.fromARGB(255, 229, 229, 229),
+            animate: true)
+        .clipRRect(all: 10)
+        .borderRadius(all: 10, animate: true)
+        .elevation(
+          model.cancelPressed ? 0 : 20,
+          borderRadius: BorderRadius.circular(25),
+          shadowColor: const Color(0x30000000),
+        )
+        .gestures(
+            onTapChange: (tapState) =>
+                model.updateCancelPressedStatus(tapState),
+            onTap: () {
+              Navigator.pop(context);
+            })
+        .scale(
+          all: model.cancelPressed ? 0.8 : 1.0,
+          animate: true,
+        )
+        .animate(
+          const Duration(milliseconds: 150),
+          Curves.easeOut,
+        )
+        .padding(right: 20),
+    // accept button
+    const Text('Accept',
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.w600))
+        .padding(vertical: 10, horizontal: 25)
+        .borderRadius(all: 10)
+        .ripple()
+        .backgroundColor(Color.fromARGB(255, 77, 184, 98),
+            animate: true)
+        .clipRRect(all: 10)
+        .borderRadius(all: 10, animate: true)
+        .elevation(
+          model.acceptPressed ? 0 : 20,
+          borderRadius: BorderRadius.circular(25),
+          shadowColor: const Color(0x30000000),
+        )
+        .gestures(
+          onTapChange: (tapState) =>
+              model.updateAcceptPressedStatus(tapState),
+          onTap: () {
+            print('Accepting request!');
+          },
+        )
+        .scale(
+          all: model.acceptPressed ? 0.8 : 1.0,
+          animate: true,
+        )
+        .animate(
+          const Duration(milliseconds: 150),
+          Curves.easeOut,
+        ),
+  ]
+      .toRow(mainAxisAlignment: MainAxisAlignment.center)
+      .padding(top: 10);
 }
