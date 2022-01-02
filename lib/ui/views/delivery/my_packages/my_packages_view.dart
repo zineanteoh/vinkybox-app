@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:vinkybox/ui/shared/ui_helpers.dart';
 import 'package:vinkybox/ui/views/delivery/my_packages/my_packages_viewmodel.dart';
 import 'package:vinkybox/ui/widgets/dumb_widgets/header_bar.dart';
 
@@ -14,18 +15,19 @@ class MyPackagesView extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(left: 20.0, top: 50.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 HeaderBar(
                   model: model,
                   headerText: "My Packages",
                 ),
-                // UIHelper.verticalSpaceMedium(),
-                // requestPackageSizeSection(model),
-                // requestPickUpLocationSection(model),
-                // requestDropOffLocationSection(model),
-                // requestTimeSection(model),
-                // UIHelper.verticalSpaceMedium(),
-                // requestSubmit(model),
+                UIHelper.verticalSpaceMedium(),
+                UIHelper.verticalSpaceMedium(),
+                // const Text(
+                //   'Current',
+                //   style: TextStyle(
+                //       fontWeight: FontWeight.w400, fontSize: 24),
+                // ),
               ],
             ),
           ),
