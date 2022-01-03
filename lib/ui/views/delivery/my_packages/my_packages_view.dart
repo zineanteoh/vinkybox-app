@@ -46,7 +46,7 @@ class MyPackagesView extends StatelessWidget {
                 ),
               ),
             ),
-          ].toColumn().padding(left: 20.0, top: 50.0),
+          ].toColumn().padding(left: 20.0, right: 20.0, top: 50.0),
         ),
       ),
       viewModelBuilder: () => MyPackagesViewModel(),

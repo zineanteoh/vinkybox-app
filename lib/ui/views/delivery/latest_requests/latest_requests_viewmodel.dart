@@ -11,9 +11,9 @@ class LatestRequestsViewModel extends BaseViewModel {
   final _deliveryService = locator<DeliveryService>();
   RefreshController get refreshController => _refreshController;
 
-  get deliveryRequestList => _deliveryService.deliveryRequestList;
+  get latestRequestList => _deliveryService.latestRequestList;
 
-  bool get requestIsEmpty => deliveryRequestList.length == 0;
+  bool get requestIsEmpty => latestRequestList.length == 0;
 
   void navigateBack() {
     _navigationService.back();

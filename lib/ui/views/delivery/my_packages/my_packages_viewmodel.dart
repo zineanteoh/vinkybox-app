@@ -12,7 +12,6 @@ class MyPackagesViewModel extends BaseViewModel {
   final _deliveryService = locator<DeliveryService>();
 
   List<dynamic> get myPackagesList => _deliveryService.myPackagesList;
-
   bool get myPackagesIsEmpty => myPackagesList.isEmpty;
 
   // Pull_to_refresh
@@ -34,7 +33,7 @@ class MyPackagesViewModel extends BaseViewModel {
 
   Future onRefresh() async {
     await Future.delayed(const Duration(milliseconds: 1000));
-    _deliveryService.updateMyPackagesList();
+    _deliveryService.updateLists();
     notifyListeners();
     // if failed,use refreshFailed()
     _refreshController.refreshCompleted();

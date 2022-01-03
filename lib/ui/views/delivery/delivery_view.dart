@@ -35,7 +35,7 @@ class _DeliveryViewState extends State<DeliveryView>
               : model.isRequestEmpty
                   ? const Text('There are no requests at the moment!')
                   : DeliveryRequestItem(
-                      deliveryRequest: model.deliveryRequestList[0]),
+                      deliveryRequest: model.latestRequestList[0]),
         ),
       ],
     );
