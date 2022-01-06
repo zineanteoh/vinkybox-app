@@ -26,4 +26,8 @@ class DeliveryViewModel extends BaseViewModel {
     setBusy(false);
     _refreshController.refreshCompleted();
   }
+
+  int getLatestRequestCount() {
+    return latestRequestList.length;
+  }
 }
