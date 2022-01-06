@@ -30,13 +30,10 @@ class DeliveryRequestItem extends StatelessWidget {
             _time(model.timeInfo),
             _location(model.pickUpLocationInfo, model.dormInfo),
             _status(model.statusInfo),
-            model.statusIsNotNew()
+            model.isMyPackage() && model.statusIsNotNew()
                 ? _name('Deliverer: ${model.delivererNameInfo}')
-                : _name(model.nameInfo),
-            model.isMyPackage() || model.statusIsNotNew()
-                ? _trackPackageButton(model,
-                    context) // TODO: delivery updates (time & status change) & track package button
-                : _actionButtons(model, context),
+                : SizedBox.shrink(),
+            getActionOrPackageButton(model, context),
           ]
               .toColumn(mainAxisSize: MainAxisSize.min)
               .padding(bottom: 70),
@@ -336,4 +333,20 @@ Widget _trackPackageButton(
         const Duration(milliseconds: 150),
         Curves.easeOut,
       );
+}
+
+Widget getActionOrPackageButton(
+    DeliveryRequestItemModel model, BuildContext context) {
+  // my package & not new => track
+  // my package & new => sizedbox
+  // not my package & not new => sizedbox
+  // not my package & new => action buttons
+  if (model.isMyPackage()) {
+    return model.statusIsNotNew()
+        ? _trackPackageButton(model, context)
+        : const SizedBox.shrink();
+  }
+  return model.statusIsNotNew()
+      ? const SizedBox.shrink()
+      : _actionButtons(model, context);
 }
