@@ -18,6 +18,7 @@ class DeliveryRequestItem extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return Container(
+          height: 1000,
           decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
@@ -29,8 +30,12 @@ class DeliveryRequestItem extends StatelessWidget {
             _time(model.timeInfo),
             _location(model.pickUpLocationInfo, model.dormInfo),
             _status(model.statusInfo),
+            model.statusIsNotNew()
+                ? _name('Deliverer: ${model.delivererNameInfo}')
+                : _name(model.nameInfo),
             model.isMyPackage() || model.statusIsNotNew()
-                ? Container()
+                ? _trackPackageButton(model,
+                    context) // TODO: delivery updates (time & status change) & track package button
                 : _actionButtons(model, context),
           ]
               .toColumn(mainAxisSize: MainAxisSize.min)
@@ -44,7 +49,6 @@ class DeliveryRequestItem extends StatelessWidget {
   Widget _buildRequestItem(BuildContext context,
       DeliveryRequestItemModel model, dynamic request) {
     return <Widget>[
-      // _name(model.nameInfo),
       _packageSize(model.packageSizeInfo),
       _location(model.pickUpLocationInfo, model.dormInfo),
       _status(model.statusInfo),
@@ -112,7 +116,7 @@ String _getDeliveryStatusMessage(String status) {
 
 Widget _name(String name) {
   return Text(name, style: const TextStyle(fontSize: 18))
-      .padding(top: 20)
+      .padding(bottom: 20)
       .alignment(Alignment.center);
 }
 
@@ -296,4 +300,40 @@ Widget _actionButtons(
   ]
       .toRow(mainAxisAlignment: MainAxisAlignment.center)
       .padding(top: 10);
+}
+
+Widget _trackPackageButton(
+    DeliveryRequestItemModel model, BuildContext context) {
+  return const Text(
+    'Track Package',
+    style: TextStyle(
+        color: Colors.white,
+        fontSize: 24,
+        fontWeight: FontWeight.w600),
+  )
+      .padding(vertical: 10, horizontal: 60)
+      .borderRadius(all: 10)
+      .ripple()
+      .backgroundColor(brightGreenColor, animate: true)
+      .clipRRect(all: 10)
+      .borderRadius(all: 10, animate: true)
+      .elevation(
+        model.trackPackagePressed ? 0 : 20,
+        borderRadius: BorderRadius.circular(25),
+        shadowColor: const Color(0x30000000),
+      )
+      .gestures(
+          onTapChange: (tapState) =>
+              model.updateTrackPackagePressedStatus(tapState),
+          onTap: () {
+            // model.submitRequest();
+          })
+      .scale(
+        all: model.trackPackagePressed ? 0.95 : 1.0,
+        animate: true,
+      )
+      .animate(
+        const Duration(milliseconds: 150),
+        Curves.easeOut,
+      );
 }
