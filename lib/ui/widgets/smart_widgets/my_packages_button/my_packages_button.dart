@@ -49,7 +49,7 @@ class MyPackagesButton extends StatelessWidget {
                 .padding(left: 15, right: 10);
 
         final Widget title = Text(
-          model.title,
+          'My Packages (${model.getMyPackagesCount()})',
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,

@@ -33,7 +33,7 @@ class BottomToolbar extends StatelessWidget {
           TitledNavigationBarItem(
             icon: const Icon(CarbonIcons.store),
             title: const Text(
-              'Marketplace',
+              'Track Your Package',
               style: TextStyle(fontSize: 18),
             ),
           ),
