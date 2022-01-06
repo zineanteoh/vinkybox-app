@@ -26,16 +26,19 @@ class MyPackagesViewModel extends BaseViewModel {
   Future loadLatestRequests() async {
     setBusy(true);
     await Future.delayed(const Duration(milliseconds: 1000));
-    _deliveryService.fetchDeliveryRequestList();
-    notifyListeners();
+    await _deliveryService.fetchDeliveryRequestList();
     setBusy(false);
+    notifyListeners();
   }
 
   Future onRefresh() async {
+    setBusy(true);
     await Future.delayed(const Duration(milliseconds: 1000));
-    _deliveryService.updateLists();
-    notifyListeners();
+    await _deliveryService.fetchDeliveryRequestList();
+    log.i('${_deliveryService.myPackagesList}');
     // if failed,use refreshFailed()
+    setBusy(false);
+    notifyListeners(); // need to also notify listeners for child widgets
     _refreshController.refreshCompleted();
   }
 }

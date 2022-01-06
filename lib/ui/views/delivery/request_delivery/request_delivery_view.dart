@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:group_button/group_button.dart';
 import 'package:stacked/stacked.dart';
+import 'package:styled_widget/styled_widget.dart';
 import 'package:vinkybox/constants/request_info.dart';
 import 'package:vinkybox/ui/shared/app_colors.dart';
 import 'package:vinkybox/ui/shared/text_styles.dart';
@@ -53,17 +54,39 @@ class RequestDeliveryView extends StatelessWidget {
         model, "Between", requestTime, model.selectTime);
   }
 
-  Widget requestSubmit(model) {
-    return Center(
-      child: ElevatedButton(
-        onPressed: model.submitRequest,
-        style: ButtonStyle(
-          backgroundColor:
-              MaterialStateProperty.all<Color>(skyblueColor),
-        ),
-        child: const Text('Submit', style: TextStyle(fontSize: 20)),
-      ),
-    );
+  Widget requestConfirm(RequestDeliveryViewModel model) {
+    return const Text(
+      'Confirm',
+      style: TextStyle(
+          color: Colors.white,
+          fontSize: 24,
+          fontWeight: FontWeight.w600),
+    )
+        .padding(vertical: 10, horizontal: 120)
+        .borderRadius(all: 10)
+        .ripple()
+        .backgroundColor(brightGreenColor, animate: true)
+        .clipRRect(all: 10)
+        .borderRadius(all: 10, animate: true)
+        .elevation(
+          model.confirmPressed ? 0 : 20,
+          borderRadius: BorderRadius.circular(25),
+          shadowColor: const Color(0x30000000),
+        )
+        .gestures(
+            onTapChange: (tapState) =>
+                model.updateConfirmPressedStatus(tapState),
+            onTap: () {
+              model.submitRequest();
+            })
+        .scale(
+          all: model.confirmPressed ? 0.95 : 1.0,
+          animate: true,
+        )
+        .animate(
+          const Duration(milliseconds: 150),
+          Curves.easeOut,
+        );
   }
 
   @override
@@ -72,7 +95,8 @@ class RequestDeliveryView extends StatelessWidget {
       builder: (context, model, child) => Scaffold(
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.only(left: 20.0, top: 50.0),
+            padding: const EdgeInsets.only(
+                left: 20.0, right: 20.0, top: 50.0),
             child: Column(
               children: [
                 HeaderBar(
@@ -85,7 +109,7 @@ class RequestDeliveryView extends StatelessWidget {
                 requestDropOffLocationSection(model),
                 requestTimeSection(model),
                 UIHelper.verticalSpaceMedium(),
-                requestSubmit(model),
+                requestConfirm(model),
               ],
             ),
           ),

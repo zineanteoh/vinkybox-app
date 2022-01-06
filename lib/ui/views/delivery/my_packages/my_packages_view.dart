@@ -39,9 +39,17 @@ class MyPackagesView extends StatelessWidget {
                         ? const Text(
                                 'You have not requested any packages!')
                             .alignment(Alignment.center)
-                        : DeliveryRequestItem(
-                            deliveryRequest:
-                                model.myPackagesList[index]);
+                        : model.isBusy
+                            ? const Center(
+                                child: SizedBox(
+                                    width: 40,
+                                    height: 40,
+                                    child:
+                                        CircularProgressIndicator()),
+                              )
+                            : DeliveryRequestItem(
+                                deliveryRequest:
+                                    model.myPackagesList[index]);
                   },
                 ),
               ),

@@ -269,8 +269,7 @@ Widget _actionButtons(
         .padding(vertical: 10, horizontal: 25)
         .borderRadius(all: 10)
         .ripple()
-        .backgroundColor(Color.fromARGB(255, 77, 184, 98),
-            animate: true)
+        .backgroundColor(brightGreenColor, animate: true)
         .clipRRect(all: 10)
         .borderRadius(all: 10, animate: true)
         .elevation(
