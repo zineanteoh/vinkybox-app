@@ -46,6 +46,16 @@ class DeliveryService {
     return _deliveryRequestList;
   }
 
+  /// Updates the [_myPackagesList] and [_latestRequestList]
+  ///
+  /// Filters the [_deliveryRequestList] by checking if the
+  /// user id of packageRequest is the same as the id of
+  /// currentUser.
+  ///
+  /// If packageRequest user id is the same, add the request
+  /// to [_myPackagesList].
+  ///
+  /// Otherwise add the request to [_latestRequestList].
   void updateLists() {
     _myPackagesList = _deliveryRequestList
         .where((packageRequest) =>
@@ -57,5 +67,31 @@ class DeliveryService {
             packageRequest['user']['id'] !=
             _userService.currentUser.id)
         .toList();
+  }
+
+  /// Calls [FirestoreApi] to accept a request of [deliveryId]
+  ///
+  /// Add a 'status-accepted' json that includes the deliverer
+  /// and time info to the document of [deliveryId]
+  ///
+  /// If successful, change the request of [deliveryId] status
+  /// to 'collecting'
+  ///
+  /// If unsuccessful, prompt a dialog message saying request
+  /// could not be accepted
+  Future acceptRequest(String deliveryId) async {
+    Map<String, dynamic> acceptRequestInfo = {
+      'status-accepted': {
+        'deliverer': _userService.currentUser.toJson(),
+        'time': DateTime.now().toString(),
+      }
+    };
+
+    try {
+      await _firestoreApi.acceptDeliveryRequest(
+          deliveryId, acceptRequestInfo, deliveryStatus[1]);
+    } catch (e) {
+      log.e("An error occurred. Could not accept delivery request");
+    }
   }
 }

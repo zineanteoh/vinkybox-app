@@ -29,7 +29,9 @@ class DeliveryRequestItem extends StatelessWidget {
             _time(model.timeInfo),
             _location(model.pickUpLocationInfo, model.dormInfo),
             _status(model.statusInfo),
-            _actionButtons(model, context),
+            model.isMyPackage()
+                ? Container()
+                : _actionButtons(model, context),
           ]
               .toColumn(mainAxisSize: MainAxisSize.min)
               .padding(bottom: 70),
@@ -110,7 +112,8 @@ String _getDeliveryStatusMessage(String status) {
 
 Widget _name(String name) {
   return Text(name, style: const TextStyle(fontSize: 18))
-      .padding(top: 20, left: 20);
+      .padding(top: 20)
+      .alignment(Alignment.center);
 }
 
 Widget _packageSize(String size) {
@@ -280,6 +283,7 @@ Widget _actionButtons(
               model.updateAcceptPressedStatus(tapState),
           onTap: () {
             print('Accepting request!');
+            model.acceptRequest();
           },
         )
         .scale(
