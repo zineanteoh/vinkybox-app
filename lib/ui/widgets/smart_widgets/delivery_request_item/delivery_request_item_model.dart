@@ -1,5 +1,6 @@
 import 'package:stacked/stacked.dart';
 import 'package:vinkybox/app/app.locator.dart';
+import 'package:vinkybox/constants/request_info.dart';
 import 'package:vinkybox/services/delivery_service.dart';
 import 'package:vinkybox/services/user_service.dart';
 
@@ -56,6 +57,10 @@ class DeliveryRequestItemModel extends BaseViewModel {
   bool isMyPackage() {
     return _deliveryRequest['user']['email'] ==
         _userService.currentUser.email;
+  }
+
+  bool statusIsNotNew() {
+    return statusInfo != deliveryStatus[0];
   }
 
   Future acceptRequest() async {

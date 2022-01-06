@@ -29,7 +29,7 @@ class DeliveryRequestItem extends StatelessWidget {
             _time(model.timeInfo),
             _location(model.pickUpLocationInfo, model.dormInfo),
             _status(model.statusInfo),
-            model.isMyPackage()
+            model.isMyPackage() || model.statusIsNotNew()
                 ? Container()
                 : _actionButtons(model, context),
           ]
