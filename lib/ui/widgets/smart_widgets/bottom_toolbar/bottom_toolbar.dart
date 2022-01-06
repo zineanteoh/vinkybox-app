@@ -31,7 +31,7 @@ class BottomToolbar extends StatelessWidget {
             ),
           ),
           TitledNavigationBarItem(
-            icon: const Icon(CarbonIcons.store),
+            icon: const Icon(CarbonIcons.map),
             title: const Text(
               'Track Your Package',
               style: TextStyle(fontSize: 18),
