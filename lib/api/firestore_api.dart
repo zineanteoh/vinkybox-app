@@ -1,12 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:vinkybox/app/app.logger.dart';
 import 'package:vinkybox/constants/app_keys.dart';
+import 'package:vinkybox/constants/request_info.dart';
 import 'package:vinkybox/exceptions/firestore_api_exception.dart';
 import 'package:vinkybox/models/application_models.dart';
 
-// Performs APIs relating to Cloud Firestore NoSQL database
-// ... add user info to collection
-// ... send & retrieve delivery requests
+/// Performs APIs relating to Cloud Firestore's NoSQL database
+///
+/// Functionality:
+/// - Add/update [usersFirestoreKey] collection
+/// - Send/retrieve/update [deliveryRequestsFirestoreKey] collection
 class FirestoreApi {
   final log = getLogger('FirestoreApi');
 
@@ -17,7 +20,11 @@ class FirestoreApi {
       FirebaseFirestore.instance
           .collection(deliveryRequestsFirestoreKey);
 
-  /// createUser adds an AppUser document to collection
+  /// Creates a user in Firestore given an [AppUser] document
+  ///
+  /// If successful, log user created
+  ///
+  /// Otherwise, log user creation attempt failed
   Future<void> createUser({required AppUser user}) async {
     log.i('user:$user');
 
@@ -33,7 +40,12 @@ class FirestoreApi {
     }
   }
 
-  /// getUser returns an AppUser from firestore
+  /// Returns an [AppUser] from firestore given a [userId]
+  ///
+  /// If userId is valid and queried userDoc exists, return the
+  /// user data as [AppUser]
+  ///
+  /// Otherwise return null or throw exception if userId is empty
   Future<AppUser?> getUser({required String userId}) async {
     log.i('userId:$userId');
 
@@ -55,7 +67,12 @@ class FirestoreApi {
     }
   }
 
-  /// createDeliveryRequest
+  /// Creates a delivery request in firestore given a valid
+  /// [PackageRequest] documnet
+  ///
+  /// If successful, log delivery request created
+  ///
+  /// Otherwise, log failure and throw exception
   Future<void> createDeliveryRequest(
       {required PackageRequest req}) async {
     log.i('package request: $req');
@@ -72,19 +89,28 @@ class FirestoreApi {
     }
   }
 
-  /// Fetch delivery request list
+  /// Fetches delivery request list from firestore and returns
+  /// a list of delivery requests
+  ///
+  /// Request is limited by 20 and ordered by time ascending
+  ///
+  /// Each delivery requests includes an 'id' field that is the
+  /// delivery id.
   Future<List<dynamic>> fetchDeliveryRequestList() async {
     List<dynamic> deliveryRequests = [];
     try {
-      // final delivery
       deliveryRequests = await _deliveryRequestsCollection
           .limit(20)
           .orderBy('time', descending: false)
           .get()
           .then(
         (QuerySnapshot querySnapshot) {
-          for (var doc in querySnapshot.docs) {
-            deliveryRequests.add(doc.data());
+          for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+            // add delivery doc id to request map
+            Map<String, dynamic> request =
+                doc.data() as Map<String, dynamic>;
+            request['id'] = doc.id;
+            deliveryRequests.add(request);
           }
           return deliveryRequests;
         },
@@ -94,5 +120,30 @@ class FirestoreApi {
           "An error occurred. Could not fetch delivery request list: ${e.toString()}");
     }
     return deliveryRequests;
+  }
+
+  /// Adds the [acceptRequestInfo] collection and [deliveryId]
+  /// to the firestore, and updates delivery status to [newStatus]
+  /// if successful.
+  ///
+  /// Uses firestore [WriteBatch] to perform the writes as a
+  /// single operation.
+  ///
+  /// If unsuccessful, log the error.
+  Future acceptDeliveryRequest(
+      String deliveryId,
+      Map<String, dynamic> acceptRequestInfo,
+      String newStatus) async {
+    WriteBatch batch = FirebaseFirestore.instance.batch();
+    try {
+      batch.update(_deliveryRequestsCollection.doc(deliveryId),
+          acceptRequestInfo);
+      batch.update(_deliveryRequestsCollection.doc(deliveryId),
+          {'status': newStatus});
+
+      await batch.commit();
+    } catch (e) {
+      log.e("An error occurred. Could not accept delivery request");
+    }
   }
 }
