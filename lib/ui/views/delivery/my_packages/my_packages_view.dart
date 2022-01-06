@@ -18,7 +18,9 @@ class MyPackagesView extends StatelessWidget {
           child: <Widget>[
             HeaderBar(
               model: model,
-              headerText: "My Packages",
+              headerText: model.getMyPackagesCount() == 0
+                  ? 'My Packages'
+                  : 'My Packages (${model.getMyPackagesCount()})',
             ),
             Expanded(
               child: SmartRefresher(

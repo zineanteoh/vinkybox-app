@@ -41,4 +41,8 @@ class MyPackagesViewModel extends BaseViewModel {
     notifyListeners(); // need to also notify listeners for child widgets
     _refreshController.refreshCompleted();
   }
+
+  int getMyPackagesCount() {
+    return myPackagesList.length;
+  }
 }

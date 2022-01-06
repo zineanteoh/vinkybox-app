@@ -19,7 +19,9 @@ class LatestRequestsHeader extends StatelessWidget {
       children: [
         Text(
           // 'Latest Requests',
-          'Deliver For Others (${latestRequestCount})',
+          latestRequestCount == 0
+              ? 'Deliver For Others'
+              : 'Deliver For Others ($latestRequestCount)',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
         ),
         TextButton(
