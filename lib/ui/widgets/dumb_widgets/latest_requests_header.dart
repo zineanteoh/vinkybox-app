@@ -6,7 +6,10 @@ import 'package:vinkybox/app/app.router.dart';
 import 'package:vinkybox/ui/shared/app_colors.dart';
 
 class LatestRequestsHeader extends StatelessWidget {
-  const LatestRequestsHeader({Key? key}) : super(key: key);
+  final int latestRequestCount;
+  const LatestRequestsHeader(
+      {Key? key, required this.latestRequestCount})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +17,12 @@ class LatestRequestsHeader extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Text(
-          'Latest Requests',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+        Text(
+          // 'Latest Requests',
+          latestRequestCount == 0
+              ? 'Deliver For Others'
+              : 'Deliver For Others ($latestRequestCount)',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
         ),
         TextButton(
           child: Padding(

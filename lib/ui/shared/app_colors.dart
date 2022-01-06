@@ -10,3 +10,5 @@ const Color darkBeigeColor = Color.fromARGB(255, 236, 189, 117);
 const Color lightBeigeColor = Color.fromARGB(255, 251, 238, 217);
 
 const Color indianRedColor = Color.fromARGB(255, 242, 94, 96);
+
+const Color brightGreenColor = Color.fromARGB(255, 77, 184, 98);

@@ -28,14 +28,15 @@ class _DeliveryViewState extends State<DeliveryView>
       children: [
         UIHelper.verticalSpaceMedium(),
         UIHelper.verticalSpaceMedium(),
-        const LatestRequestsHeader(),
+        LatestRequestsHeader(
+            latestRequestCount: model.getLatestRequestCount()),
         Container(
           child: model.isBusy
               ? const CircularProgressIndicator()
               : model.isRequestEmpty
                   ? const Text('There are no requests at the moment!')
                   : DeliveryRequestItem(
-                      deliveryRequest: model.deliveryRequestList[0]),
+                      deliveryRequest: model.latestRequestList[0]),
         ),
       ],
     );

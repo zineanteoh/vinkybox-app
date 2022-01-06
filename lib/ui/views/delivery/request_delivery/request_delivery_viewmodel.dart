@@ -9,6 +9,9 @@ import 'package:vinkybox/services/delivery_service.dart';
 class RequestDeliveryViewModel extends BaseViewModel {
   final log = getLogger("RequestDeliveryViewModel");
 
+  bool _confirmPressed = false;
+  bool get confirmPressed => _confirmPressed;
+
   final _navigationService = locator<NavigationService>();
   final _deliveryService = locator<DeliveryService>();
 
@@ -17,6 +20,11 @@ class RequestDeliveryViewModel extends BaseViewModel {
   String _pickUpLocation = "";
   String _dropOffLocation = "";
   String _time = "";
+
+  void updateConfirmPressedStatus(bool tapState) {
+    _confirmPressed = tapState;
+    notifyListeners();
+  }
 
   void navigateBack() {
     _navigationService.back();

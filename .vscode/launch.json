@@ -5,14 +5,22 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Flutter-All",
-			"preLaunchTask": "Flutter-Launch-All",
-			"type": "dart"
+			"name": "iPhone 13",
+			"request": "launch",
+			"type": "dart",
+			"deviceId": "5BE86966-AFA7-4C37-A966-5C9737B089C2"
 		},
 		{
-			"name": "Flutter-iOS",
-			"preLaunchTask": "Flutter-Launch-iOS",
-			"type": "dart"
+			"name": "second iPhone 13",
+			"request": "launch",
+			"type": "dart",
+			"deviceId": "280FC7AD-3B41-4E44-B0FC-63ECE833B05A"
+		}
+	],
+	"compounds": [
+		{
+			"name": "All Devices",
+			"configurations": ["iPhone 13", "second iPhone 13"]
 		}
 	]
 }

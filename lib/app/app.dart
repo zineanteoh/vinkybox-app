@@ -58,6 +58,7 @@ import 'package:vinkybox/ui/views/startup/startup_view.dart';
     // App-related
     LazySingleton(classType: NavigationService),
     LazySingleton(classType: PageControllerService),
+    LazySingleton(classType: DialogService),
 
     // Models
     LazySingleton(classType: UserService),

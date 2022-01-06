@@ -22,15 +22,14 @@ class LatestRequestsView extends StatelessWidget {
       controller: model.refreshController,
       onRefresh: model.onRefresh,
       child: ListView.builder(
-        itemCount: model.requestIsEmpty
-            ? 1
-            : model.deliveryRequestList.length,
+        itemCount:
+            model.requestIsEmpty ? 1 : model.latestRequestList.length,
         itemBuilder: (context, index) {
           return model.requestIsEmpty
               ? const Text('There are no requests at the moment!')
                   .alignment(Alignment.center)
               : DeliveryRequestItem(
-                  deliveryRequest: model.deliveryRequestList[index]);
+                  deliveryRequest: model.latestRequestList[index]);
         },
         shrinkWrap: false,
       ),
