@@ -6,6 +6,7 @@ import 'package:vinkybox/ui/views/delivery/my_packages/my_packages_viewmodel.dar
 import 'package:vinkybox/ui/widgets/dumb_widgets/header_bar.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/delivery_request_item/delivery_request_item.dart';
 
+// TODO: duplicate this into my_current_packages_view and package_history_view
 class MyPackagesView extends StatelessWidget {
   const MyPackagesView({Key? key}) : super(key: key);
 

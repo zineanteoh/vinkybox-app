@@ -20,6 +20,9 @@ class DeliverForOthersViewModel extends BaseViewModel {
 
   bool get isRequestEmpty => latestRequestList.isEmpty;
 
+  final String deliveryPersonAsset =
+      "assets/images/delivery-person.svg";
+
   // Pull_to_refresh
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);

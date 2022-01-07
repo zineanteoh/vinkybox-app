@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
@@ -10,13 +11,39 @@ import 'package:vinkybox/ui/widgets/smart_widgets/delivery_request_item/delivery
 class DeliverForOthersView extends StatelessWidget {
   const DeliverForOthersView({Key? key}) : super(key: key);
 
+  Widget _howToDeliverCard(DeliverForOthersViewModel model) {
+    return <Widget>[
+      const Text(
+        'Learn How Delivery Works!',
+        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+      ).padding(top: 20, bottom: 10),
+      SvgPicture.asset(
+        model.deliveryPersonAsset,
+        semanticsLabel: 'Delivery Person',
+        width: 220,
+      ).padding(bottom: 20),
+    ]
+        .toColumn()
+        .alignment(Alignment.center)
+        .borderRadius(all: 15)
+        .ripple()
+        .backgroundColor(Colors.white)
+        .clipRRect(all: 25)
+        .borderRadius(all: 25)
+        .elevation(
+          20,
+          borderRadius: BorderRadius.circular(25),
+          shadowColor: const Color(0x90000000),
+        )
+        .padding(vertical: 40);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<DeliverForOthersViewModel>.reactive(
       builder: (context, model, child) => Scaffold(
         body: <Widget>[
-          UIHelper.verticalSpaceMedium(),
-          UIHelper.verticalSpaceMedium(),
+          _howToDeliverCard(model),
           DeliverForOthersHeader(
               latestRequestCount: model.getLatestRequestCount()),
           Expanded(
