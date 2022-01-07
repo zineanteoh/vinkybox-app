@@ -323,7 +323,7 @@ Widget _trackPackageButton(
           onTapChange: (tapState) =>
               model.updateTrackPackagePressedStatus(tapState),
           onTap: () {
-            // model.submitRequest();
+            model.navigateToLocationView();
           })
       .scale(
         all: model.trackPackagePressed ? 0.95 : 1.0,

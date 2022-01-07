@@ -1,6 +1,8 @@
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
+import 'package:vinkybox/app/app.router.dart';
 import 'package:vinkybox/constants/request_info.dart';
 import 'package:vinkybox/services/delivery_service.dart';
 import 'package:vinkybox/services/user_service.dart';
@@ -10,6 +12,7 @@ class DeliveryRequestItemModel extends BaseViewModel {
 
   final _userService = locator<UserService>();
   final _deliveryService = locator<DeliveryService>();
+  final _navigationService = locator<NavigationService>();
 
   bool _pressed = false;
   bool get pressed => _pressed;
@@ -83,5 +86,9 @@ class DeliveryRequestItemModel extends BaseViewModel {
 
   Future acceptRequest() async {
     await _deliveryService.acceptRequest(_deliveryId);
+  }
+
+  void navigateToLocationView() {
+    _navigationService.navigateTo(Routes.locationView);
   }
 }

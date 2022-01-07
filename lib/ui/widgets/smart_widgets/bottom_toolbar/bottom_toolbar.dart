@@ -26,14 +26,14 @@ class BottomToolbar extends StatelessWidget {
           TitledNavigationBarItem(
             icon: const Icon(CarbonIcons.delivery_parcel),
             title: const Text(
-              'Delivery',
+              'My Home',
               style: TextStyle(fontSize: 18),
             ),
           ),
           TitledNavigationBarItem(
             icon: const Icon(CarbonIcons.map),
             title: const Text(
-              'Track Your Package',
+              'Deliver For Others',
               style: TextStyle(fontSize: 18),
             ),
           ),

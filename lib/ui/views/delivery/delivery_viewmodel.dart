@@ -12,10 +12,10 @@ class DeliveryViewModel extends BaseViewModel {
 
   RefreshController get refreshController => _refreshController;
 
-  List<dynamic> get latestRequestList =>
-      _deliveryService.latestRequestList;
+  List<dynamic> get myCurrentPackagesList =>
+      _deliveryService.myPackagesList;
 
-  bool get isRequestEmpty => latestRequestList.isEmpty;
+  bool get isRequestEmpty => myCurrentPackagesList.isEmpty;
 
   Future loadLatestRequests() async {
     setBusy(true);
@@ -36,6 +36,6 @@ class DeliveryViewModel extends BaseViewModel {
   }
 
   int getLatestRequestCount() {
-    return latestRequestList.length;
+    return myCurrentPackagesList.length;
   }
 }

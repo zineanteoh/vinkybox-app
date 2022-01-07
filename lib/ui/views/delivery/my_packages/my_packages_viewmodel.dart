@@ -35,7 +35,7 @@ class MyPackagesViewModel extends BaseViewModel {
     setBusy(true);
     await Future.delayed(const Duration(milliseconds: 1000));
     await _deliveryService.fetchDeliveryRequestList();
-    log.i('${_deliveryService.myPackagesList}');
+    // log.i('${_deliveryService.myPackagesList}');
     // if failed,use refreshFailed()
     setBusy(false);
     notifyListeners(); // need to also notify listeners for child widgets
