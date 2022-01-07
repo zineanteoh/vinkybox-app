@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:vinkybox/app/app.locator.dart';
@@ -12,17 +13,40 @@ class DeliverForOthersViewModel extends BaseViewModel {
   final _deliveryService = locator<DeliveryService>();
   final _navigationService = locator<NavigationService>();
   final _locationService = locator<LocationService>();
+  RefreshController get refreshController => _refreshController;
 
   List<dynamic> get latestRequestList =>
       _deliveryService.latestRequestList;
 
   bool get isRequestEmpty => latestRequestList.isEmpty;
 
+  // Pull_to_refresh
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
+  Future loadLatestRequests() async {
+    setBusy(true);
+    await Future.delayed(const Duration(milliseconds: 1000));
+    _deliveryService.fetchDeliveryRequestList();
+    notifyListeners();
+    setBusy(false);
+  }
+
+  Future onRefresh() async {
+    await Future.delayed(const Duration(milliseconds: 1000));
+    _deliveryService.fetchDeliveryRequestList();
+    notifyListeners();
+    // if failed,use refreshFailed()
+    _refreshController.refreshCompleted();
+  }
+
+  // temporary?
   void navigateToCurrentDeliveryView() {
     _locationService.setIsDeliverying(true);
     _navigationService.navigateTo(Routes.currentDeliveryView);
   }
 
+  // temporary?
   void navigateToLocationView() {
     _locationService.setIsDeliverying(false);
     _navigationService.navigateTo(Routes.locationView);

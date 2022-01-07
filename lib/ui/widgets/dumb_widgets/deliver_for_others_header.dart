@@ -23,27 +23,27 @@ class DeliverForOthersHeader extends StatelessWidget {
               ? 'Deliver For Others'
               : 'Deliver For Others ($latestRequestCount)',
           style: const TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 22),
+              fontWeight: FontWeight.bold, fontSize: 20),
         ),
-        TextButton(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 10.0),
-            child: Row(
-              children: const <Widget>[
-                Text('See all',
-                    style: TextStyle(color: darkBeigeColor)),
-                Icon(CarbonIcons.caret_right, color: darkBeigeColor)
-              ],
-            ),
-          ),
-          onPressed: () {
-            _navigationService.navigateTo(Routes.latestRequestsView);
-          },
-          style: ButtonStyle(
-            overlayColor:
-                MaterialStateProperty.all<Color>(lightBeigeColor),
-          ),
-        ),
+        // TextButton(
+        //   child: Padding(
+        //     padding: const EdgeInsets.only(left: 10.0),
+        //     child: Row(
+        //       children: const <Widget>[
+        //         Text('See all',
+        //             style: TextStyle(color: darkBeigeColor)),
+        //         Icon(CarbonIcons.caret_right, color: darkBeigeColor)
+        //       ],
+        //     ),
+        //   ),
+        //   onPressed: () {
+        //     _navigationService.navigateTo(Routes.latestRequestsView);
+        //   },
+        //   style: ButtonStyle(
+        //     overlayColor:
+        //         MaterialStateProperty.all<Color>(lightBeigeColor),
+        //   ),
+        // ),
       ],
     );
   }

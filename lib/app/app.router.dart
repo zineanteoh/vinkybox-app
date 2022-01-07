@@ -13,7 +13,6 @@ import 'package:stacked/stacked_annotations.dart';
 
 import '../ui/views/deliver_for_others/deliver_for_others_view.dart';
 import '../ui/views/delivery/current_delivery/current_delivery_view.dart';
-import '../ui/views/delivery/latest_requests/latest_requests_view.dart';
 import '../ui/views/delivery/my_packages/my_packages_view.dart';
 import '../ui/views/delivery/request_delivery/request_delivery_view.dart';
 import '../ui/views/home/home_view.dart';
@@ -32,7 +31,6 @@ class Routes {
   static const String homeView = '/home-view';
   static const String requestDeliveryView = '/request-delivery-view';
   static const String myPackagesView = '/my-packages-view';
-  static const String latestRequestsView = '/latest-requests-view';
   static const String currentDeliveryView = '/current-delivery-view';
   static const String deliverForOthersView = '/deliver-for-others-view';
   static const String locationView = '/location-view';
@@ -45,7 +43,6 @@ class Routes {
     homeView,
     requestDeliveryView,
     myPackagesView,
-    latestRequestsView,
     currentDeliveryView,
     deliverForOthersView,
     locationView,
@@ -64,7 +61,6 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.homeView, page: HomeView),
     RouteDef(Routes.requestDeliveryView, page: RequestDeliveryView),
     RouteDef(Routes.myPackagesView, page: MyPackagesView),
-    RouteDef(Routes.latestRequestsView, page: LatestRequestsView),
     RouteDef(Routes.currentDeliveryView, page: CurrentDeliveryView),
     RouteDef(Routes.deliverForOthersView, page: DeliverForOthersView),
     RouteDef(Routes.locationView, page: LocationView),
@@ -112,12 +108,6 @@ class StackedRouter extends RouterBase {
     MyPackagesView: (data) {
       return CupertinoPageRoute<dynamic>(
         builder: (context) => const MyPackagesView(),
-        settings: data,
-      );
-    },
-    LatestRequestsView: (data) {
-      return CupertinoPageRoute<dynamic>(
-        builder: (context) => const LatestRequestsView(),
         settings: data,
       );
     },

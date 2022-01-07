@@ -33,11 +33,11 @@ class MyPackagesView extends StatelessWidget {
                 controller: model.refreshController,
                 onRefresh: model.onRefresh,
                 child: ListView.builder(
-                  itemCount: model.myPackagesIsEmpty
+                  itemCount: model.isMyPackagesEmpty || model.isBusy
                       ? 1
                       : model.myPackagesList.length,
                   itemBuilder: (context, index) {
-                    return model.myPackagesIsEmpty
+                    return model.isMyPackagesEmpty
                         ? const Text(
                                 'You have not requested any packages!')
                             .alignment(Alignment.center)

@@ -12,7 +12,7 @@ class MyPackagesViewModel extends BaseViewModel {
   final _deliveryService = locator<DeliveryService>();
 
   List<dynamic> get myPackagesList => _deliveryService.myPackagesList;
-  bool get myPackagesIsEmpty => myPackagesList.isEmpty;
+  bool get isMyPackagesEmpty => myPackagesList.isEmpty;
 
   // Pull_to_refresh
   final RefreshController _refreshController =
