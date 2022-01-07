@@ -5,9 +5,9 @@ import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.router.dart';
 import 'package:vinkybox/ui/shared/app_colors.dart';
 
-class LatestRequestsHeader extends StatelessWidget {
+class DeliverForOthersHeader extends StatelessWidget {
   final int latestRequestCount;
-  const LatestRequestsHeader(
+  const DeliverForOthersHeader(
       {Key? key, required this.latestRequestCount})
       : super(key: key);
 
@@ -22,7 +22,8 @@ class LatestRequestsHeader extends StatelessWidget {
           latestRequestCount == 0
               ? 'Deliver For Others'
               : 'Deliver For Others ($latestRequestCount)',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+          style: const TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 22),
         ),
         TextButton(
           child: Padding(

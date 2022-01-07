@@ -79,7 +79,7 @@ class _DeliveryViewState extends State<DeliveryView>
                 ),
                 enablePullDown: true,
                 controller: model.refreshController,
-                onRefresh: model.loadLatestRequests,
+                onRefresh: model.onRefresh,
                 child: ListView.builder(
                   itemCount: 1,
                   itemBuilder: (context, index) => Column(

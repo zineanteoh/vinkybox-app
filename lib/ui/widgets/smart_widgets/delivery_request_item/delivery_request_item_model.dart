@@ -39,7 +39,7 @@ class DeliveryRequestItemModel extends BaseViewModel {
   }
 
   void updateTrackPackagePressedStatus(tapState) {
-    _acceptPressed = tapState;
+    _trackPackagePressed = tapState;
     notifyListeners();
   }
 

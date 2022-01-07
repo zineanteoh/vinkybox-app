@@ -20,10 +20,18 @@ class DeliveryViewModel extends BaseViewModel {
   Future loadLatestRequests() async {
     setBusy(true);
     log.i('loading latest requests...');
-    await _deliveryService.fetchDeliveryRequestList();
     await Future.delayed(const Duration(milliseconds: 700));
-    notifyListeners();
+    await _deliveryService.fetchDeliveryRequestList();
     setBusy(false);
+    notifyListeners();
+  }
+
+  Future onRefresh() async {
+    setBusy(true);
+    await Future.delayed(const Duration(milliseconds: 1000));
+    await _deliveryService.fetchDeliveryRequestList();
+    setBusy(false);
+    notifyListeners();
     _refreshController.refreshCompleted();
   }
 
