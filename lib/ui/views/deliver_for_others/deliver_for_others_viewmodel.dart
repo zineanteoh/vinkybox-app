@@ -17,11 +17,18 @@ class DeliverForOthersViewModel extends BaseViewModel {
 
   List<dynamic> get latestRequestList =>
       _deliveryService.latestRequestList;
-
   bool get isRequestEmpty => latestRequestList.isEmpty;
 
   final String deliveryPersonAsset =
       "assets/images/delivery-person.svg";
+
+  bool _cardPressed = false;
+  bool get cardPressed => _cardPressed;
+
+  void updateCardPressedStatus(tapStatus) {
+    _cardPressed = tapStatus;
+    notifyListeners();
+  }
 
   // Pull_to_refresh
   final RefreshController _refreshController =

@@ -27,14 +27,21 @@ class DeliverForOthersView extends StatelessWidget {
         .alignment(Alignment.center)
         .borderRadius(all: 15)
         .ripple()
-        .backgroundColor(Colors.white)
+        .backgroundColor(Colors.white, animate: true)
         .clipRRect(all: 25)
-        .borderRadius(all: 25)
+        .borderRadius(all: 25, animate: true)
         .elevation(
-          20,
+          model.cardPressed ? 0 : 20,
           borderRadius: BorderRadius.circular(25),
           shadowColor: const Color(0x90000000),
         )
+        .gestures(
+          onTapChange: (tapStatus) =>
+              model.updateCardPressedStatus(tapStatus),
+          onTap: () {},
+        )
+        .scale(all: model.cardPressed ? 0.95 : 1.0, animate: true)
+        .animate(const Duration(milliseconds: 150), Curves.easeOut)
         .padding(vertical: 40);
   }
 
