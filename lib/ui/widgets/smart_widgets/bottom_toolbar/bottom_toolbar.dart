@@ -18,7 +18,7 @@ class BottomToolbar extends StatelessWidget {
           model.setCurrentIndex(index);
         },
         curve: Curves.easeInBack,
-        activeColor: skyblueColor,
+        activeColor: blueJeansColor,
         reverse: true,
         enableShadow: true,
         currentIndex: model.currentIndex,

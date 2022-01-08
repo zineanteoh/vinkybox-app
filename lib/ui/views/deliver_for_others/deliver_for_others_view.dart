@@ -33,7 +33,7 @@ class DeliverForOthersView extends StatelessWidget {
         .elevation(
           model.cardPressed ? 0 : 20,
           borderRadius: BorderRadius.circular(25),
-          shadowColor: const Color(0x90000000),
+          shadowColor: const Color(0x40000000),
         )
         .gestures(
           onTapChange: (tapStatus) =>
@@ -50,8 +50,7 @@ class DeliverForOthersView extends StatelessWidget {
     return ViewModelBuilder<DeliverForOthersViewModel>.reactive(
       builder: (context, model, child) => Scaffold(
         body: <Widget>[
-          const CurrentTaskButton(),
-          // _howToDeliverCard(model),
+          _howToDeliverCard(model),
           DeliverForOthersHeader(
               latestRequestCount: model.getLatestRequestCount()),
           Expanded(

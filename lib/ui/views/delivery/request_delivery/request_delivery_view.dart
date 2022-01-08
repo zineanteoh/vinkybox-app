@@ -26,7 +26,7 @@ class RequestDeliveryView extends StatelessWidget {
           isRadio: true,
           spacing: 10,
           buttons: buttonsList,
-          selectedColor: skyblueColor,
+          selectedColor: blueJeansColor,
           borderRadius: BorderRadius.circular(30),
           onSelected: (i, selected) => onSelectedFunction(i),
         ),

@@ -161,12 +161,12 @@ Widget _location(String pickUpLocation, String dropOffLocation) {
         children: [
           Text(pickUpLocation,
               style: const TextStyle(
-                  color: skyblueColor,
+                  color: blueJeansColor,
                   fontSize: 20,
                   fontWeight: FontWeight.bold)),
           Text(dropOffLocation,
               style: const TextStyle(
-                  color: skyblueColor,
+                  color: blueJeansColor,
                   fontSize: 20,
                   fontWeight: FontWeight.bold)),
         ],
@@ -196,7 +196,7 @@ Widget _status(String status) {
               int deliveryIndex = deliveryStatus.indexOf(status);
               if (index < deliveryIndex) {
                 return const SolidLineConnector(
-                    color: limeGreenColor);
+                    color: mediumSpringGreenColor);
               } else {
                 return const SolidLineConnector();
               }
@@ -205,7 +205,8 @@ Widget _status(String status) {
               // Status dot indicator
               int deliveryIndex = deliveryStatus.indexOf(status);
               if (index <= deliveryIndex) {
-                return const DotIndicator(color: limeGreenColor);
+                return const DotIndicator(
+                    color: mediumSpringGreenColor);
               } else {
                 return const DotIndicator();
               }

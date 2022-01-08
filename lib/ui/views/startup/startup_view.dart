@@ -29,7 +29,7 @@ class StartUpView extends StatelessWidget {
               ),
               const CircularProgressIndicator(
                 strokeWidth: 3,
-                valueColor: AlwaysStoppedAnimation(skyblueHex),
+                valueColor: AlwaysStoppedAnimation(blueJeansColorHex),
               ),
             ],
           ),

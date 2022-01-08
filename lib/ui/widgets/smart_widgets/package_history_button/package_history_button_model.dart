@@ -24,7 +24,7 @@ class PackageHistoryButtonModel extends BaseViewModel {
   }
 
   final IconData icon = CarbonIcons.recently_viewed;
-  final Color iconBgColor = limeGreenColor;
+  final Color iconBgColor = orangeYellowCrayolaColor;
   final String description = "Click to see your past packages!";
 
   int getMyPackagesCount() {

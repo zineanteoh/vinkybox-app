@@ -22,7 +22,7 @@ class RequestDeliveryButtonModel extends BaseViewModel {
   }
 
   final IconData icon = CarbonIcons.delivery_parcel;
-  final Color iconBgColor = skyblueHex;
+  final Color iconBgColor = blueJeansColorHex;
   final String title = "Request Delivery";
   final String description = "Too busy? Let others deliver for you!";
 }

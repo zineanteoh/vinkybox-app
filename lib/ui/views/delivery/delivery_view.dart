@@ -5,6 +5,7 @@ import 'package:styled_widget/styled_widget.dart';
 import 'package:vinkybox/ui/shared/ui_helpers.dart';
 import 'package:vinkybox/ui/views/delivery/delivery_viewmodel.dart';
 import 'package:vinkybox/ui/widgets/dumb_widgets/my_current_packages_header.dart';
+import 'package:vinkybox/ui/widgets/smart_widgets/current_task_button/current_task_button.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/delivery_request_item/delivery_request_item.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/package_history_button/package_history_button.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/request_delivery_button/request_delivery_button.dart';
@@ -24,9 +25,7 @@ class _DeliveryViewState extends State<DeliveryView>
   bool get wantKeepAlive => true;
 
   Widget myPackagesSection(DeliveryViewModel model) {
-    return Column(children: [
-      UIHelper.verticalSpaceMedium(),
-      UIHelper.verticalSpaceMedium(),
+    return <Widget>[
       MyCurrentPackagesHeader(
           myCurrentPackagesCount: model.getLatestRequestCount()),
       Container(
@@ -39,7 +38,7 @@ class _DeliveryViewState extends State<DeliveryView>
                 : DeliveryRequestItem(
                     deliveryRequest: model.myCurrentPackagesList[0]),
       ),
-    ]);
+    ].toColumn().padding(top: 25);
   }
 
   Widget userActionButtons() {
@@ -49,8 +48,10 @@ class _DeliveryViewState extends State<DeliveryView>
       children: <Widget>[
         UIHelper.verticalSpaceMedium(),
         const RequestDeliveryButton(),
-        UIHelper.verticalSpaceMedium(),
+        UIHelper.verticalSpaceSmallMedium(),
         const PackageHistoryButton(),
+        UIHelper.verticalSpaceSmallMedium(),
+        const CurrentTaskButton(),
       ],
     );
   }
@@ -94,7 +95,8 @@ class _DeliveryViewState extends State<DeliveryView>
           ],
         ).padding(
           horizontal: 20,
-          vertical: 50,
+          top: 30,
+          bottom: 0,
         ),
       ),
       viewModelBuilder: () => DeliveryViewModel(),

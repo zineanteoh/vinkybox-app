@@ -22,7 +22,7 @@ class CurrentTaskButtonModel extends BaseViewModel {
   }
 
   final IconData icon = CarbonIcons.task;
-  final Color iconBgColor = skyblueHex;
+  final Color iconBgColor = mediumSpringGreenColor;
   final String title = 'Current Tasks';
   final String description = 'See all your current tasks here!';
 }

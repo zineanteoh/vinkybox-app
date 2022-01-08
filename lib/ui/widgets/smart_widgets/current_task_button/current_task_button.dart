@@ -36,8 +36,7 @@ class CurrentTaskButton extends StatelessWidget {
               .animate(
                 const Duration(milliseconds: 150),
                 Curves.easeOut,
-              )
-              .padding(top: 40, bottom: 30);
+              );
         }
 
         final Widget icon =
