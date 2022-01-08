@@ -38,15 +38,16 @@ class DeliverForOthersViewModel extends BaseViewModel {
     setBusy(true);
     await Future.delayed(const Duration(milliseconds: 1000));
     _deliveryService.fetchDeliveryRequestList();
-    notifyListeners();
     setBusy(false);
+    notifyListeners();
   }
 
   Future onRefresh() async {
+    setBusy(true);
     await Future.delayed(const Duration(milliseconds: 1000));
     _deliveryService.fetchDeliveryRequestList();
+    setBusy(false);
     notifyListeners();
-    // if failed,use refreshFailed()
     _refreshController.refreshCompleted();
   }
 

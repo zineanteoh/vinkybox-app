@@ -3,9 +3,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
-import 'package:vinkybox/ui/shared/ui_helpers.dart';
 import 'package:vinkybox/ui/views/deliver_for_others/deliver_for_others_viewmodel.dart';
 import 'package:vinkybox/ui/widgets/dumb_widgets/deliver_for_others_header.dart';
+import 'package:vinkybox/ui/widgets/smart_widgets/current_task_button/current_task_button.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/delivery_request_item/delivery_request_item.dart';
 
 class DeliverForOthersView extends StatelessWidget {
@@ -50,7 +50,8 @@ class DeliverForOthersView extends StatelessWidget {
     return ViewModelBuilder<DeliverForOthersViewModel>.reactive(
       builder: (context, model, child) => Scaffold(
         body: <Widget>[
-          _howToDeliverCard(model),
+          const CurrentTaskButton(),
+          // _howToDeliverCard(model),
           DeliverForOthersHeader(
               latestRequestCount: model.getLatestRequestCount()),
           Expanded(
@@ -64,7 +65,7 @@ class DeliverForOthersView extends StatelessWidget {
               controller: model.refreshController,
               onRefresh: model.onRefresh,
               child: ListView.builder(
-                itemCount: model.isRequestEmpty
+                itemCount: model.isRequestEmpty || model.isBusy
                     ? 1
                     : model.latestRequestList.length,
                 itemBuilder: (context, index) {
@@ -72,7 +73,11 @@ class DeliverForOthersView extends StatelessWidget {
                       ? const Text(
                           'There are no requests at the moment!')
                       : model.isBusy
-                          ? const CircularProgressIndicator()
+                          ? const SizedBox(
+                              width: 40,
+                              height: 40,
+                              child: CircularProgressIndicator(),
+                            ).alignment(Alignment.center)
                           : DeliveryRequestItem(
                               deliveryRequest:
                                   model.latestRequestList[index]);

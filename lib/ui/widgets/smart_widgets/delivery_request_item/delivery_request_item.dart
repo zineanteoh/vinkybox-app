@@ -284,6 +284,7 @@ Widget _actionButtons(
           onTap: () {
             print('Accepting request!');
             model.acceptRequest();
+            Navigator.pop(context);
           },
         )
         .scale(
