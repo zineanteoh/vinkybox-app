@@ -9,7 +9,11 @@ import 'package:vinkybox/ui/widgets/smart_widgets/delivery_request_item/delivery
 
 class DeliveryRequestItem extends StatelessWidget {
   final dynamic deliveryRequest;
-  const DeliveryRequestItem({required this.deliveryRequest, Key? key})
+  bool isUserTask;
+  DeliveryRequestItem(
+      {required this.deliveryRequest,
+      this.isUserTask = false,
+      Key? key})
       : super(key: key);
 
   _showModalBottomSheet(
