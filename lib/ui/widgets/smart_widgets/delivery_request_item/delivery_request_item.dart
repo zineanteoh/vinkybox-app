@@ -51,6 +51,9 @@ class DeliveryRequestItem extends StatelessWidget {
       DeliveryRequestItemModel model, dynamic request) {
     return <Widget>[
       _packageSize(model.packageSizeInfo),
+      isUserTask
+          ? _name('Deliver to: ${model.nameInfo}')
+          : SizedBox.shrink(),
       _location(model.pickUpLocationInfo, model.dormInfo),
       _status(model.statusInfo),
       _taskActionButton(isUserTask, model, context),
@@ -118,7 +121,7 @@ String _getDeliveryStatusMessage(String status) {
 
 Widget _name(String name) {
   return Text(name, style: const TextStyle(fontSize: 18))
-      .padding(bottom: 20)
+      .padding(top: 10)
       .alignment(Alignment.center);
 }
 
@@ -380,7 +383,8 @@ Widget _trackPackageButton(
       .animate(
         const Duration(milliseconds: 150),
         Curves.easeOut,
-      );
+      )
+      .padding(top: 20);
 }
 
 Widget getActionOrPackageButton(
