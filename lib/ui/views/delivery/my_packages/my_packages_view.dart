@@ -13,7 +13,7 @@ class MyPackagesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<MyPackagesViewModel>.reactive(
-      onModelReady: (model) => model.loadLatestRequests(),
+      // onModelReady: (model) => model.loadLatestRequests(),
       builder: (context, model, child) => Scaffold(
         body: SafeArea(
           child: <Widget>[

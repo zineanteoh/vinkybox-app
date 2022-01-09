@@ -26,6 +26,9 @@ class DeliveryRequestItemModel extends BaseViewModel {
   bool _trackPackagePressed = false;
   bool get trackPackagePressed => _trackPackagePressed;
 
+  bool _userTaskActionPressed = false;
+  bool get userTaskActionPressed => _userTaskActionPressed;
+
   void updatePressedStatus(tapState) {
     _pressed = tapState;
     notifyListeners();
@@ -43,6 +46,11 @@ class DeliveryRequestItemModel extends BaseViewModel {
 
   void updateTrackPackagePressedStatus(tapState) {
     _trackPackagePressed = tapState;
+    notifyListeners();
+  }
+
+  void updateUserTaskActionPressedStatus(tapState) {
+    _userTaskActionPressed = tapState;
     notifyListeners();
   }
 

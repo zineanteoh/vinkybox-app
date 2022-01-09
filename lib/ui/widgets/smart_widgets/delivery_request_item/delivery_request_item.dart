@@ -53,6 +53,7 @@ class DeliveryRequestItem extends StatelessWidget {
       _packageSize(model.packageSizeInfo),
       _location(model.pickUpLocationInfo, model.dormInfo),
       _status(model.statusInfo),
+      _taskActionButton(isUserTask, model, context),
     ]
         .toColumn(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -229,6 +230,47 @@ Widget _status(String status) {
           .padding(top: 10),
     ],
   ).alignment(Alignment.center).padding(top: 12, bottom: 20);
+}
+
+Widget _taskActionButton(bool isUserTask,
+    DeliveryRequestItemModel model, BuildContext context) {
+  return isUserTask
+      ? const Text('I am ready to pickup',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600))
+          .padding(vertical: 10, horizontal: 25)
+          .borderRadius(all: 10)
+          .ripple()
+          .backgroundColor(mediumSpringGreenColor, animate: true)
+          .clipRRect(all: 10)
+          .borderRadius(all: 10, animate: true)
+          .elevation(
+            model.userTaskActionPressed ? 0 : 20,
+            borderRadius: BorderRadius.circular(25),
+            shadowColor: const Color(0x30000000),
+          )
+          .gestures(
+            onTapChange: (tapState) =>
+                model.updateUserTaskActionPressedStatus(tapState),
+            onTap: () {
+              print('Ready to pick up!');
+              // model.acceptRequest();
+              // Navigator.pop(context);
+            },
+          )
+          .scale(
+            all: model.acceptPressed ? 0.8 : 1.0,
+            animate: true,
+          )
+          .animate(
+            const Duration(milliseconds: 150),
+            Curves.easeOut,
+          )
+          .alignment(Alignment.center)
+          .padding(bottom: 15)
+      : Container();
 }
 
 Widget _actionButtons(
