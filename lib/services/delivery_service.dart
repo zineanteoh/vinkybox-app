@@ -19,6 +19,10 @@ class DeliveryService {
   List<dynamic> _latestRequestList = [];
   List<dynamic> get latestRequestList => _latestRequestList;
 
+  // Current tasks list contains all user's 'accepted' package requests
+  List<dynamic> _currentTasksList = [];
+  List<dynamic> get currentTasksList => _currentTasksList;
+
   final _firestoreApi = locator<FirestoreApi>();
   final _userService = locator<UserService>();
 
@@ -28,12 +32,14 @@ class DeliveryService {
       required String dropOffLocation}) async {
     await _firestoreApi.createDeliveryRequest(
       req: PackageRequest(
-          user: _userService.currentUser.toJson(),
-          status: deliveryStatus[0],
-          packageSize: packageSize,
-          pickUpLocation: pickUpLocation,
-          dropOffLocation: dropOffLocation,
-          time: DateTime.now().toString()),
+        user: _userService.currentUser.toJson(),
+        status: deliveryStatus[0],
+        packageSize: packageSize,
+        pickUpLocation: pickUpLocation,
+        dropOffLocation: dropOffLocation,
+        time: DateTime.now().toString(),
+        statusAccepted: {},
+      ),
     );
     updateLists();
     log.v('Package has been requested!');
@@ -46,7 +52,8 @@ class DeliveryService {
     return _deliveryRequestList;
   }
 
-  /// Updates the [_myPackagesList] and [_latestRequestList]
+  /// Updates the [_myPackagesList], [_latestRequestList],
+  /// and [_currentTasksList]
   ///
   /// Filters the [_deliveryRequestList] by checking if the
   /// user id of packageRequest is the same as the id of
@@ -67,11 +74,17 @@ class DeliveryService {
             packageRequest['user']['id'] !=
             _userService.currentUser.id)
         .toList();
+    _currentTasksList = _deliveryRequestList
+        .where((packageRequest) =>
+            !packageRequest['statusAccepted'].isEmpty &&
+            packageRequest['statusAccepted']['deliverer']['id'] ==
+                _userService.currentUser.id)
+        .toList();
   }
 
   /// Calls [FirestoreApi] to accept a request of [deliveryId]
   ///
-  /// Add a 'status-accepted' json that includes the deliverer
+  /// Add a 'statusAccepted' json that includes the deliverer
   /// and time info to the document of [deliveryId]
   ///
   /// If successful, change the request of [deliveryId] status
@@ -81,7 +94,7 @@ class DeliveryService {
   /// could not be accepted
   Future acceptRequest(String deliveryId) async {
     Map<String, dynamic> acceptRequestInfo = {
-      'status-accepted': {
+      'statusAccepted': {
         'deliverer': _userService.currentUser.toJson(),
         'time': DateTime.now().toString(),
       }

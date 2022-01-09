@@ -28,6 +28,7 @@ class PackageRequest with _$PackageRequest {
     required String pickUpLocation,
     required String dropOffLocation,
     required String time,
+    @Default({}) Map<String, dynamic> statusAccepted,
   }) = _PackageRequest;
 
   factory PackageRequest.fromJson(Map<String, dynamic> json) =>

@@ -228,7 +228,8 @@ class _$PackageRequestTearOff {
       required String packageSize,
       required String pickUpLocation,
       required String dropOffLocation,
-      required String time}) {
+      required String time,
+      Map<String, dynamic> statusAccepted = const {}}) {
     return _PackageRequest(
       user: user,
       status: status,
@@ -236,6 +237,7 @@ class _$PackageRequestTearOff {
       pickUpLocation: pickUpLocation,
       dropOffLocation: dropOffLocation,
       time: time,
+      statusAccepted: statusAccepted,
     );
   }
 
@@ -255,6 +257,7 @@ mixin _$PackageRequest {
   String get pickUpLocation => throw _privateConstructorUsedError;
   String get dropOffLocation => throw _privateConstructorUsedError;
   String get time => throw _privateConstructorUsedError;
+  Map<String, dynamic> get statusAccepted => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -273,7 +276,8 @@ abstract class $PackageRequestCopyWith<$Res> {
       String packageSize,
       String pickUpLocation,
       String dropOffLocation,
-      String time});
+      String time,
+      Map<String, dynamic> statusAccepted});
 }
 
 /// @nodoc
@@ -293,6 +297,7 @@ class _$PackageRequestCopyWithImpl<$Res>
     Object? pickUpLocation = freezed,
     Object? dropOffLocation = freezed,
     Object? time = freezed,
+    Object? statusAccepted = freezed,
   }) {
     return _then(_value.copyWith(
       user: user == freezed
@@ -319,6 +324,10 @@ class _$PackageRequestCopyWithImpl<$Res>
           ? _value.time
           : time // ignore: cast_nullable_to_non_nullable
               as String,
+      statusAccepted: statusAccepted == freezed
+          ? _value.statusAccepted
+          : statusAccepted // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
     ));
   }
 }
@@ -336,7 +345,8 @@ abstract class _$PackageRequestCopyWith<$Res>
       String packageSize,
       String pickUpLocation,
       String dropOffLocation,
-      String time});
+      String time,
+      Map<String, dynamic> statusAccepted});
 }
 
 /// @nodoc
@@ -358,6 +368,7 @@ class __$PackageRequestCopyWithImpl<$Res>
     Object? pickUpLocation = freezed,
     Object? dropOffLocation = freezed,
     Object? time = freezed,
+    Object? statusAccepted = freezed,
   }) {
     return _then(_PackageRequest(
       user: user == freezed
@@ -384,6 +395,10 @@ class __$PackageRequestCopyWithImpl<$Res>
           ? _value.time
           : time // ignore: cast_nullable_to_non_nullable
               as String,
+      statusAccepted: statusAccepted == freezed
+          ? _value.statusAccepted
+          : statusAccepted // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
     ));
   }
 }
@@ -397,7 +412,8 @@ class _$_PackageRequest implements _PackageRequest {
       required this.packageSize,
       required this.pickUpLocation,
       required this.dropOffLocation,
-      required this.time});
+      required this.time,
+      this.statusAccepted = const {}});
 
   factory _$_PackageRequest.fromJson(Map<String, dynamic> json) =>
       _$$_PackageRequestFromJson(json);
@@ -414,10 +430,13 @@ class _$_PackageRequest implements _PackageRequest {
   final String dropOffLocation;
   @override
   final String time;
+  @JsonKey()
+  @override
+  final Map<String, dynamic> statusAccepted;
 
   @override
   String toString() {
-    return 'PackageRequest(user: $user, status: $status, packageSize: $packageSize, pickUpLocation: $pickUpLocation, dropOffLocation: $dropOffLocation, time: $time)';
+    return 'PackageRequest(user: $user, status: $status, packageSize: $packageSize, pickUpLocation: $pickUpLocation, dropOffLocation: $dropOffLocation, time: $time, statusAccepted: $statusAccepted)';
   }
 
   @override
@@ -433,7 +452,9 @@ class _$_PackageRequest implements _PackageRequest {
                 .equals(other.pickUpLocation, pickUpLocation) &&
             const DeepCollectionEquality()
                 .equals(other.dropOffLocation, dropOffLocation) &&
-            const DeepCollectionEquality().equals(other.time, time));
+            const DeepCollectionEquality().equals(other.time, time) &&
+            const DeepCollectionEquality()
+                .equals(other.statusAccepted, statusAccepted));
   }
 
   @override
@@ -444,7 +465,8 @@ class _$_PackageRequest implements _PackageRequest {
       const DeepCollectionEquality().hash(packageSize),
       const DeepCollectionEquality().hash(pickUpLocation),
       const DeepCollectionEquality().hash(dropOffLocation),
-      const DeepCollectionEquality().hash(time));
+      const DeepCollectionEquality().hash(time),
+      const DeepCollectionEquality().hash(statusAccepted));
 
   @JsonKey(ignore: true)
   @override
@@ -464,7 +486,8 @@ abstract class _PackageRequest implements PackageRequest {
       required String packageSize,
       required String pickUpLocation,
       required String dropOffLocation,
-      required String time}) = _$_PackageRequest;
+      required String time,
+      Map<String, dynamic> statusAccepted}) = _$_PackageRequest;
 
   factory _PackageRequest.fromJson(Map<String, dynamic> json) =
       _$_PackageRequest.fromJson;
@@ -481,6 +504,8 @@ abstract class _PackageRequest implements PackageRequest {
   String get dropOffLocation;
   @override
   String get time;
+  @override
+  Map<String, dynamic> get statusAccepted;
   @override
   @JsonKey(ignore: true)
   _$PackageRequestCopyWith<_PackageRequest> get copyWith =>

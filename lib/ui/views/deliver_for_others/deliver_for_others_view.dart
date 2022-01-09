@@ -5,7 +5,6 @@ import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:vinkybox/ui/views/deliver_for_others/deliver_for_others_viewmodel.dart';
 import 'package:vinkybox/ui/widgets/dumb_widgets/deliver_for_others_header.dart';
-import 'package:vinkybox/ui/widgets/smart_widgets/current_task_button/current_task_button.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/delivery_request_item/delivery_request_item.dart';
 
 class DeliverForOthersView extends StatelessWidget {

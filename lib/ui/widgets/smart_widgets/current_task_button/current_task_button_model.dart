@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:vinkybox/app/app.locator.dart';
-import 'package:vinkybox/app/app.logger.dart';
+import 'package:vinkybox/app/app.router.dart';
 import 'package:vinkybox/ui/shared/app_colors.dart';
 
 class CurrentTaskButtonModel extends BaseViewModel {
@@ -18,7 +18,7 @@ class CurrentTaskButtonModel extends BaseViewModel {
   }
 
   void onPress() {
-    // _navigationService.navigateTo();
+    _navigationService.navigateTo(Routes.currentTasksView);
   }
 
   final IconData icon = CarbonIcons.task;

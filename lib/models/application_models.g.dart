@@ -29,6 +29,8 @@ _$_PackageRequest _$$_PackageRequestFromJson(Map<String, dynamic> json) =>
       pickUpLocation: json['pickUpLocation'] as String,
       dropOffLocation: json['dropOffLocation'] as String,
       time: json['time'] as String,
+      statusAccepted:
+          json['statusAccepted'] as Map<String, dynamic>? ?? const {},
     );
 
 Map<String, dynamic> _$$_PackageRequestToJson(_$_PackageRequest instance) =>
@@ -39,6 +41,7 @@ Map<String, dynamic> _$$_PackageRequestToJson(_$_PackageRequest instance) =>
       'pickUpLocation': instance.pickUpLocation,
       'dropOffLocation': instance.dropOffLocation,
       'time': instance.time,
+      'statusAccepted': instance.statusAccepted,
     };
 
 _$_Location _$$_LocationFromJson(Map<String, dynamic> json) => _$_Location(

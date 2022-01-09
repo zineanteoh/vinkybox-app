@@ -12,7 +12,7 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
 import '../ui/views/deliver_for_others/deliver_for_others_view.dart';
-import '../ui/views/delivery/current_delivery/current_delivery_view.dart';
+import '../ui/views/delivery/current_tasks/current_tasks_view.dart';
 import '../ui/views/delivery/my_packages/my_packages_view.dart';
 import '../ui/views/delivery/request_delivery/request_delivery_view.dart';
 import '../ui/views/home/home_view.dart';
@@ -31,7 +31,7 @@ class Routes {
   static const String homeView = '/home-view';
   static const String requestDeliveryView = '/request-delivery-view';
   static const String myPackagesView = '/my-packages-view';
-  static const String currentDeliveryView = '/current-delivery-view';
+  static const String currentTasksView = '/current-tasks-view';
   static const String deliverForOthersView = '/deliver-for-others-view';
   static const String locationView = '/location-view';
   static const String marketPlaceView = '/market-place-view';
@@ -43,7 +43,7 @@ class Routes {
     homeView,
     requestDeliveryView,
     myPackagesView,
-    currentDeliveryView,
+    currentTasksView,
     deliverForOthersView,
     locationView,
     marketPlaceView,
@@ -61,7 +61,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.homeView, page: HomeView),
     RouteDef(Routes.requestDeliveryView, page: RequestDeliveryView),
     RouteDef(Routes.myPackagesView, page: MyPackagesView),
-    RouteDef(Routes.currentDeliveryView, page: CurrentDeliveryView),
+    RouteDef(Routes.currentTasksView, page: CurrentTasksView),
     RouteDef(Routes.deliverForOthersView, page: DeliverForOthersView),
     RouteDef(Routes.locationView, page: LocationView),
     RouteDef(Routes.marketPlaceView, page: MarketPlaceView),
@@ -111,9 +111,9 @@ class StackedRouter extends RouterBase {
         settings: data,
       );
     },
-    CurrentDeliveryView: (data) {
+    CurrentTasksView: (data) {
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => const CurrentDeliveryView(),
+        builder: (context) => const CurrentTasksView(),
         settings: data,
       );
     },

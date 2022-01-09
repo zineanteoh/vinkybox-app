@@ -71,7 +71,7 @@ class DeliveryRequestItemModel extends BaseViewModel {
     if (statusInfo != deliveryStatus[0]) {
       // if delivery status is not new
       delivererNameInfo =
-          request['status-accepted']['deliverer']['fullName'];
+          request['statusAccepted']['deliverer']['fullName'];
     }
   }
 

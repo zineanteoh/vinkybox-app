@@ -1,6 +1,9 @@
 import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:stacked_services/stacked_services.dart';
 import 'package:styled_widget/styled_widget.dart';
+import 'package:vinkybox/app/app.locator.dart';
+import 'package:vinkybox/app/app.router.dart';
 import 'package:vinkybox/ui/shared/app_colors.dart';
 
 class MyCurrentPackagesHeader extends StatelessWidget {
@@ -11,6 +14,7 @@ class MyCurrentPackagesHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _navigationService = locator<NavigationService>();
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -32,7 +36,7 @@ class MyCurrentPackagesHeader extends StatelessWidget {
               ],
             ).padding(left: 10),
             onPressed: () {
-              //
+              _navigationService.navigateTo(Routes.myPackagesView);
             },
             style: ButtonStyle(
               overlayColor:

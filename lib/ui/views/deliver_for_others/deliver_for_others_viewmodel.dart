@@ -52,9 +52,9 @@ class DeliverForOthersViewModel extends BaseViewModel {
   }
 
   // temporary?
-  void navigateToCurrentDeliveryView() {
+  void navigateToCurrentTasksView() {
     _locationService.setIsDeliverying(true);
-    _navigationService.navigateTo(Routes.currentDeliveryView);
+    _navigationService.navigateTo(Routes.currentTasksView);
   }
 
   // temporary?
