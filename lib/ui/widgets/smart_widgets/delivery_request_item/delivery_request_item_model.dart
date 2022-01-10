@@ -66,7 +66,6 @@ class DeliveryRequestItemModel extends BaseViewModel {
   late String delivererNameInfo;
 
   void onModelReadyLoad(dynamic request) {
-    log.i(request);
     _deliveryRequest = request;
     _deliveryId = request['id'];
     nameInfo = request['user']['fullName'];
@@ -94,6 +93,12 @@ class DeliveryRequestItemModel extends BaseViewModel {
 
   Future acceptRequest() async {
     await _deliveryService.acceptRequest(_deliveryId);
+    notifyListeners();
+  }
+
+  Future pickUpRequest() async {
+    await _deliveryService.pickUpRequest(_deliveryId);
+    notifyListeners();
   }
 
   void navigateToLocationView() {

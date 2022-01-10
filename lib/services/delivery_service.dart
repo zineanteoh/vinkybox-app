@@ -88,7 +88,7 @@ class DeliveryService {
   /// and time info to the document of [deliveryId]
   ///
   /// If successful, change the request of [deliveryId] status
-  /// to 'collecting'
+  /// to [deliveryStatus] index 1 ('collecting')
   ///
   /// If unsuccessful, prompt a dialog message saying request
   /// could not be accepted
@@ -105,6 +105,30 @@ class DeliveryService {
           deliveryId, acceptRequestInfo, deliveryStatus[1]);
     } catch (e) {
       log.e("An error occurred. Could not accept delivery request");
+    }
+  }
+
+  /// Calls [FirestoreApi] to pick up a request of [deliveryId]
+  ///
+  /// Add a 'statusPickedUp' json that includes the pickup
+  /// time to the document of [deliveryId]
+  ///
+  /// If successful, change the request of [deliveryId] status
+  /// to [deliveryStatus] index 2 ('delivering')
+  ///
+  /// If unsuccessful, prompt a dialog message saying request
+  /// could not be picked up
+  Future pickUpRequest(String deliveryId) async {
+    Map<String, dynamic> pickUpRequestInfo = {
+      'statusPickUp': {
+        'time': DateTime.now().toString(),
+      }
+    };
+    try {
+      await _firestoreApi.pickUpDeliveryRequest(
+          deliveryId, pickUpRequestInfo, deliveryStatus[2]);
+    } catch (e) {
+      log.e('An error occurred. Could not pick up delivery request');
     }
   }
 }

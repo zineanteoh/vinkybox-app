@@ -122,8 +122,8 @@ class FirestoreApi {
     return deliveryRequests;
   }
 
-  /// Adds the [acceptRequestInfo] collection and [deliveryId]
-  /// to the firestore, and updates delivery status to [newStatus]
+  /// Adds [acceptRequestInfo] to [deliveryId] collection to the
+  /// firestore, and updates delivery status to [newStatus]
   /// if successful.
   ///
   /// Uses firestore [WriteBatch] to perform the writes as a
@@ -143,7 +143,31 @@ class FirestoreApi {
 
       await batch.commit();
     } catch (e) {
-      log.e("An error occurred. Could not accept delivery request");
+      log.e('An error occurred. Could not accept delivery request');
+    }
+  }
+
+  /// Adds the [pickUpRequestInfo] to collection [deliveryId]
+  /// and update delivery status to [newStatus] if successful.
+  ///
+  /// Uses firestore [WriteBatch] to perform the writes as a
+  /// single operation.
+  ///
+  /// If unsuccessful, log the error.
+  Future pickUpDeliveryRequest(
+      String deliveryId,
+      Map<String, dynamic> pickUpRequestInfo,
+      String newStatus) async {
+    WriteBatch batch = FirebaseFirestore.instance.batch();
+    try {
+      batch.update(_deliveryRequestsCollection.doc(deliveryId),
+          pickUpRequestInfo);
+      batch.update(_deliveryRequestsCollection.doc(deliveryId),
+          {'status': newStatus});
+
+      await batch.commit();
+    } catch (e) {
+      log.e('An error occurred. Could not pick up delivery request');
     }
   }
 }

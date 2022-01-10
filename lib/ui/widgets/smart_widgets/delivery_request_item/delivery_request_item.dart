@@ -36,7 +36,7 @@ class DeliveryRequestItem extends StatelessWidget {
             _status(model.statusInfo),
             model.isMyPackage() && model.statusIsNotNew()
                 ? _name('Deliverer: ${model.delivererNameInfo}')
-                : SizedBox.shrink(),
+                : const SizedBox.shrink(),
             getActionOrPackageButton(model, context),
           ]
               .toColumn(mainAxisSize: MainAxisSize.min)
@@ -53,7 +53,7 @@ class DeliveryRequestItem extends StatelessWidget {
       _packageSize(model.packageSizeInfo),
       isUserTask
           ? _name('Deliver to: ${model.nameInfo}')
-          : SizedBox.shrink(),
+          : const SizedBox.shrink(),
       _location(model.pickUpLocationInfo, model.dormInfo),
       _status(model.statusInfo),
       _taskActionButton(isUserTask, model, context),
@@ -238,42 +238,80 @@ Widget _status(String status) {
 Widget _taskActionButton(bool isUserTask,
     DeliveryRequestItemModel model, BuildContext context) {
   return isUserTask
-      ? const Text('I am ready to pickup',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600))
-          .padding(vertical: 10, horizontal: 25)
-          .borderRadius(all: 10)
-          .ripple()
-          .backgroundColor(mediumSpringGreenColor, animate: true)
-          .clipRRect(all: 10)
-          .borderRadius(all: 10, animate: true)
-          .elevation(
-            model.userTaskActionPressed ? 0 : 20,
-            borderRadius: BorderRadius.circular(25),
-            shadowColor: const Color(0x30000000),
-          )
-          .gestures(
-            onTapChange: (tapState) =>
-                model.updateUserTaskActionPressedStatus(tapState),
-            onTap: () {
-              print('Ready to pick up!');
-              // model.acceptRequest();
-              // Navigator.pop(context);
-            },
-          )
-          .scale(
-            all: model.acceptPressed ? 0.8 : 1.0,
-            animate: true,
-          )
-          .animate(
-            const Duration(milliseconds: 150),
-            Curves.easeOut,
-          )
-          .alignment(Alignment.center)
-          .padding(bottom: 15)
-      : Container();
+      ? model.statusInfo == deliveryStatus[1]
+          ? const Text('I am ready to pickup',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600))
+              .padding(vertical: 10, horizontal: 25)
+              .borderRadius(all: 10)
+              .ripple()
+              .backgroundColor(orangeYellowCrayolaColor,
+                  animate: true)
+              .clipRRect(all: 10)
+              .borderRadius(all: 10, animate: true)
+              .elevation(
+                model.userTaskActionPressed ? 0 : 20,
+                borderRadius: BorderRadius.circular(25),
+                shadowColor: const Color(0x30000000),
+              )
+              .gestures(
+                onTapChange: (tapState) =>
+                    model.updateUserTaskActionPressedStatus(tapState),
+                onTap: () {
+                  model.pickUpRequest();
+                  Navigator.pop(context);
+                },
+              )
+              .scale(
+                all: model.acceptPressed ? 0.8 : 1.0,
+                animate: true,
+              )
+              .animate(
+                const Duration(milliseconds: 150),
+                Curves.easeOut,
+              )
+              .alignment(Alignment.center)
+              .padding(bottom: 15)
+          : model.statusInfo == deliveryStatus[2]
+              ? const Text('I have delivered the package',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600))
+                  .padding(vertical: 10, horizontal: 25)
+                  .borderRadius(all: 10)
+                  .ripple()
+                  .backgroundColor(mediumSpringGreenColor,
+                      animate: true)
+                  .clipRRect(all: 10)
+                  .borderRadius(all: 10, animate: true)
+                  .elevation(
+                    model.userTaskActionPressed ? 0 : 20,
+                    borderRadius: BorderRadius.circular(25),
+                    shadowColor: const Color(0x30000000),
+                  )
+                  .gestures(
+                    onTapChange: (tapState) => model
+                        .updateUserTaskActionPressedStatus(tapState),
+                    onTap: () {
+                      // model.pickUpRequest();
+                      Navigator.pop(context);
+                    },
+                  )
+                  .scale(
+                    all: model.acceptPressed ? 0.8 : 1.0,
+                    animate: true,
+                  )
+                  .animate(
+                    const Duration(milliseconds: 150),
+                    Curves.easeOut,
+                  )
+                  .alignment(Alignment.center)
+                  .padding(bottom: 15)
+              : const SizedBox.shrink()
+      : const SizedBox.shrink();
 }
 
 Widget _actionButtons(
@@ -332,7 +370,6 @@ Widget _actionButtons(
           onTapChange: (tapState) =>
               model.updateAcceptPressedStatus(tapState),
           onTap: () {
-            print('Accepting request!');
             model.acceptRequest();
             Navigator.pop(context);
           },
