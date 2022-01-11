@@ -124,8 +124,12 @@ class StackedRouter extends RouterBase {
       );
     },
     LocationView: (data) {
+      var args = data.getArgs<LocationViewArguments>(nullOk: false);
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => const LocationView(),
+        builder: (context) => LocationView(
+          key: args.key,
+          deliveryId: args.deliveryId,
+        ),
         settings: data,
       );
     },
@@ -136,4 +140,15 @@ class StackedRouter extends RouterBase {
       );
     },
   };
+}
+
+/// ************************************************************************
+/// Arguments holder classes
+/// *************************************************************************
+
+/// LocationView arguments holder class
+class LocationViewArguments {
+  final Key? key;
+  final String deliveryId;
+  LocationViewArguments({this.key, required this.deliveryId});
 }

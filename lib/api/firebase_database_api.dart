@@ -1,12 +1,7 @@
-import 'dart:convert';
-
 import 'package:firebase_database/firebase_database.dart';
-import 'package:location/location.dart';
-import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
 import 'package:vinkybox/constants/app_keys.dart';
 import 'package:vinkybox/models/application_models.dart';
-import 'package:vinkybox/services/google_map_service.dart';
 
 class FirebaseDatabaseApi {
   final log = getLogger('FirebaseDatabaseApi');

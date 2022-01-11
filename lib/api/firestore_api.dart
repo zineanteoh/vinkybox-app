@@ -122,7 +122,7 @@ class FirestoreApi {
     return deliveryRequests;
   }
 
-  /// Adds [acceptRequestInfo] to [deliveryId] collection to the
+  /// Adds [acceptRequestInfo] to [deliveryId] document to the
   /// firestore, and updates delivery status to [newStatus]
   /// if successful.
   ///
@@ -147,7 +147,7 @@ class FirestoreApi {
     }
   }
 
-  /// Adds the [pickUpRequestInfo] to collection [deliveryId]
+  /// Adds the [pickUpRequestInfo] to [deliveryId] document
   /// and update delivery status to [newStatus] if successful.
   ///
   /// Uses firestore [WriteBatch] to perform the writes as a
