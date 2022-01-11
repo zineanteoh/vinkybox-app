@@ -3,6 +3,7 @@ import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
 import 'package:vinkybox/constants/request_info.dart';
 import 'package:vinkybox/models/application_models.dart';
+import 'package:vinkybox/services/location_tracking_service.dart';
 import 'package:vinkybox/services/user_service.dart';
 
 class DeliveryService {
@@ -22,27 +23,6 @@ class DeliveryService {
   // Current tasks list contains all user's 'accepted' package requests
   List<dynamic> _currentTasksList = [];
   List<dynamic> get currentTasksList => _currentTasksList;
-
-  // Keeps track of # of accepted packages with status delivering
-  // Used for location tracking
-  int _userDeliveringCount = 0;
-  int get userDeliveringCount => _userDeliveringCount;
-
-  bool _isUserDelivering = false;
-  bool get isUserDelivering => _isUserDelivering;
-
-  /// Sets isUserDelivering to true or false.
-  ///
-  /// When current user has at least one accepted request with
-  /// status = 'delivering', isUserDelivering = true
-  /// Or equivalently, when userDeliveringCount > 0
-  ///
-  /// Otherwise, when current user has no accepted request with
-  /// status = 'delivering', isUserDelivering = false
-  /// Or equivalently, when userDeliveringCount == 0
-  void updateIsUserDeliverying() {
-    _isUserDelivering = _userDeliveringCount > 0;
-  }
 
   final _firestoreApi = locator<FirestoreApi>();
   final _userService = locator<UserService>();
@@ -135,8 +115,7 @@ class DeliveryService {
   /// time to the document of [deliveryId]
   ///
   /// If successful, change the request of [deliveryId] status
-  /// to [deliveryStatus] index 2 ('delivering') and increment
-  /// [userDeliveringCount] by one
+  /// to [deliveryStatus] index 2 ('delivering')
   ///
   /// If unsuccessful, prompt a dialog message saying request
   /// could not be picked up
@@ -149,8 +128,6 @@ class DeliveryService {
     try {
       await _firestoreApi.pickUpDeliveryRequest(
           deliveryId, pickUpRequestInfo, deliveryStatus[2]);
-      _userDeliveringCount++;
-      updateIsUserDeliverying();
     } catch (e) {
       log.e('An error occurred. Could not pick up delivery request');
     }

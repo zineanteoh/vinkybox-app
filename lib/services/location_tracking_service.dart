@@ -9,8 +9,8 @@ import 'package:vinkybox/app/app.logger.dart';
 import 'package:vinkybox/services/delivery_service.dart';
 import 'package:vinkybox/services/google_map_service.dart';
 
-class LocationService {
-  final log = getLogger('LocationService');
+class LocationTrackingService {
+  final log = getLogger('LocationTrackingService');
 
   final _firebaseDatabaseApi = locator<FirebaseDatabaseApi>();
   final _googleMapService = locator<GoogleMapService>();
@@ -24,10 +24,28 @@ class LocationService {
 
   late StreamSubscription<LocationData> _locationListeners;
 
-  bool get isUserDelivering => _deliveryService.isUserDelivering;
+  // Keeps track of # of accepted packages with status delivering
+  // Used for location tracking
+  int _userDeliveringCount = 0;
+  int get userDeliveringCount => _userDeliveringCount;
 
-  Future initializeLocationTracking(
-      Function notifyListeners, String deliveryId) async {
+  bool _isUserDelivering = false;
+  bool get isUserDelivering => _isUserDelivering;
+
+  /// Sets isUserDelivering to true or false.
+  ///
+  /// When current user has at least one accepted request with
+  /// status = 'delivering', isUserDelivering = true
+  /// Or equivalently, when userDeliveringCount > 0
+  ///
+  /// Otherwise, when current user has no accepted request with
+  /// status = 'delivering', isUserDelivering = false
+  /// Or equivalently, when userDeliveringCount == 0
+  void updateIsUserDeliverying() {
+    _isUserDelivering = _userDeliveringCount > 0;
+  }
+
+  Future requestLocationTrackingPermission() async {
     log.i('Initializing location service $isUserDelivering');
     log.i('Requesting permission...');
 
@@ -48,7 +66,10 @@ class LocationService {
         return;
       }
     }
+  }
 
+  Future initializeLocationTracking(
+      Function notifyListeners, String deliveryId) async {
     _locationData = await _location.getLocation();
     await _firebaseDatabaseApi.updatePackageLocation(
         deliveryId, _locationData.latitude, _locationData.longitude);
@@ -67,9 +88,9 @@ class LocationService {
     log.i('Location is $_locationData');
   }
 
-  Future<Map> getPackageLocation() async {
+  Future<Map> getPackageLocation(String deliveryId) async {
     DataSnapshot snapshot =
-        await _firebaseDatabaseApi.getPackageLocation('key1');
+        await _firebaseDatabaseApi.getPackageLocation(deliveryId);
 
     String encodedJson = jsonEncode(snapshot.value);
     Map valueMap = jsonDecode(encodedJson);

@@ -2,15 +2,18 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:stacked/stacked.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
+import 'package:vinkybox/constants/request_info.dart';
+import 'package:vinkybox/services/delivery_service.dart';
 import 'package:vinkybox/services/google_map_service.dart';
-import 'package:vinkybox/services/location_service.dart';
+import 'package:vinkybox/services/location_tracking_service.dart';
 import 'package:vinkybox/services/package_tracking_service.dart';
 
 class LocationViewModel extends BaseViewModel {
   final log = getLogger('LocationViewModel');
 
   final _googleMapService = locator<GoogleMapService>();
-  final _locationService = locator<LocationService>();
+  final _deliveryService = locator<DeliveryService>();
+  final _locationTrackingService = locator<LocationTrackingService>();
   final _packageTrackingService = locator<PackageTrackingService>();
 
   bool get isMapCreated => _googleMapService.isMapCreated;
@@ -22,8 +25,6 @@ class LocationViewModel extends BaseViewModel {
 
   Set<Marker> get markers => _googleMapService.markers;
 
-  bool get isUserDelivering => _locationService.isUserDelivering;
-
   Future init() async {
     log.i('Initializing location view model');
     await _googleMapService.init();
@@ -34,15 +35,25 @@ class LocationViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  // Enable location tracking by writing to RTDB & updating google map markers
-  void initializeLocationTracking(String deliveryId) {
+  /// Initialize location tracking for tasks with status = 'delivering'
+  ///
+  /// Unsubscribe location tracking when delivery status is changed
+  void initializeLocationTracking(String deliveryId) async {
     log.i('Initializing location tracking for deliverer');
-    _locationService.initializeLocationTracking(
-        notifyListeners, deliveryId);
+    await _locationTrackingService
+        .requestLocationTrackingPermission();
+
+    for (dynamic task in _deliveryService.currentTasksList) {
+      if (task['status'] == deliveryStatus[2]) {
+        log.i('this is task: $task');
+        _locationTrackingService.initializeLocationTracking(
+            notifyListeners, task['id']);
+      }
+    }
   }
 
   void unsubscribeLocationTracking() {
-    _locationService.unsubscribeLocationTracking();
+    _locationTrackingService.unsubscribeLocationTracking();
   }
 
   // Enable package tracking by only reading from RTDB & updating markers
@@ -57,7 +68,8 @@ class LocationViewModel extends BaseViewModel {
   }
 
   void navigateCameraToPackageLocation() async {
-    Map location = await _locationService.getPackageLocation();
+    Map location = await _locationTrackingService
+        .getPackageLocation('4GcltZz1oIyZYu5rurXZ');
     _googleMapService.navigateToPackageLocation(location);
   }
 }

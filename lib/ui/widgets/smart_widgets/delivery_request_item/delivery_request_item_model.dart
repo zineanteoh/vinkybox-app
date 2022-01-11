@@ -101,8 +101,8 @@ class DeliveryRequestItemModel extends BaseViewModel {
     log.i(
         'Package is being picked up! Updating package request to delivering');
     await _deliveryService.pickUpRequest(_deliveryId);
-    log.i(
-        'IsUserDelivering is now: ${_deliveryService.isUserDelivering}');
+    // log.i(
+    //     'IsUserDelivering is now: ${_deliveryService.isUserDelivering}');
     // enable location tracking
     notifyListeners();
   }
@@ -111,6 +111,7 @@ class DeliveryRequestItemModel extends BaseViewModel {
     log.i(
         'Navigating to Location View with deliveryId = $_deliveryId');
     _navigationService.navigateTo(Routes.locationView,
-        arguments: LocationViewArguments(deliveryId: _deliveryId));
+        arguments: LocationViewArguments(
+            deliveryId: _deliveryId, isDelivering: false));
   }
 }

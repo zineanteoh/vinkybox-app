@@ -5,7 +5,7 @@ import 'package:vinkybox/api/firestore_api.dart';
 import 'package:vinkybox/services/delivery_service.dart';
 import 'package:vinkybox/services/firebase_authentication_service.dart';
 import 'package:vinkybox/services/google_map_service.dart';
-import 'package:vinkybox/services/location_service.dart';
+import 'package:vinkybox/services/location_tracking_service.dart';
 import 'package:vinkybox/services/package_tracking_service.dart';
 import 'package:vinkybox/services/page_controller_service.dart';
 import 'package:vinkybox/services/user_service.dart';
@@ -65,7 +65,7 @@ import 'package:vinkybox/ui/views/startup/startup_view.dart';
     LazySingleton(classType: DeliveryService),
 
     // Location-based
-    LazySingleton(classType: LocationService),
+    LazySingleton(classType: LocationTrackingService),
     LazySingleton(classType: GoogleMapService),
     LazySingleton(classType: PackageTrackingService),
     Singleton(classType: FirebaseAuthenticationService),

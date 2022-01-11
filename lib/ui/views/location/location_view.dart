@@ -6,7 +6,11 @@ import 'package:styled_widget/styled_widget.dart';
 
 class LocationView extends StatelessWidget {
   final String deliveryId;
-  const LocationView({Key? key, required this.deliveryId})
+  final bool isDelivering;
+  const LocationView(
+      {Key? key,
+      required this.deliveryId,
+      required this.isDelivering})
       : super(key: key);
 
   @override
@@ -14,7 +18,7 @@ class LocationView extends StatelessWidget {
     return ViewModelBuilder<LocationViewModel>.reactive(
       onModelReady: (model) {
         model.init();
-        if (model.isUserDelivering) {
+        if (isDelivering) {
           // read and write to location database
           model.initializeLocationTracking(deliveryId);
         } else {
@@ -38,7 +42,7 @@ class LocationView extends StatelessWidget {
                 markers: model.markers,
               ),
             ),
-            model.isUserDelivering
+            isDelivering
                 ? const Text('Delivering Package')
                     .alignment(Alignment.topCenter)
                     .padding(top: 60.0)

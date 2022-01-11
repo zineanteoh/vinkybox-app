@@ -14,6 +14,8 @@ class OpenMapButtonModel extends BaseViewModel {
   }
 
   void onPress() {
-    _navigationService.navigateTo(Routes.locationView);
+    _navigationService.navigateTo(Routes.locationView,
+        arguments: LocationViewArguments(
+            deliveryId: "", isDelivering: true));
   }
 }

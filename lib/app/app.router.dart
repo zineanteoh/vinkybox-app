@@ -129,6 +129,7 @@ class StackedRouter extends RouterBase {
         builder: (context) => LocationView(
           key: args.key,
           deliveryId: args.deliveryId,
+          isDelivering: args.isDelivering,
         ),
         settings: data,
       );
@@ -150,5 +151,7 @@ class StackedRouter extends RouterBase {
 class LocationViewArguments {
   final Key? key;
   final String deliveryId;
-  LocationViewArguments({this.key, required this.deliveryId});
+  final bool isDelivering;
+  LocationViewArguments(
+      {this.key, required this.deliveryId, required this.isDelivering});
 }

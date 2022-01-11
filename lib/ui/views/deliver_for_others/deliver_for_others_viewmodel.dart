@@ -6,13 +6,13 @@ import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
 import 'package:vinkybox/app/app.router.dart';
 import 'package:vinkybox/services/delivery_service.dart';
-import 'package:vinkybox/services/location_service.dart';
+import 'package:vinkybox/services/location_tracking_service.dart';
 
 class DeliverForOthersViewModel extends BaseViewModel {
   final log = getLogger('DeliverForOthersViewModel');
   final _deliveryService = locator<DeliveryService>();
   final _navigationService = locator<NavigationService>();
-  final _locationService = locator<LocationService>();
+  final _locationTrackingService = locator<LocationTrackingService>();
   RefreshController get refreshController => _refreshController;
 
   List<dynamic> get latestRequestList =>
