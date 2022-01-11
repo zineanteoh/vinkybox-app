@@ -64,7 +64,7 @@ class OpenMapButton extends StatelessWidget {
             const Duration(milliseconds: 150),
             Curves.easeOut,
           )
-          .padding(vertical: 40),
+          .padding(top: 25, bottom: 40),
       viewModelBuilder: () => OpenMapButtonModel(),
     );
   }

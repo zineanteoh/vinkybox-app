@@ -19,14 +19,10 @@ class CurrentTasksView extends StatelessWidget {
           child: <Widget>[
             HeaderBar(
               model: model,
-              headerText: 'Current Tasks',
+              headerText:
+                  'You have ${model.getCurrentTasksCount()} task(s)',
             ),
             const OpenMapButton(),
-            Text('You have ${model.getCurrentTasksCount()} task(s)',
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w400, fontSize: 20))
-                .alignment(Alignment.center)
-                .padding(top: 20),
             Expanded(
               child: SmartRefresher(
                   header: const ClassicHeader(
