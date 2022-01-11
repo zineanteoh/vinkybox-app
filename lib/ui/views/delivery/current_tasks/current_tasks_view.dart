@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
+import 'package:vinkybox/ui/shared/app_colors.dart';
 import 'package:vinkybox/ui/views/delivery/current_tasks/current_tasks_viewmodel.dart';
 import 'package:vinkybox/ui/widgets/dumb_widgets/header_bar.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/delivery_request_item/delivery_request_item.dart';
+import 'package:vinkybox/ui/widgets/smart_widgets/open_map_button.dart/open_map_button.dart';
 
 class CurrentTasksView extends StatelessWidget {
   const CurrentTasksView({Key? key}) : super(key: key);
@@ -19,6 +21,7 @@ class CurrentTasksView extends StatelessWidget {
               model: model,
               headerText: 'Current Tasks',
             ),
+            const OpenMapButton(),
             Text('You have ${model.getCurrentTasksCount()} task(s)',
                     style: const TextStyle(
                         fontWeight: FontWeight.w400, fontSize: 20))
