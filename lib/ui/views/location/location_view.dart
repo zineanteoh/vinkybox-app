@@ -5,17 +5,21 @@ import 'package:vinkybox/ui/views/location/location_viewmodel.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 class LocationView extends StatelessWidget {
-  const LocationView({Key? key}) : super(key: key);
+  final String deliveryId;
+  const LocationView({Key? key, required this.deliveryId})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<LocationViewModel>.reactive(
       onModelReady: (model) {
         model.init();
-        if (model.isDelivering) {
-          model.initializeLocationTracking();
+        if (model.isUserDelivering) {
+          // read and write to location database
+          model.initializeLocationTracking(deliveryId);
         } else {
-          model.initializePackageTracking();
+          // read location database
+          model.initializePackageTracking(deliveryId);
         }
       },
       builder: (context, model, child) => Scaffold(
@@ -34,7 +38,7 @@ class LocationView extends StatelessWidget {
                 markers: model.markers,
               ),
             ),
-            model.isDelivering
+            model.isUserDelivering
                 ? const Text('Delivering Package')
                     .alignment(Alignment.topCenter)
                     .padding(top: 60.0)

@@ -51,18 +51,6 @@ class DeliverForOthersViewModel extends BaseViewModel {
     _refreshController.refreshCompleted();
   }
 
-  // temporary?
-  void navigateToCurrentTasksView() {
-    _locationService.setIsDeliverying(true);
-    _navigationService.navigateTo(Routes.currentTasksView);
-  }
-
-  // temporary?
-  void navigateToLocationView() {
-    _locationService.setIsDeliverying(false);
-    _navigationService.navigateTo(Routes.locationView);
-  }
-
   int getLatestRequestCount() {
     return latestRequestList.length;
   }

@@ -275,7 +275,7 @@ Widget _taskActionButton(bool isUserTask,
               .alignment(Alignment.center)
               .padding(bottom: 15)
           : model.statusInfo == deliveryStatus[2]
-              ? const Text('I have delivered the package',
+              ? const Text('Delivery Complete!',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
@@ -411,7 +411,7 @@ Widget _trackPackageButton(
           onTapChange: (tapState) =>
               model.updateTrackPackagePressedStatus(tapState),
           onTap: () {
-            model.navigateToLocationView();
+            model.trackPackage();
           })
       .scale(
         all: model.trackPackagePressed ? 0.95 : 1.0,
