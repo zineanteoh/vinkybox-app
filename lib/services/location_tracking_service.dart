@@ -22,6 +22,11 @@ class LocationTrackingService {
 
   late StreamSubscription<LocationData> _locationListeners;
 
+  Future<LocationData> getLocation() async {
+    _locationData = await _location.getLocation();
+    return _locationData;
+  }
+
   Future requestLocationTrackingPermission() async {
     log.i('Requesting permission...');
 
@@ -64,14 +69,19 @@ class LocationTrackingService {
     log.i('Location is $_locationData');
   }
 
-  Future<Map> getPackageLocation(String deliveryId) async {
+  Future<Map<String, double>> getPackageLocation(
+      String deliveryId) async {
     DataSnapshot snapshot =
         await _firebaseDatabaseApi.getPackageLocation(deliveryId);
 
     String encodedJson = jsonEncode(snapshot.value);
-    Map valueMap = jsonDecode(encodedJson);
+    Map<String, dynamic> valueMap = jsonDecode(encodedJson);
+    Map<String, double> packageLocation = {};
+    packageLocation['latitude'] = double.parse(valueMap['latitude']);
+    packageLocation['longitude'] =
+        double.parse(valueMap['longitude']);
 
-    return valueMap;
+    return packageLocation;
   }
 
   Future<Map> getDestinationLocation() async {

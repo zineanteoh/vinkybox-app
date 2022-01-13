@@ -19,7 +19,7 @@ class GoogleMapService {
   // Vanderbilt position
   static const CameraPosition initialPosition = CameraPosition(
     target: LatLng(36.14479001860207, -86.80285895018181),
-    zoom: 16,
+    zoom: 16.5,
   );
   CameraPosition get initialCameraPosition => initialPosition;
 
@@ -55,7 +55,7 @@ class GoogleMapService {
   }
 
   void changeMapMode() {
-    getJsonFile("assets/light_map.json").then(setMapStyle);
+    // getJsonFile("assets/light_map.json").then(setMapStyle);
   }
 
   Future<String> getJsonFile(String path) async {
@@ -115,7 +115,7 @@ class GoogleMapService {
     // Change LatLng for package marker
     updatedMarkers.add(_markers
         .toList()
-        .first
+        .last // this chooses the marker to update
         .copyWith(positionParam: LatLng(latitude, longitude)));
     // Keep destination marker the same
     updatedMarkers.add(_markers.toList().last.copyWith());
@@ -129,11 +129,14 @@ class GoogleMapService {
 
   // Navigate camera to package location
   void navigateToPackageLocation(Map packageLocation) async {
-    log.i('$packageLocation');
+    log.i('${packageLocation['longitude']}');
+    log.i('${packageLocation['latitude']}');
 
     _controller.animateCamera(CameraUpdate.newLatLngZoom(
-        LatLng(double.parse(packageLocation['latitude']),
-            double.parse(packageLocation['longitude'])),
+        LatLng(
+          packageLocation['latitude'],
+          packageLocation['longitude'],
+        ),
         16));
   }
 }

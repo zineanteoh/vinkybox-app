@@ -1,4 +1,5 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:stacked/stacked.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
@@ -81,9 +82,19 @@ class LocationViewModel extends BaseViewModel {
     _packageTrackingService.unsubscribePackageTracking();
   }
 
-  void navigateCameraToPackageLocation() async {
-    Map location = await _locationTrackingService
-        .getPackageLocation('4GcltZz1oIyZYu5rurXZ');
+  void navigateCameraToPackageLocation(String deliveryId) async {
+    Map<String, double> location;
+    if (deliveryId == "") {
+      LocationData locationData =
+          await _locationTrackingService.getLocation();
+      location = {
+        'latitude': locationData.latitude!,
+        'longitude': locationData.longitude!,
+      };
+    } else {
+      location = await _locationTrackingService
+          .getPackageLocation(deliveryId);
+    }
     _googleMapService.navigateToPackageLocation(location);
   }
 }

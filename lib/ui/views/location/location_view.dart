@@ -69,7 +69,12 @@ class LocationView extends StatelessWidget {
             //       ),
             FloatingActionButton(
               onPressed: () {
-                model.navigateCameraToPackageLocation();
+                // todo: fix this
+                if (isDelivering) {
+                  model.navigateCameraToPackageLocation("");
+                } else {
+                  model.navigateCameraToPackageLocation(deliveryId);
+                }
               },
             ),
           ],
