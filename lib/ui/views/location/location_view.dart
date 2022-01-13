@@ -16,11 +16,11 @@ class LocationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<LocationViewModel>.reactive(
-      onModelReady: (model) {
-        model.init();
+      onModelReady: (model) async {
+        await model.init();
         if (isDelivering) {
           // read and write to location database
-          model.initializeLocationTracking(deliveryId);
+          model.initializeLocationTracking();
         } else {
           // read location database
           model.initializePackageTracking(deliveryId);

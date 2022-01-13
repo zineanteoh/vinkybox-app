@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
-import 'package:vinkybox/ui/shared/app_colors.dart';
 import 'package:vinkybox/ui/views/delivery/current_tasks/current_tasks_viewmodel.dart';
 import 'package:vinkybox/ui/widgets/dumb_widgets/header_bar.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/delivery_request_item/delivery_request_item.dart';
@@ -22,7 +21,9 @@ class CurrentTasksView extends StatelessWidget {
               headerText:
                   'You have ${model.getCurrentTasksCount()} task(s)',
             ),
-            const OpenMapButton(),
+            model.getCurrentTasksCount() > 0
+                ? const OpenMapButton()
+                : const SizedBox.shrink(),
             Expanded(
               child: SmartRefresher(
                   header: const ClassicHeader(

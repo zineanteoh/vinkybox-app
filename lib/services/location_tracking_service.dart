@@ -6,7 +6,6 @@ import 'package:location/location.dart';
 import 'package:vinkybox/api/firebase_database_api.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
-import 'package:vinkybox/services/delivery_service.dart';
 import 'package:vinkybox/services/google_map_service.dart';
 
 class LocationTrackingService {
@@ -14,7 +13,6 @@ class LocationTrackingService {
 
   final _firebaseDatabaseApi = locator<FirebaseDatabaseApi>();
   final _googleMapService = locator<GoogleMapService>();
-  final _deliveryService = locator<DeliveryService>();
 
   final Location _location = Location();
   late bool _serviceEnabled;
@@ -24,29 +22,7 @@ class LocationTrackingService {
 
   late StreamSubscription<LocationData> _locationListeners;
 
-  // Keeps track of # of accepted packages with status delivering
-  // Used for location tracking
-  int _userDeliveringCount = 0;
-  int get userDeliveringCount => _userDeliveringCount;
-
-  bool _isUserDelivering = false;
-  bool get isUserDelivering => _isUserDelivering;
-
-  /// Sets isUserDelivering to true or false.
-  ///
-  /// When current user has at least one accepted request with
-  /// status = 'delivering', isUserDelivering = true
-  /// Or equivalently, when userDeliveringCount > 0
-  ///
-  /// Otherwise, when current user has no accepted request with
-  /// status = 'delivering', isUserDelivering = false
-  /// Or equivalently, when userDeliveringCount == 0
-  void updateIsUserDeliverying() {
-    _isUserDelivering = _userDeliveringCount > 0;
-  }
-
   Future requestLocationTrackingPermission() async {
-    log.i('Initializing location service $isUserDelivering');
     log.i('Requesting permission...');
 
     _serviceEnabled = await _location.serviceEnabled();
@@ -108,7 +84,8 @@ class LocationTrackingService {
     return valueMap;
   }
 
-  void unsubscribeLocationTracking() {
-    _locationListeners.cancel();
+  Future unsubscribeLocationTracking() async {
+    log.i('Unsubscribing to all location listeners');
+    await _locationListeners.cancel();
   }
 }

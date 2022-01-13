@@ -2,6 +2,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:stacked/stacked.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
+import 'package:vinkybox/constants/marker_locations.dart';
 import 'package:vinkybox/constants/request_info.dart';
 import 'package:vinkybox/services/delivery_service.dart';
 import 'package:vinkybox/services/google_map_service.dart';
@@ -27,7 +28,20 @@ class LocationViewModel extends BaseViewModel {
 
   Future init() async {
     log.i('Initializing location view model');
-    await _googleMapService.init();
+    List<Map<String, dynamic>> dropOffMarkerLocations = [];
+    for (dynamic task in _deliveryService.currentTasksList) {
+      Map<String, double> coor =
+          dropOffLocations[task['user']['dorm']]!;
+      Map<String, dynamic> loc = {
+        'name': task['user']['dorm'],
+        'longitude': coor['longitude'],
+        'latitude': coor['latitude'],
+      };
+      log.i('location is: $loc');
+      // loc['name'] = task['user']['dorm'];
+      dropOffMarkerLocations.add(loc);
+    }
+    await _googleMapService.init(dropOffMarkerLocations);
   }
 
   void onMapCreated(GoogleMapController controller) {
@@ -38,7 +52,7 @@ class LocationViewModel extends BaseViewModel {
   /// Initialize location tracking for tasks with status = 'delivering'
   ///
   /// Unsubscribe location tracking when delivery status is changed
-  void initializeLocationTracking(String deliveryId) async {
+  void initializeLocationTracking() async {
     log.i('Initializing location tracking for deliverer');
     await _locationTrackingService
         .requestLocationTrackingPermission();
