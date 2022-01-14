@@ -1,10 +1,16 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
 import 'package:vinkybox/app/app.router.dart';
+import 'package:vinkybox/constants/app_keys.dart';
 import 'package:vinkybox/constants/request_info.dart';
+import 'package:vinkybox/models/application_models.dart';
+import 'package:vinkybox/models/request_item.dart';
 import 'package:vinkybox/services/delivery_service.dart';
 import 'package:vinkybox/services/user_service.dart';
 
@@ -66,6 +72,20 @@ class DeliveryRequestItemModel extends BaseViewModel {
   late String dropOffLocationInfo;
   late String delivererNameInfo;
 
+  late final StreamSubscription _requestItemListener;
+  late final StreamController<RequestItem> _requestItemController =
+      StreamController<RequestItem>();
+  late final DocumentReference _deliveryRequestDocument;
+  Stream<RequestItem> get requestItem =>
+      _requestItemController.stream;
+
+  @override
+  void dispose() {
+    _requestItemListener.cancel();
+    _requestItemController.close();
+    super.dispose();
+  }
+
   void onModelReadyLoad(dynamic request) {
     _deliveryRequest = request;
     _deliveryId = request['id'];
@@ -81,6 +101,25 @@ class DeliveryRequestItemModel extends BaseViewModel {
       delivererNameInfo =
           request['statusAccepted']['deliverer']['fullName'];
     }
+
+    // implement listeners through delivery service
+    _requestItemListener = FirebaseFirestore.instance
+        .collection(deliveryRequestsFirestoreKey)
+        .doc(_deliveryId)
+        .snapshots()
+        .listen(_requestUpdated); // add snapshot to controller
+
+    // listen to controller changes
+    _requestItemController.stream.listen(_onRequestUpdated);
+  }
+
+  void _requestUpdated(DocumentSnapshot snapshot) {
+    _requestItemController.add(RequestItem.fromSnapshot(snapshot));
+  }
+
+  void _onRequestUpdated(RequestItem item) {
+    statusInfo = item.status;
+    notifyListeners();
   }
 
   bool isMyPackage() {
