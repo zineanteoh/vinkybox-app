@@ -22,6 +22,8 @@ class AppUser with _$AppUser {
 
 @freezed
 class PackageRequest with _$PackageRequest {
+  const PackageRequest._();
+
   factory PackageRequest({
     required Map<String, dynamic> user,
     String? status,
@@ -34,6 +36,16 @@ class PackageRequest with _$PackageRequest {
 
   factory PackageRequest.fromJson(Map<String, dynamic> json) =>
       _$PackageRequestFromJson(json);
+
+  factory PackageRequest.fromSnapshot(DocumentSnapshot snapshot) =>
+      PackageRequest(
+        user: snapshot['user'] ?? '',
+        status: snapshot['status'] ?? '',
+        packageSize: snapshot['packageSize'] ?? '',
+        pickUpLocation: snapshot['pickUpLocation'] ?? '',
+        dropOffLocation: snapshot['dropOffLocation'] ?? '',
+        time: snapshot['time'] ?? '',
+      );
 }
 
 @freezed

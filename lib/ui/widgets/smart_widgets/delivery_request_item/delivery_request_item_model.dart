@@ -10,7 +10,6 @@ import 'package:vinkybox/app/app.router.dart';
 import 'package:vinkybox/constants/app_keys.dart';
 import 'package:vinkybox/constants/request_info.dart';
 import 'package:vinkybox/models/application_models.dart';
-import 'package:vinkybox/models/request_item.dart';
 import 'package:vinkybox/services/delivery_service.dart';
 import 'package:vinkybox/services/user_service.dart';
 
@@ -73,10 +72,10 @@ class DeliveryRequestItemModel extends BaseViewModel {
   late String delivererNameInfo;
 
   late final StreamSubscription _requestItemListener;
-  late final StreamController<RequestItem> _requestItemController =
-      StreamController<RequestItem>();
+  late final StreamController<PackageRequest> _requestItemController =
+      StreamController<PackageRequest>();
   late final DocumentReference _deliveryRequestDocument;
-  Stream<RequestItem> get requestItem =>
+  Stream<PackageRequest> get requestItem =>
       _requestItemController.stream;
 
   @override
@@ -114,11 +113,11 @@ class DeliveryRequestItemModel extends BaseViewModel {
   }
 
   void _requestUpdated(DocumentSnapshot snapshot) {
-    _requestItemController.add(RequestItem.fromSnapshot(snapshot));
+    _requestItemController.add(PackageRequest.fromSnapshot(snapshot));
   }
 
-  void _onRequestUpdated(RequestItem item) {
-    statusInfo = item.status;
+  void _onRequestUpdated(PackageRequest item) {
+    statusInfo = item.status ?? "";
     notifyListeners();
   }
 

@@ -405,7 +405,7 @@ class __$PackageRequestCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_PackageRequest implements _PackageRequest {
+class _$_PackageRequest extends _PackageRequest {
   _$_PackageRequest(
       {required this.user,
       this.status,
@@ -413,7 +413,8 @@ class _$_PackageRequest implements _PackageRequest {
       required this.pickUpLocation,
       required this.dropOffLocation,
       required this.time,
-      this.statusAccepted = const {}});
+      this.statusAccepted = const {}})
+      : super._();
 
   factory _$_PackageRequest.fromJson(Map<String, dynamic> json) =>
       _$$_PackageRequestFromJson(json);
@@ -479,7 +480,7 @@ class _$_PackageRequest implements _PackageRequest {
   }
 }
 
-abstract class _PackageRequest implements PackageRequest {
+abstract class _PackageRequest extends PackageRequest {
   factory _PackageRequest(
       {required Map<String, dynamic> user,
       String? status,
@@ -488,6 +489,7 @@ abstract class _PackageRequest implements PackageRequest {
       required String dropOffLocation,
       required String time,
       Map<String, dynamic> statusAccepted}) = _$_PackageRequest;
+  _PackageRequest._() : super._();
 
   factory _PackageRequest.fromJson(Map<String, dynamic> json) =
       _$_PackageRequest.fromJson;
