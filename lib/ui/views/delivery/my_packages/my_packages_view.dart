@@ -59,7 +59,7 @@ class MyPackagesView extends StatelessWidget {
               child: ListView.builder(
                 itemCount: model.isMyPackagesEmpty || model.isBusy
                     ? 1
-                    : model.myPackagesList.length,
+                    : model.myPackagesList.requestList.length,
                 itemBuilder: (context, index) {
                   return model.isMyPackagesEmpty
                       ? const Text(
@@ -74,8 +74,8 @@ class MyPackagesView extends StatelessWidget {
                               ),
                             )
                           : DeliveryRequestItem(
-                              deliveryRequest:
-                                  model.myPackagesList[index],
+                              deliveryRequest: model
+                                  .myPackagesList.requestList[index],
                             );
                 },
               ),

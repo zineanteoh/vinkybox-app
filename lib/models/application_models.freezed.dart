@@ -545,7 +545,7 @@ PackageRequestList _$PackageRequestListFromJson(Map<String, dynamic> json) {
 class _$PackageRequestListTearOff {
   const _$PackageRequestListTearOff();
 
-  _PackageRequestList call({required List<PackageRequest> requestList}) {
+  _PackageRequestList call({List<PackageRequest> requestList = const []}) {
     return _PackageRequestList(
       requestList: requestList,
     );
@@ -635,12 +635,13 @@ class __$PackageRequestListCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_PackageRequestList extends _PackageRequestList {
-  _$_PackageRequestList({required this.requestList}) : super._();
+class _$_PackageRequestList implements _PackageRequestList {
+  _$_PackageRequestList({this.requestList = const []});
 
   factory _$_PackageRequestList.fromJson(Map<String, dynamic> json) =>
       _$$_PackageRequestListFromJson(json);
 
+  @JsonKey()
   @override
   final List<PackageRequest> requestList;
 
@@ -673,10 +674,9 @@ class _$_PackageRequestList extends _PackageRequestList {
   }
 }
 
-abstract class _PackageRequestList extends PackageRequestList {
-  factory _PackageRequestList({required List<PackageRequest> requestList}) =
+abstract class _PackageRequestList implements PackageRequestList {
+  factory _PackageRequestList({List<PackageRequest> requestList}) =
       _$_PackageRequestList;
-  _PackageRequestList._() : super._();
 
   factory _PackageRequestList.fromJson(Map<String, dynamic> json) =
       _$_PackageRequestList.fromJson;

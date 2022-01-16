@@ -5,6 +5,7 @@ import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
 import 'package:vinkybox/constants/marker_locations.dart';
 import 'package:vinkybox/constants/request_info.dart';
+import 'package:vinkybox/models/application_models.dart';
 import 'package:vinkybox/services/delivery_service.dart';
 import 'package:vinkybox/services/google_map_service.dart';
 import 'package:vinkybox/services/location_tracking_service.dart';
@@ -30,16 +31,16 @@ class LocationViewModel extends BaseViewModel {
   Future init() async {
     log.i('Initializing location view model');
     List<Map<String, dynamic>> dropOffMarkerLocations = [];
-    for (dynamic task in _deliveryService.currentTasksList) {
-      Map<String, double> coor =
-          dropOffLocations[task['user']['dorm']]!;
+    for (PackageRequest task
+        in _deliveryService.currentTasksList.requestList) {
+      Map<String, double> coor = dropOffLocations[task.user['dorm']]!;
       Map<String, dynamic> loc = {
-        'name': task['user']['dorm'],
+        'name': task.user['dorm'],
         'longitude': coor['longitude'],
         'latitude': coor['latitude'],
       };
       log.i('location is: $loc');
-      // loc['name'] = task['user']['dorm'];
+      // loc['name'] = task.user['dorm'];
       dropOffMarkerLocations.add(loc);
     }
     await _googleMapService.init(dropOffMarkerLocations);
@@ -58,11 +59,12 @@ class LocationViewModel extends BaseViewModel {
     await _locationTrackingService
         .requestLocationTrackingPermission();
 
-    for (dynamic task in _deliveryService.currentTasksList) {
-      if (task['status'] == deliveryStatus[2]) {
+    for (PackageRequest task
+        in _deliveryService.currentTasksList.requestList) {
+      if (task.status == deliveryStatus[2]) {
         log.i('this is task: $task');
         _locationTrackingService.initializeLocationTracking(
-            notifyListeners, task['id']);
+            notifyListeners, task.id!);
       }
     }
   }

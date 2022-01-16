@@ -3,6 +3,7 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
+import 'package:vinkybox/models/application_models.dart';
 import 'package:vinkybox/services/delivery_service.dart';
 
 class CurrentTasksViewModel extends BaseViewModel {
@@ -11,9 +12,10 @@ class CurrentTasksViewModel extends BaseViewModel {
   final _deliveryService = locator<DeliveryService>();
   final _navigationService = locator<NavigationService>();
 
-  List<dynamic> get currentTasksList =>
+  PackageRequestList get currentTasksList =>
       _deliveryService.currentTasksList;
-  bool get isCurrentTasksEmpty => currentTasksList.isEmpty;
+  bool get isCurrentTasksEmpty =>
+      currentTasksList.requestList.isEmpty;
 
   // Pull_to_refresh
   final RefreshController _refreshController =
@@ -43,6 +45,6 @@ class CurrentTasksViewModel extends BaseViewModel {
   }
 
   int getCurrentTasksCount() {
-    return currentTasksList.length;
+    return currentTasksList.requestList.length;
   }
 }

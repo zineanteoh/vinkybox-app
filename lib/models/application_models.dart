@@ -56,10 +56,8 @@ class PackageRequest with _$PackageRequest {
 
 @freezed
 class PackageRequestList with _$PackageRequestList {
-  const PackageRequestList._();
-
   factory PackageRequestList({
-    required List<PackageRequest> requestList,
+    @Default([]) List<PackageRequest> requestList,
   }) = _PackageRequestList;
 
   factory PackageRequestList.fromJson(Map<String, dynamic> json) =>

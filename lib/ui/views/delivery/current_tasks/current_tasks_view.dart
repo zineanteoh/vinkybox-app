@@ -36,10 +36,10 @@ class CurrentTasksView extends StatelessWidget {
                   controller: model.refreshController,
                   onRefresh: model.onRefresh,
                   child: ListView.builder(
-                    itemCount:
-                        model.isCurrentTasksEmpty || model.isBusy
-                            ? 1
-                            : model.currentTasksList.length,
+                    itemCount: model.isCurrentTasksEmpty ||
+                            model.isBusy
+                        ? 1
+                        : model.currentTasksList.requestList.length,
                     itemBuilder: (context, index) {
                       return model.isCurrentTasksEmpty
                           ? const Text(
@@ -52,8 +52,9 @@ class CurrentTasksView extends StatelessWidget {
                                   child: CircularProgressIndicator(),
                                 ).alignment(Alignment.center)
                               : DeliveryRequestItem(
-                                  deliveryRequest:
-                                      model.currentTasksList[index],
+                                  deliveryRequest: model
+                                      .currentTasksList
+                                      .requestList[index],
                                   isUserTask: true,
                                 );
                     },

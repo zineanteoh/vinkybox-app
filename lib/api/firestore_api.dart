@@ -100,7 +100,7 @@ class FirestoreApi {
   ///
   /// Each delivery requests includes an 'id' field that is the
   /// delivery id.
-  Future<List<PackageRequest>> fetchDeliveryRequestList() async {
+  Future<PackageRequestList> fetchDeliveryRequestList() async {
     List<PackageRequest> deliveryRequests = [];
     try {
       deliveryRequests = await _deliveryRequestsCollection
@@ -124,7 +124,7 @@ class FirestoreApi {
       log.e(
           "An error occurred. Could not fetch delivery request list: ${e.toString()}");
     }
-    return deliveryRequests;
+    return PackageRequestList(requestList: deliveryRequests);
   }
 
   /// Adds [acceptRequestInfo] to [deliveryId] document to the

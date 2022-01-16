@@ -15,9 +15,8 @@ class DeliverForOthersViewModel extends BaseViewModel {
 
   RefreshController get refreshController => _refreshController;
 
-  late PackageRequestList latestRequestList;
-  // List<dynamic> get latestRequestList =>
-  //     _deliveryService.latestRequestList;
+  PackageRequestList get latestRequestList =>
+      _deliveryService.latestRequestList;
   bool get isRequestEmpty => latestRequestList.requestList.isEmpty;
 
   final String deliveryPersonAsset =
@@ -31,36 +30,8 @@ class DeliverForOthersViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  // Stream
-  late final StreamSubscription _requestListListener;
-  late final StreamController<PackageRequestList>
-      _requestListController = StreamController<PackageRequestList>();
-  Stream<PackageRequestList> get requestList =>
-      _requestListController.stream;
-
-  void onModelReadyLoad() {
-    latestRequestList = PackageRequestList(
-        requestList: _deliveryService.latestRequestList
-            as List<PackageRequest>);
-
-    // implement listeners
-    _requestListListener = FirebaseFirestore.instance
-        .collection(deliveryRequestsFirestoreKey)
-        .snapshots()
-        .listen(_requestListUpdated);
-
-    // listen to controller changes
-    _requestListController.stream.listen(_onRequestListUpdated);
-  }
-
-  void _requestListUpdated(
-      QuerySnapshot<Map<String, dynamic>> snapshot) {
-    _requestListController
-        .add(PackageRequestList.fromSnapshot(snapshot));
-  }
-
-  void _onRequestListUpdated(PackageRequestList list) {
-    latestRequestList = list;
+  void onModelReadyLoad() async {
+    await _deliveryService.fetchDeliveryRequestList();
     notifyListeners();
   }
 

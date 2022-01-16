@@ -49,9 +49,10 @@ Map<String, dynamic> _$$_PackageRequestToJson(_$_PackageRequest instance) =>
 _$_PackageRequestList _$$_PackageRequestListFromJson(
         Map<String, dynamic> json) =>
     _$_PackageRequestList(
-      requestList: (json['requestList'] as List<dynamic>)
-          .map((e) => PackageRequest.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      requestList: (json['requestList'] as List<dynamic>?)
+              ?.map((e) => PackageRequest.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$_PackageRequestListToJson(

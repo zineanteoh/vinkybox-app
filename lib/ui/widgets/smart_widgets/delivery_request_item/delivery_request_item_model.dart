@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:vinkybox/app/app.locator.dart';
@@ -117,6 +116,11 @@ class DeliveryRequestItemModel extends BaseViewModel {
 
   void _onRequestUpdated(PackageRequest item) {
     statusInfo = item.status;
+    if (statusInfo != deliveryStatus[0]) {
+      // if delivery status is not new
+      delivererNameInfo =
+          item.statusAccepted['deliverer']['fullName'];
+    }
     notifyListeners();
   }
 
