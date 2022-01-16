@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:vinkybox/ui/shared/ui_helpers.dart';
@@ -36,7 +35,8 @@ class _DeliveryViewState extends State<DeliveryView>
                         'Nothing here... Why not request a delivery?')
                     .padding(top: 30)
                 : DeliveryRequestItem(
-                    deliveryRequest: model.myCurrentPackagesList[0]),
+                    deliveryRequest:
+                        model.myCurrentPackagesList.requestList[0]),
       ),
     ].toColumn().padding(top: 25);
   }
@@ -59,7 +59,8 @@ class _DeliveryViewState extends State<DeliveryView>
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<DeliveryViewModel>.reactive(
-      onModelReady: (model) => model.loadLatestRequests(),
+      onModelReady: (model) => model.onModelReadyLoad(),
+      disposeViewModel: false,
       builder: (context, model, child) => Scaffold(
         body: Column(
           children: [
@@ -71,27 +72,8 @@ class _DeliveryViewState extends State<DeliveryView>
                 WelcomeMessage(),
               ],
             ),
-            Expanded(
-              child: SmartRefresher(
-                header: const ClassicHeader(
-                  completeText: 'Request is up to date!',
-                  idleText: 'Pull to Refresh',
-                  refreshingText: 'Fetching Requests...',
-                ),
-                enablePullDown: true,
-                controller: model.refreshController,
-                onRefresh: model.onRefresh,
-                child: ListView.builder(
-                  itemCount: 1,
-                  itemBuilder: (context, index) => Column(
-                    children: [
-                      userActionButtons(),
-                      myPackagesSection(model),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            userActionButtons(),
+            myPackagesSection(model),
           ],
         ).padding(
           horizontal: 20,

@@ -13,6 +13,7 @@ class CurrentTasksView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<CurrentTasksViewModel>.reactive(
+      onModelReady: (model) => model.loadLatestRequests(),
       builder: (context, model, child) => Scaffold(
         body: SafeArea(
           child: <Widget>[
@@ -35,20 +36,25 @@ class CurrentTasksView extends StatelessWidget {
                   controller: model.refreshController,
                   onRefresh: model.onRefresh,
                   child: ListView.builder(
-                    itemCount:
-                        model.isCurrentTasksEmpty || model.isBusy
-                            ? 1
-                            : model.currentTasksList.length,
+                    itemCount: model.isCurrentTasksEmpty ||
+                            model.isBusy
+                        ? 1
+                        : model.currentTasksList.requestList.length,
                     itemBuilder: (context, index) {
                       return model.isCurrentTasksEmpty
                           ? const Text(
                                   'You have not accepted any tasks!')
                               .alignment(Alignment.center)
                           : model.isBusy
-                              ? const Center()
+                              ? const SizedBox(
+                                  width: 40,
+                                  height: 40,
+                                  child: CircularProgressIndicator(),
+                                ).alignment(Alignment.center)
                               : DeliveryRequestItem(
-                                  deliveryRequest:
-                                      model.currentTasksList[index],
+                                  deliveryRequest: model
+                                      .currentTasksList
+                                      .requestList[index],
                                   isUserTask: true,
                                 );
                     },

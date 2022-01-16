@@ -28,6 +28,6 @@ class PackageHistoryButtonModel extends BaseViewModel {
   final String description = "Click to see your past packages!";
 
   int getMyPackagesCount() {
-    return _deliveryService.myPackagesList.length;
+    return _deliveryService.myPackagesList.requestList.length;
   }
 }

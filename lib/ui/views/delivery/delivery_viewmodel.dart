@@ -1,41 +1,58 @@
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:stacked/stacked.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
+import 'package:vinkybox/constants/app_keys.dart';
+import 'package:vinkybox/models/application_models.dart';
 import 'package:vinkybox/services/delivery_service.dart';
 
 class DeliveryViewModel extends BaseViewModel {
   final log = getLogger('DeliveryViewModel');
   final _deliveryService = locator<DeliveryService>();
-  final RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
 
-  RefreshController get refreshController => _refreshController;
-
-  List<dynamic> get myCurrentPackagesList =>
+  PackageRequestList get myCurrentPackagesList =>
       _deliveryService.myPackagesList;
+  bool get isRequestEmpty =>
+      myCurrentPackagesList.requestList.isEmpty;
 
-  bool get isRequestEmpty => myCurrentPackagesList.isEmpty;
+  // Stream
+  late final StreamSubscription _currentRequestListListener;
+  late final StreamController<PackageRequestList>
+      _currentRequestListController =
+      StreamController<PackageRequestList>();
+  Stream<PackageRequestList> get currentRequestList =>
+      _currentRequestListController.stream;
 
-  Future loadLatestRequests() async {
-    setBusy(true);
-    log.i('loading latest requests...');
-    await Future.delayed(const Duration(milliseconds: 700));
+  void onModelReadyLoad() async {
     await _deliveryService.fetchDeliveryRequestList();
-    setBusy(false);
     notifyListeners();
+    log.i('fetched delivery request');
+
+    // implement listeners
+    _currentRequestListListener = FirebaseFirestore.instance
+        .collection(deliveryRequestsFirestoreKey)
+        .snapshots()
+        .listen(_currentRequestListUpdated);
+
+    // listen to controller changes
+    _currentRequestListController.stream
+        .listen(_onCurrentRequestListUpdated);
   }
 
-  Future onRefresh() async {
-    setBusy(true);
-    await Future.delayed(const Duration(milliseconds: 1000));
-    await _deliveryService.fetchDeliveryRequestList();
-    setBusy(false);
+  void _currentRequestListUpdated(
+      QuerySnapshot<Map<String, dynamic>> snapshot) {
+    _currentRequestListController
+        .add(PackageRequestList.fromSnapshot(snapshot));
+  }
+
+  void _onCurrentRequestListUpdated(PackageRequestList list) {
+    _deliveryService.setCurrentTaskList(list);
     notifyListeners();
-    _refreshController.refreshCompleted();
   }
 
   int getLatestRequestCount() {
-    return myCurrentPackagesList.length;
+    return myCurrentPackagesList.requestList.length;
   }
 }

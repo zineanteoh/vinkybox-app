@@ -10,19 +10,28 @@ class DeliveryService {
   final log = getLogger('DeliveryService');
 
   // Delivery Request List contains ALL requests
-  List<dynamic> _deliveryRequestList = [];
+  PackageRequestList _deliveryRequestList = PackageRequestList();
 
   // My packages list contains only user's package requests
-  List<dynamic> _myPackagesList = [];
-  List<dynamic> get myPackagesList => _myPackagesList;
+  PackageRequestList _myPackagesList = PackageRequestList();
+  PackageRequestList get myPackagesList => _myPackagesList;
+  void setMyPackagesList(PackageRequestList list) {
+    _myPackagesList = list;
+  }
 
   // Latest requests list contains other users' package requests
-  List<dynamic> _latestRequestList = [];
-  List<dynamic> get latestRequestList => _latestRequestList;
+  PackageRequestList _latestRequestList = PackageRequestList();
+  PackageRequestList get latestRequestList => _latestRequestList;
+  void setLatestRequestList(PackageRequestList list) {
+    _latestRequestList = list;
+  }
 
   // Current tasks list contains all user's 'accepted' package requests
-  List<dynamic> _currentTasksList = [];
-  List<dynamic> get currentTasksList => _currentTasksList;
+  PackageRequestList _currentTasksList = PackageRequestList();
+  PackageRequestList get currentTasksList => _currentTasksList;
+  void setCurrentTaskList(PackageRequestList list) {
+    _currentTasksList = list;
+  }
 
   final _firestoreApi = locator<FirestoreApi>();
   final _userService = locator<UserService>();
@@ -42,11 +51,14 @@ class DeliveryService {
         statusAccepted: {},
       ),
     );
+    // need to fetch request again (should be one operation)
+    _deliveryRequestList =
+        await _firestoreApi.fetchDeliveryRequestList();
     updateLists();
     log.v('Package has been requested!');
   }
 
-  Future<List<dynamic>> fetchDeliveryRequestList() async {
+  Future<PackageRequestList> fetchDeliveryRequestList() async {
     _deliveryRequestList =
         await _firestoreApi.fetchDeliveryRequestList();
     updateLists();
@@ -65,22 +77,30 @@ class DeliveryService {
   ///
   /// Otherwise add the request to [_latestRequestList].
   void updateLists() {
-    _myPackagesList = _deliveryRequestList
+    List<PackageRequest> temp = [];
+
+    // myPackages
+    temp = _deliveryRequestList.requestList
         .where((packageRequest) =>
-            packageRequest['user']['id'] ==
-            _userService.currentUser.id)
+            packageRequest.user['id'] == _userService.currentUser.id)
         .toList();
-    _latestRequestList = _deliveryRequestList
+    _myPackagesList = PackageRequestList(requestList: temp);
+
+    // latestRequest
+    temp = _deliveryRequestList.requestList
         .where((packageRequest) =>
-            packageRequest['user']['id'] !=
-            _userService.currentUser.id)
+            packageRequest.user['id'] != _userService.currentUser.id)
         .toList();
-    _currentTasksList = _deliveryRequestList
+    _latestRequestList = PackageRequestList(requestList: temp);
+
+    // currentTask
+    temp = _deliveryRequestList.requestList
         .where((packageRequest) =>
-            !packageRequest['statusAccepted'].isEmpty &&
-            packageRequest['statusAccepted']['deliverer']['id'] ==
+            packageRequest.statusAccepted.isNotEmpty &&
+            packageRequest.statusAccepted['deliverer']['id'] ==
                 _userService.currentUser.id)
         .toList();
+    _currentTasksList = PackageRequestList(requestList: temp);
   }
 
   /// Calls [FirestoreApi] to accept a request of [deliveryId]

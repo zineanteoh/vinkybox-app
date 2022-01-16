@@ -1,23 +1,23 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
-import 'package:vinkybox/app/app.router.dart';
+import 'package:vinkybox/constants/app_keys.dart';
+import 'package:vinkybox/models/application_models.dart';
 import 'package:vinkybox/services/delivery_service.dart';
-import 'package:vinkybox/services/location_tracking_service.dart';
 
 class DeliverForOthersViewModel extends BaseViewModel {
   final log = getLogger('DeliverForOthersViewModel');
   final _deliveryService = locator<DeliveryService>();
-  final _navigationService = locator<NavigationService>();
-  final _locationTrackingService = locator<LocationTrackingService>();
+
   RefreshController get refreshController => _refreshController;
 
-  List<dynamic> get latestRequestList =>
+  PackageRequestList get latestRequestList =>
       _deliveryService.latestRequestList;
-  bool get isRequestEmpty => latestRequestList.isEmpty;
+  bool get isRequestEmpty => latestRequestList.requestList.isEmpty;
 
   final String deliveryPersonAsset =
       "assets/images/delivery-person.svg";
@@ -30,6 +30,11 @@ class DeliverForOthersViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  void onModelReadyLoad() async {
+    await _deliveryService.fetchDeliveryRequestList();
+    notifyListeners();
+  }
+
   // Pull_to_refresh
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
@@ -37,7 +42,7 @@ class DeliverForOthersViewModel extends BaseViewModel {
   Future loadLatestRequests() async {
     setBusy(true);
     await Future.delayed(const Duration(milliseconds: 1000));
-    _deliveryService.fetchDeliveryRequestList();
+    await _deliveryService.fetchDeliveryRequestList();
     setBusy(false);
     notifyListeners();
   }
@@ -45,13 +50,13 @@ class DeliverForOthersViewModel extends BaseViewModel {
   Future onRefresh() async {
     setBusy(true);
     await Future.delayed(const Duration(milliseconds: 1000));
-    _deliveryService.fetchDeliveryRequestList();
+    await _deliveryService.fetchDeliveryRequestList();
     setBusy(false);
     notifyListeners();
     _refreshController.refreshCompleted();
   }
 
   int getLatestRequestCount() {
-    return latestRequestList.length;
+    return latestRequestList.requestList.length;
   }
 }

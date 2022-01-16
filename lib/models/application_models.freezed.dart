@@ -223,14 +223,16 @@ class _$PackageRequestTearOff {
   const _$PackageRequestTearOff();
 
   _PackageRequest call(
-      {required Map<String, dynamic> user,
-      String? status,
+      {String? id,
+      required Map<String, dynamic> user,
+      required String status,
       required String packageSize,
       required String pickUpLocation,
       required String dropOffLocation,
       required String time,
       Map<String, dynamic> statusAccepted = const {}}) {
     return _PackageRequest(
+      id: id,
       user: user,
       status: status,
       packageSize: packageSize,
@@ -251,8 +253,9 @@ const $PackageRequest = _$PackageRequestTearOff();
 
 /// @nodoc
 mixin _$PackageRequest {
+  String? get id => throw _privateConstructorUsedError;
   Map<String, dynamic> get user => throw _privateConstructorUsedError;
-  String? get status => throw _privateConstructorUsedError;
+  String get status => throw _privateConstructorUsedError;
   String get packageSize => throw _privateConstructorUsedError;
   String get pickUpLocation => throw _privateConstructorUsedError;
   String get dropOffLocation => throw _privateConstructorUsedError;
@@ -271,8 +274,9 @@ abstract class $PackageRequestCopyWith<$Res> {
           PackageRequest value, $Res Function(PackageRequest) then) =
       _$PackageRequestCopyWithImpl<$Res>;
   $Res call(
-      {Map<String, dynamic> user,
-      String? status,
+      {String? id,
+      Map<String, dynamic> user,
+      String status,
       String packageSize,
       String pickUpLocation,
       String dropOffLocation,
@@ -291,6 +295,7 @@ class _$PackageRequestCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? id = freezed,
     Object? user = freezed,
     Object? status = freezed,
     Object? packageSize = freezed,
@@ -300,6 +305,10 @@ class _$PackageRequestCopyWithImpl<$Res>
     Object? statusAccepted = freezed,
   }) {
     return _then(_value.copyWith(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       user: user == freezed
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -307,7 +316,7 @@ class _$PackageRequestCopyWithImpl<$Res>
       status: status == freezed
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       packageSize: packageSize == freezed
           ? _value.packageSize
           : packageSize // ignore: cast_nullable_to_non_nullable
@@ -340,8 +349,9 @@ abstract class _$PackageRequestCopyWith<$Res>
       __$PackageRequestCopyWithImpl<$Res>;
   @override
   $Res call(
-      {Map<String, dynamic> user,
-      String? status,
+      {String? id,
+      Map<String, dynamic> user,
+      String status,
       String packageSize,
       String pickUpLocation,
       String dropOffLocation,
@@ -362,6 +372,7 @@ class __$PackageRequestCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? id = freezed,
     Object? user = freezed,
     Object? status = freezed,
     Object? packageSize = freezed,
@@ -371,6 +382,10 @@ class __$PackageRequestCopyWithImpl<$Res>
     Object? statusAccepted = freezed,
   }) {
     return _then(_PackageRequest(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       user: user == freezed
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -378,7 +393,7 @@ class __$PackageRequestCopyWithImpl<$Res>
       status: status == freezed
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       packageSize: packageSize == freezed
           ? _value.packageSize
           : packageSize // ignore: cast_nullable_to_non_nullable
@@ -405,23 +420,27 @@ class __$PackageRequestCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_PackageRequest implements _PackageRequest {
+class _$_PackageRequest extends _PackageRequest {
   _$_PackageRequest(
-      {required this.user,
-      this.status,
+      {this.id,
+      required this.user,
+      required this.status,
       required this.packageSize,
       required this.pickUpLocation,
       required this.dropOffLocation,
       required this.time,
-      this.statusAccepted = const {}});
+      this.statusAccepted = const {}})
+      : super._();
 
   factory _$_PackageRequest.fromJson(Map<String, dynamic> json) =>
       _$$_PackageRequestFromJson(json);
 
   @override
+  final String? id;
+  @override
   final Map<String, dynamic> user;
   @override
-  final String? status;
+  final String status;
   @override
   final String packageSize;
   @override
@@ -436,7 +455,7 @@ class _$_PackageRequest implements _PackageRequest {
 
   @override
   String toString() {
-    return 'PackageRequest(user: $user, status: $status, packageSize: $packageSize, pickUpLocation: $pickUpLocation, dropOffLocation: $dropOffLocation, time: $time, statusAccepted: $statusAccepted)';
+    return 'PackageRequest(id: $id, user: $user, status: $status, packageSize: $packageSize, pickUpLocation: $pickUpLocation, dropOffLocation: $dropOffLocation, time: $time, statusAccepted: $statusAccepted)';
   }
 
   @override
@@ -444,6 +463,7 @@ class _$_PackageRequest implements _PackageRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _PackageRequest &&
+            const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.user, user) &&
             const DeepCollectionEquality().equals(other.status, status) &&
             const DeepCollectionEquality()
@@ -460,6 +480,7 @@ class _$_PackageRequest implements _PackageRequest {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(user),
       const DeepCollectionEquality().hash(status),
       const DeepCollectionEquality().hash(packageSize),
@@ -479,23 +500,27 @@ class _$_PackageRequest implements _PackageRequest {
   }
 }
 
-abstract class _PackageRequest implements PackageRequest {
+abstract class _PackageRequest extends PackageRequest {
   factory _PackageRequest(
-      {required Map<String, dynamic> user,
-      String? status,
+      {String? id,
+      required Map<String, dynamic> user,
+      required String status,
       required String packageSize,
       required String pickUpLocation,
       required String dropOffLocation,
       required String time,
       Map<String, dynamic> statusAccepted}) = _$_PackageRequest;
+  _PackageRequest._() : super._();
 
   factory _PackageRequest.fromJson(Map<String, dynamic> json) =
       _$_PackageRequest.fromJson;
 
   @override
+  String? get id;
+  @override
   Map<String, dynamic> get user;
   @override
-  String? get status;
+  String get status;
   @override
   String get packageSize;
   @override
@@ -509,6 +534,158 @@ abstract class _PackageRequest implements PackageRequest {
   @override
   @JsonKey(ignore: true)
   _$PackageRequestCopyWith<_PackageRequest> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+PackageRequestList _$PackageRequestListFromJson(Map<String, dynamic> json) {
+  return _PackageRequestList.fromJson(json);
+}
+
+/// @nodoc
+class _$PackageRequestListTearOff {
+  const _$PackageRequestListTearOff();
+
+  _PackageRequestList call({List<PackageRequest> requestList = const []}) {
+    return _PackageRequestList(
+      requestList: requestList,
+    );
+  }
+
+  PackageRequestList fromJson(Map<String, Object?> json) {
+    return PackageRequestList.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $PackageRequestList = _$PackageRequestListTearOff();
+
+/// @nodoc
+mixin _$PackageRequestList {
+  List<PackageRequest> get requestList => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $PackageRequestListCopyWith<PackageRequestList> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PackageRequestListCopyWith<$Res> {
+  factory $PackageRequestListCopyWith(
+          PackageRequestList value, $Res Function(PackageRequestList) then) =
+      _$PackageRequestListCopyWithImpl<$Res>;
+  $Res call({List<PackageRequest> requestList});
+}
+
+/// @nodoc
+class _$PackageRequestListCopyWithImpl<$Res>
+    implements $PackageRequestListCopyWith<$Res> {
+  _$PackageRequestListCopyWithImpl(this._value, this._then);
+
+  final PackageRequestList _value;
+  // ignore: unused_field
+  final $Res Function(PackageRequestList) _then;
+
+  @override
+  $Res call({
+    Object? requestList = freezed,
+  }) {
+    return _then(_value.copyWith(
+      requestList: requestList == freezed
+          ? _value.requestList
+          : requestList // ignore: cast_nullable_to_non_nullable
+              as List<PackageRequest>,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$PackageRequestListCopyWith<$Res>
+    implements $PackageRequestListCopyWith<$Res> {
+  factory _$PackageRequestListCopyWith(
+          _PackageRequestList value, $Res Function(_PackageRequestList) then) =
+      __$PackageRequestListCopyWithImpl<$Res>;
+  @override
+  $Res call({List<PackageRequest> requestList});
+}
+
+/// @nodoc
+class __$PackageRequestListCopyWithImpl<$Res>
+    extends _$PackageRequestListCopyWithImpl<$Res>
+    implements _$PackageRequestListCopyWith<$Res> {
+  __$PackageRequestListCopyWithImpl(
+      _PackageRequestList _value, $Res Function(_PackageRequestList) _then)
+      : super(_value, (v) => _then(v as _PackageRequestList));
+
+  @override
+  _PackageRequestList get _value => super._value as _PackageRequestList;
+
+  @override
+  $Res call({
+    Object? requestList = freezed,
+  }) {
+    return _then(_PackageRequestList(
+      requestList: requestList == freezed
+          ? _value.requestList
+          : requestList // ignore: cast_nullable_to_non_nullable
+              as List<PackageRequest>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_PackageRequestList implements _PackageRequestList {
+  _$_PackageRequestList({this.requestList = const []});
+
+  factory _$_PackageRequestList.fromJson(Map<String, dynamic> json) =>
+      _$$_PackageRequestListFromJson(json);
+
+  @JsonKey()
+  @override
+  final List<PackageRequest> requestList;
+
+  @override
+  String toString() {
+    return 'PackageRequestList(requestList: $requestList)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _PackageRequestList &&
+            const DeepCollectionEquality()
+                .equals(other.requestList, requestList));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(requestList));
+
+  @JsonKey(ignore: true)
+  @override
+  _$PackageRequestListCopyWith<_PackageRequestList> get copyWith =>
+      __$PackageRequestListCopyWithImpl<_PackageRequestList>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_PackageRequestListToJson(this);
+  }
+}
+
+abstract class _PackageRequestList implements PackageRequestList {
+  factory _PackageRequestList({List<PackageRequest> requestList}) =
+      _$_PackageRequestList;
+
+  factory _PackageRequestList.fromJson(Map<String, dynamic> json) =
+      _$_PackageRequestList.fromJson;
+
+  @override
+  List<PackageRequest> get requestList;
+  @override
+  @JsonKey(ignore: true)
+  _$PackageRequestListCopyWith<_PackageRequestList> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

@@ -24,37 +24,60 @@ class MyPackagesView extends StatelessWidget {
                   : 'My Packages (${model.getMyPackagesCount()})',
             ),
             Expanded(
-              child: SmartRefresher(
-                header: const ClassicHeader(
-                  completeText: 'My packages is up to date!',
-                  idleText: 'Pull to Refresh',
-                  refreshingText: 'Fetching My Packages...',
-                ),
-                enablePullDown: true,
-                controller: model.refreshController,
-                onRefresh: model.onRefresh,
-                child: ListView.builder(
-                  itemCount: model.isMyPackagesEmpty || model.isBusy
-                      ? 1
-                      : model.myPackagesList.length,
-                  itemBuilder: (context, index) {
-                    return model.isMyPackagesEmpty
-                        ? const Text(
-                                'You have not requested any packages!')
-                            .alignment(Alignment.center)
-                        : model.isBusy
-                            ? const Center(
-                                child: SizedBox(
-                                    width: 40,
-                                    height: 40,
-                                    child:
-                                        CircularProgressIndicator()),
-                              )
-                            : DeliveryRequestItem(
-                                deliveryRequest:
-                                    model.myPackagesList[index]);
-                  },
-                ),
+              // child: SmartRefresher(
+              //   header: const ClassicHeader(
+              //     completeText: 'My packages is up to date!',
+              //     idleText: 'Pull to Refresh',
+              //     refreshingText: 'Fetching My Packages...',
+              //   ),
+              //   enablePullDown: true,
+              //   controller: model.refreshController,
+              //   onRefresh: model.onRefresh,
+              //   child: ListView.builder(
+              //     itemCount: model.isMyPackagesEmpty || model.isBusy
+              //         ? 1
+              //         : model.myPackagesList.length,
+              //     itemBuilder: (context, index) {
+              //       return model.isMyPackagesEmpty
+              //           ? const Text(
+              //                   'You have not requested any packages!')
+              //               .alignment(Alignment.center)
+              //           : model.isBusy
+              //               ? const Center(
+              //                   child: SizedBox(
+              //                       width: 40,
+              //                       height: 40,
+              //                       child:
+              //                           CircularProgressIndicator()),
+              //                 )
+              //               : DeliveryRequestItem(
+              //                   deliveryRequest:
+              //                       model.myPackagesList[index]);
+              //     },
+              //   ),
+              // ),
+              child: ListView.builder(
+                itemCount: model.isMyPackagesEmpty || model.isBusy
+                    ? 1
+                    : model.myPackagesList.requestList.length,
+                itemBuilder: (context, index) {
+                  return model.isMyPackagesEmpty
+                      ? const Text(
+                              'You have not requested any packages!')
+                          .alignment(Alignment.center)
+                      : model.isBusy
+                          ? const Center(
+                              child: SizedBox(
+                                width: 40,
+                                height: 40,
+                                child: CircularProgressIndicator(),
+                              ),
+                            )
+                          : DeliveryRequestItem(
+                              deliveryRequest: model
+                                  .myPackagesList.requestList[index],
+                            );
+                },
               ),
             ),
           ].toColumn().padding(left: 20.0, right: 20.0, top: 50.0),
