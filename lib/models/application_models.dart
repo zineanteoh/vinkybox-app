@@ -45,6 +45,7 @@ class PackageRequest with _$PackageRequest {
         pickUpLocation: snapshot['pickUpLocation'] ?? '',
         dropOffLocation: snapshot['dropOffLocation'] ?? '',
         time: snapshot['time'] ?? '',
+        statusAccepted: snapshot['statusAccepted'],
       );
 }
 

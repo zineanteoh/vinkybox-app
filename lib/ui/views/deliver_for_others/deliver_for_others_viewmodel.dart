@@ -37,7 +37,7 @@ class DeliverForOthersViewModel extends BaseViewModel {
   Future loadLatestRequests() async {
     setBusy(true);
     await Future.delayed(const Duration(milliseconds: 1000));
-    _deliveryService.fetchDeliveryRequestList();
+    await _deliveryService.fetchDeliveryRequestList();
     setBusy(false);
     notifyListeners();
   }
@@ -45,7 +45,7 @@ class DeliverForOthersViewModel extends BaseViewModel {
   Future onRefresh() async {
     setBusy(true);
     await Future.delayed(const Duration(milliseconds: 1000));
-    _deliveryService.fetchDeliveryRequestList();
+    await _deliveryService.fetchDeliveryRequestList();
     setBusy(false);
     notifyListeners();
     _refreshController.refreshCompleted();

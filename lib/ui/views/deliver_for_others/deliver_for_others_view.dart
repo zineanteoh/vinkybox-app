@@ -47,6 +47,7 @@ class DeliverForOthersView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<DeliverForOthersViewModel>.reactive(
+      onModelReady: (model) => model.loadLatestRequests(),
       builder: (context, model, child) => Scaffold(
         body: <Widget>[
           _howToDeliverCard(model),

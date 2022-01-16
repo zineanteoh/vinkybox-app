@@ -71,29 +71,29 @@ class _DeliveryViewState extends State<DeliveryView>
                 WelcomeMessage(),
               ],
             ),
-            // Expanded(
-            //   child: SmartRefresher(
-            //     header: const ClassicHeader(
-            //       completeText: 'Request is up to date!',
-            //       idleText: 'Pull to Refresh',
-            //       refreshingText: 'Fetching Requests...',
-            //     ),
-            //     enablePullDown: true,
-            //     controller: model.refreshController,
-            //     onRefresh: model.onRefresh,
-            //     child: ListView.builder(
-            //       itemCount: 1,
-            //       itemBuilder: (context, index) => Column(
-            //         children: [
-            //           userActionButtons(),
-            //           myPackagesSection(model),
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            userActionButtons(),
-            myPackagesSection(model),
+            Expanded(
+              child: SmartRefresher(
+                header: const ClassicHeader(
+                  completeText: 'Request is up to date!',
+                  idleText: 'Pull to Refresh',
+                  refreshingText: 'Fetching Requests...',
+                ),
+                enablePullDown: true,
+                controller: model.refreshController,
+                onRefresh: model.onRefresh,
+                child: ListView.builder(
+                  itemCount: 1,
+                  itemBuilder: (context, index) => Column(
+                    children: [
+                      userActionButtons(),
+                      myPackagesSection(model),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            // userActionButtons(),
+            // myPackagesSection(model),
           ],
         ).padding(
           horizontal: 20,

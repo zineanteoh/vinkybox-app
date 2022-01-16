@@ -74,7 +74,6 @@ class DeliveryRequestItemModel extends BaseViewModel {
   late final StreamSubscription _requestItemListener;
   late final StreamController<PackageRequest> _requestItemController =
       StreamController<PackageRequest>();
-  late final DocumentReference _deliveryRequestDocument;
   Stream<PackageRequest> get requestItem =>
       _requestItemController.stream;
 
