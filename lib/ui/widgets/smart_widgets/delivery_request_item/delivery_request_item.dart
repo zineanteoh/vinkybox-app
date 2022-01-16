@@ -4,11 +4,12 @@ import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:timelines/timelines.dart';
 import 'package:vinkybox/constants/request_info.dart';
+import 'package:vinkybox/models/application_models.dart';
 import 'package:vinkybox/ui/shared/app_colors.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/delivery_request_item/delivery_request_item_model.dart';
 
 class DeliveryRequestItem extends StatelessWidget {
-  final dynamic deliveryRequest;
+  final PackageRequest deliveryRequest;
   bool isUserTask;
   DeliveryRequestItem(
       {required this.deliveryRequest,

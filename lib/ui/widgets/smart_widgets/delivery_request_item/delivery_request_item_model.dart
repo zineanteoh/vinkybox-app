@@ -60,7 +60,7 @@ class DeliveryRequestItemModel extends BaseViewModel {
     notifyListeners();
   }
 
-  late dynamic _deliveryRequest;
+  late PackageRequest _deliveryRequest;
   late dynamic _deliveryId;
   late String nameInfo;
   late String timeInfo;
@@ -84,23 +84,23 @@ class DeliveryRequestItemModel extends BaseViewModel {
     super.dispose();
   }
 
-  void onModelReadyLoad(dynamic request) {
+  void onModelReadyLoad(PackageRequest request) {
     _deliveryRequest = request;
-    _deliveryId = request['id'];
-    nameInfo = request['user']['fullName'];
-    timeInfo = request['time'];
-    statusInfo = request['status'];
-    dormInfo = request['user']['dorm'];
-    packageSizeInfo = request['packageSize'];
-    pickUpLocationInfo = request['pickUpLocation'];
-    dropOffLocationInfo = request['dropOffLocation'];
+    _deliveryId = request.id;
+    nameInfo = request.user['fullName'];
+    timeInfo = request.time;
+    statusInfo = request.status;
+    dormInfo = request.user['dorm'];
+    packageSizeInfo = request.packageSize;
+    pickUpLocationInfo = request.pickUpLocation;
+    dropOffLocationInfo = request.dropOffLocation;
     if (statusInfo != deliveryStatus[0]) {
       // if delivery status is not new
       delivererNameInfo =
-          request['statusAccepted']['deliverer']['fullName'];
+          request.statusAccepted['deliverer']['fullName'];
     }
 
-    // implement listeners through delivery service
+    // implement listeners
     _requestItemListener = FirebaseFirestore.instance
         .collection(deliveryRequestsFirestoreKey)
         .doc(_deliveryId)
@@ -116,12 +116,12 @@ class DeliveryRequestItemModel extends BaseViewModel {
   }
 
   void _onRequestUpdated(PackageRequest item) {
-    statusInfo = item.status ?? "";
+    statusInfo = item.status;
     notifyListeners();
   }
 
   bool isMyPackage() {
-    return _deliveryRequest['user']['email'] ==
+    return _deliveryRequest.user['email'] ==
         _userService.currentUser.email;
   }
 

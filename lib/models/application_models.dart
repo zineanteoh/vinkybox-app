@@ -25,8 +25,9 @@ class PackageRequest with _$PackageRequest {
   const PackageRequest._();
 
   factory PackageRequest({
+    String? id,
     required Map<String, dynamic> user,
-    String? status,
+    required String status,
     required String packageSize,
     required String pickUpLocation,
     required String dropOffLocation,
@@ -39,14 +40,52 @@ class PackageRequest with _$PackageRequest {
 
   factory PackageRequest.fromSnapshot(DocumentSnapshot snapshot) =>
       PackageRequest(
-        user: snapshot['user'] ?? '',
-        status: snapshot['status'] ?? '',
-        packageSize: snapshot['packageSize'] ?? '',
-        pickUpLocation: snapshot['pickUpLocation'] ?? '',
-        dropOffLocation: snapshot['dropOffLocation'] ?? '',
-        time: snapshot['time'] ?? '',
-        statusAccepted: snapshot['statusAccepted'],
+        id: (snapshot.data() as dynamic)['id'],
+        user: (snapshot.data() as dynamic)['user'],
+        status: (snapshot.data() as dynamic)['status'],
+        packageSize: (snapshot.data() as dynamic)['packageSize'],
+        pickUpLocation:
+            (snapshot.data() as dynamic)['pickUpLocation'],
+        dropOffLocation:
+            (snapshot.data() as dynamic)['dropOffLocation'],
+        time: (snapshot.data() as dynamic)['time'],
+        statusAccepted:
+            (snapshot.data() as dynamic)['statusAccepted'],
       );
+}
+
+@freezed
+class PackageRequestList with _$PackageRequestList {
+  const PackageRequestList._();
+
+  factory PackageRequestList({
+    required List<PackageRequest> requestList,
+  }) = _PackageRequestList;
+
+  factory PackageRequestList.fromJson(Map<String, dynamic> json) =>
+      _$PackageRequestListFromJson(json);
+
+  factory PackageRequestList.fromSnapshot(QuerySnapshot snapshot) {
+    return PackageRequestList(
+      requestList: snapshot.docs
+          .map(
+            (doc) => PackageRequest(
+              id: (doc.data() as dynamic)['id'],
+              user: (doc.data() as dynamic)['user'],
+              status: (doc.data() as dynamic)['status'],
+              packageSize: (doc.data() as dynamic)['packageSize'],
+              pickUpLocation:
+                  (doc.data() as dynamic)['pickUpLocation'],
+              dropOffLocation:
+                  (doc.data() as dynamic)['dropOffLocation'],
+              time: (doc.data() as dynamic)['time'],
+              statusAccepted:
+                  (doc.data() as dynamic)['statusAccepted'],
+            ),
+          )
+          .toList(),
+    );
+  }
 }
 
 @freezed

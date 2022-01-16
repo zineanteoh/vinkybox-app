@@ -1,23 +1,24 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
-import 'package:vinkybox/app/app.router.dart';
+import 'package:vinkybox/constants/app_keys.dart';
+import 'package:vinkybox/models/application_models.dart';
 import 'package:vinkybox/services/delivery_service.dart';
-import 'package:vinkybox/services/location_tracking_service.dart';
 
 class DeliverForOthersViewModel extends BaseViewModel {
   final log = getLogger('DeliverForOthersViewModel');
   final _deliveryService = locator<DeliveryService>();
-  final _navigationService = locator<NavigationService>();
-  final _locationTrackingService = locator<LocationTrackingService>();
+
   RefreshController get refreshController => _refreshController;
 
-  List<dynamic> get latestRequestList =>
-      _deliveryService.latestRequestList;
-  bool get isRequestEmpty => latestRequestList.isEmpty;
+  late PackageRequestList latestRequestList;
+  // List<dynamic> get latestRequestList =>
+  //     _deliveryService.latestRequestList;
+  bool get isRequestEmpty => latestRequestList.requestList.isEmpty;
 
   final String deliveryPersonAsset =
       "assets/images/delivery-person.svg";
@@ -27,6 +28,39 @@ class DeliverForOthersViewModel extends BaseViewModel {
 
   void updateCardPressedStatus(tapStatus) {
     _cardPressed = tapStatus;
+    notifyListeners();
+  }
+
+  // Stream
+  late final StreamSubscription _requestListListener;
+  late final StreamController<PackageRequestList>
+      _requestListController = StreamController<PackageRequestList>();
+  Stream<PackageRequestList> get requestList =>
+      _requestListController.stream;
+
+  void onModelReadyLoad() {
+    latestRequestList = PackageRequestList(
+        requestList: _deliveryService.latestRequestList
+            as List<PackageRequest>);
+
+    // implement listeners
+    _requestListListener = FirebaseFirestore.instance
+        .collection(deliveryRequestsFirestoreKey)
+        .snapshots()
+        .listen(_requestListUpdated);
+
+    // listen to controller changes
+    _requestListController.stream.listen(_onRequestListUpdated);
+  }
+
+  void _requestListUpdated(
+      QuerySnapshot<Map<String, dynamic>> snapshot) {
+    _requestListController
+        .add(PackageRequestList.fromSnapshot(snapshot));
+  }
+
+  void _onRequestListUpdated(PackageRequestList list) {
+    latestRequestList = list;
     notifyListeners();
   }
 
@@ -52,6 +86,6 @@ class DeliverForOthersViewModel extends BaseViewModel {
   }
 
   int getLatestRequestCount() {
-    return latestRequestList.length;
+    return latestRequestList.requestList.length;
   }
 }

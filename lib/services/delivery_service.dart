@@ -10,19 +10,19 @@ class DeliveryService {
   final log = getLogger('DeliveryService');
 
   // Delivery Request List contains ALL requests
-  List<dynamic> _deliveryRequestList = [];
+  List<PackageRequest> _deliveryRequestList = [];
 
   // My packages list contains only user's package requests
-  List<dynamic> _myPackagesList = [];
-  List<dynamic> get myPackagesList => _myPackagesList;
+  List<PackageRequest> _myPackagesList = [];
+  List<PackageRequest> get myPackagesList => _myPackagesList;
 
   // Latest requests list contains other users' package requests
-  List<dynamic> _latestRequestList = [];
-  List<dynamic> get latestRequestList => _latestRequestList;
+  List<PackageRequest> _latestRequestList = [];
+  List<PackageRequest> get latestRequestList => _latestRequestList;
 
   // Current tasks list contains all user's 'accepted' package requests
-  List<dynamic> _currentTasksList = [];
-  List<dynamic> get currentTasksList => _currentTasksList;
+  List<PackageRequest> _currentTasksList = [];
+  List<PackageRequest> get currentTasksList => _currentTasksList;
 
   final _firestoreApi = locator<FirestoreApi>();
   final _userService = locator<UserService>();
@@ -46,7 +46,7 @@ class DeliveryService {
     log.v('Package has been requested!');
   }
 
-  Future<List<dynamic>> fetchDeliveryRequestList() async {
+  Future<List<PackageRequest>> fetchDeliveryRequestList() async {
     _deliveryRequestList =
         await _firestoreApi.fetchDeliveryRequestList();
     updateLists();
@@ -67,18 +67,16 @@ class DeliveryService {
   void updateLists() {
     _myPackagesList = _deliveryRequestList
         .where((packageRequest) =>
-            packageRequest['user']['id'] ==
-            _userService.currentUser.id)
+            packageRequest.user['id'] == _userService.currentUser.id)
         .toList();
     _latestRequestList = _deliveryRequestList
         .where((packageRequest) =>
-            packageRequest['user']['id'] !=
-            _userService.currentUser.id)
+            packageRequest.user['id'] != _userService.currentUser.id)
         .toList();
     _currentTasksList = _deliveryRequestList
         .where((packageRequest) =>
-            !packageRequest['statusAccepted'].isEmpty &&
-            packageRequest['statusAccepted']['deliverer']['id'] ==
+            !packageRequest.statusAccepted.isEmpty &&
+            packageRequest.statusAccepted['deliverer']['id'] ==
                 _userService.currentUser.id)
         .toList();
   }
