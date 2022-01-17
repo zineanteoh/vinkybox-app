@@ -89,7 +89,10 @@ class DeliveryService {
     // latestRequest
     temp = _deliveryRequestList.requestList
         .where((packageRequest) =>
-            packageRequest.user['id'] != _userService.currentUser.id)
+            packageRequest.user['id'] !=
+                _userService.currentUser.id &&
+            (packageRequest.status == deliveryStatus[0] ||
+                packageRequest.status == deliveryStatus[1]))
         .toList();
     _latestRequestList = PackageRequestList(requestList: temp);
 
