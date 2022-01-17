@@ -30,12 +30,6 @@ class DeliveryViewModel extends BaseViewModel {
     _refreshController.refreshCompleted();
   }
 
-  void onModelReadyLoad() async {
-    await _deliveryService.fetchDeliveryRequestList();
-    notifyListeners();
-    log.i('fetched delivery request');
-  }
-
   int getLatestRequestCount() {
     return myCurrentPackagesList.requestList.length;
   }

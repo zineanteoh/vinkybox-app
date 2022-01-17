@@ -12,9 +12,15 @@ import 'package:vinkybox/ui/widgets/smart_widgets/request_delivery_button/reques
 import 'package:vinkybox/ui/widgets/smart_widgets/top_profile_bar/top_profile_bar.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/welcome_message/welcome_message.dart';
 
-class DeliveryView extends StatelessWidget {
+class DeliveryView extends StatefulWidget {
   const DeliveryView({Key? key}) : super(key: key);
 
+  @override
+  State<DeliveryView> createState() => _DeliveryViewState();
+}
+
+class _DeliveryViewState extends State<DeliveryView>
+    with AutomaticKeepAliveClientMixin<DeliveryView> {
   Widget myPackagesSection(DeliveryViewModel model) {
     return <Widget>[
       MyCurrentPackagesHeader(
@@ -51,6 +57,7 @@ class DeliveryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<DeliveryViewModel>.reactive(
+      onModelReady: (model) => model.onRefresh(),
       disposeViewModel: false,
       builder: (context, model, child) => Scaffold(
         body: Column(
@@ -94,4 +101,7 @@ class DeliveryView extends StatelessWidget {
       viewModelBuilder: () => DeliveryViewModel(),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
