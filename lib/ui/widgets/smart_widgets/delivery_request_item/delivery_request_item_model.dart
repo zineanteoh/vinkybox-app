@@ -134,6 +134,10 @@ class DeliveryRequestItemModel extends BaseViewModel {
     return statusInfo != deliveryStatus[0];
   }
 
+  bool statusIsDelivering() {
+    return statusInfo == deliveryStatus[2];
+  }
+
   Future acceptRequest() async {
     await _deliveryService.acceptRequest(_deliveryId);
     notifyListeners();

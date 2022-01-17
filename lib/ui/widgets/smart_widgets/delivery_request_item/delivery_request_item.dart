@@ -426,12 +426,12 @@ Widget _trackPackageButton(
 
 Widget getActionOrPackageButton(
     DeliveryRequestItemModel model, BuildContext context) {
-  // my package & not new => track
-  // my package & new => sizedbox
+  // my package & not delivering => track
+  // my package & delivering => sizedbox
   // not my package & not new => sizedbox
   // not my package & new => action buttons
   if (model.isMyPackage()) {
-    return model.statusIsNotNew()
+    return model.statusIsDelivering()
         ? _trackPackageButton(model, context)
         : const SizedBox.shrink();
   }
