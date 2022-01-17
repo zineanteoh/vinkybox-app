@@ -47,63 +47,40 @@ class DeliverForOthersView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<DeliverForOthersViewModel>.reactive(
-      onModelReady: (model) => model.onModelReadyLoad(),
       builder: (context, model, child) => Scaffold(
         body: <Widget>[
           _howToDeliverCard(model),
           DeliverForOthersHeader(
               latestRequestCount: model.getLatestRequestCount()),
-          // Expanded(
-          //   child: SmartRefresher(
-          //     header: const ClassicHeader(
-          //       completeText: 'Request is up to date!',
-          //       idleText: 'Pull to Refresh',
-          //       refreshingText: 'Fetching Requests...',
-          //     ),
-          //     enablePullDown: true,
-          //     controller: model.refreshController,
-          //     onRefresh: model.onRefresh,
-          //     child: ListView.builder(
-          //       itemCount: model.isRequestEmpty || model.isBusy
-          //           ? 1
-          //           : model.latestRequestList.length,
-          //       itemBuilder: (context, index) {
-          //         return model.isRequestEmpty
-          //             ? const Text(
-          //                 'There are no requests at the moment!')
-          //             : model.isBusy
-          //                 ? const SizedBox(
-          //                     width: 40,
-          //                     height: 40,
-          //                     child: CircularProgressIndicator(),
-          //                   ).alignment(Alignment.center)
-          //                 : DeliveryRequestItem(
-          //                     deliveryRequest:
-          //                         model.latestRequestList[index]);
-          //       },
-          //     ),
-          //   ),
-          // ),
-          //
           Expanded(
-            child: ListView.builder(
-              itemCount: model.isRequestEmpty || model.isBusy
-                  ? 1
-                  : model.latestRequestList.requestList.length,
-              itemBuilder: (context, index) {
-                return model.isRequestEmpty
-                    ? const Text(
-                        'There are no requests at the moment!')
-                    : model.isBusy
-                        ? const SizedBox(
-                            width: 40,
-                            height: 40,
-                            child: CircularProgressIndicator(),
-                          ).alignment(Alignment.center)
-                        : DeliveryRequestItem(
-                            deliveryRequest: model.latestRequestList
-                                .requestList[index]);
-              },
+            child: SmartRefresher(
+              header: const ClassicHeader(
+                completeText: 'Request is up to date!',
+                idleText: 'Pull to Refresh',
+                refreshingText: 'Fetching Requests...',
+              ),
+              enablePullDown: true,
+              controller: model.refreshController,
+              onRefresh: model.onRefresh,
+              child: ListView.builder(
+                itemCount: model.isRequestEmpty || model.isBusy
+                    ? 1
+                    : model.latestRequestList.requestList.length,
+                itemBuilder: (context, index) {
+                  return model.isRequestEmpty
+                      ? const Text(
+                          'There are no requests at the moment!')
+                      : model.isBusy
+                          ? const SizedBox(
+                              width: 40,
+                              height: 40,
+                              child: CircularProgressIndicator(),
+                            ).alignment(Alignment.center)
+                          : DeliveryRequestItem(
+                              deliveryRequest: model.latestRequestList
+                                  .requestList[index]);
+                },
+              ),
             ),
           ),
         ].toColumn().padding(horizontal: 20, top: 50),
@@ -112,29 +89,3 @@ class DeliverForOthersView extends StatelessWidget {
     );
   }
 }
-
-// body: Column(
-//   children: [
-//     Row(
-//       children: [
-//         // Text('deliver package')
-//         ElevatedButton(
-//           onPressed: () {
-//             model.navigateToCurrentDeliveryView();
-//           },
-//           child: const Text('deliver package'),
-//         ),
-//         ElevatedButton(
-//           onPressed: () {
-//             model.navigateToLocationView();
-//           },
-//           child: const Text('track package'),
-//         ),
-//       ],
-//     ).padding(horizontal: 20, top: 50),
-//     deliverForOthersSection(model),
-//   ],
-// ).padding(
-//   horizontal: 20,
-//   vertical: 50,
-// ),

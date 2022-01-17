@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:vinkybox/ui/shared/ui_helpers.dart';
@@ -11,17 +12,8 @@ import 'package:vinkybox/ui/widgets/smart_widgets/request_delivery_button/reques
 import 'package:vinkybox/ui/widgets/smart_widgets/top_profile_bar/top_profile_bar.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/welcome_message/welcome_message.dart';
 
-class DeliveryView extends StatefulWidget {
+class DeliveryView extends StatelessWidget {
   const DeliveryView({Key? key}) : super(key: key);
-
-  @override
-  State<DeliveryView> createState() => _DeliveryViewState();
-}
-
-class _DeliveryViewState extends State<DeliveryView>
-    with AutomaticKeepAliveClientMixin<DeliveryView> {
-  @override
-  bool get wantKeepAlive => true;
 
   Widget myPackagesSection(DeliveryViewModel model) {
     return <Widget>[
@@ -59,7 +51,6 @@ class _DeliveryViewState extends State<DeliveryView>
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<DeliveryViewModel>.reactive(
-      onModelReady: (model) => model.onModelReadyLoad(),
       disposeViewModel: false,
       builder: (context, model, child) => Scaffold(
         body: Column(
@@ -72,8 +63,27 @@ class _DeliveryViewState extends State<DeliveryView>
                 WelcomeMessage(),
               ],
             ),
-            userActionButtons(),
-            myPackagesSection(model),
+            Expanded(
+              child: SmartRefresher(
+                header: const ClassicHeader(
+                  completeText: 'Request is up to date!',
+                  idleText: 'Pull to Refresh',
+                  refreshingText: 'Fetching Requests...',
+                ),
+                enablePullDown: true,
+                controller: model.refreshController,
+                onRefresh: model.onRefresh,
+                child: ListView.builder(
+                  itemCount: 1,
+                  itemBuilder: (context, index) => Column(
+                    children: [
+                      userActionButtons(),
+                      myPackagesSection(model),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ],
         ).padding(
           horizontal: 20,

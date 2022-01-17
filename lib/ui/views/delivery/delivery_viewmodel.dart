@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
@@ -17,39 +18,24 @@ class DeliveryViewModel extends BaseViewModel {
   bool get isRequestEmpty =>
       myCurrentPackagesList.requestList.isEmpty;
 
-  // Stream
-  late final StreamSubscription _currentRequestListListener;
-  late final StreamController<PackageRequestList>
-      _currentRequestListController =
-      StreamController<PackageRequestList>();
-  Stream<PackageRequestList> get currentRequestList =>
-      _currentRequestListController.stream;
+  // Refresh
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+  RefreshController get refreshController => _refreshController;
+
+  Future onRefresh() async {
+    setBusy(true);
+    await Future.delayed(const Duration(milliseconds: 1000));
+    await _deliveryService.fetchDeliveryRequestList();
+    setBusy(false);
+    notifyListeners();
+    _refreshController.refreshCompleted();
+  }
 
   void onModelReadyLoad() async {
     await _deliveryService.fetchDeliveryRequestList();
     notifyListeners();
     log.i('fetched delivery request');
-
-    // implement listeners
-    _currentRequestListListener = FirebaseFirestore.instance
-        .collection(deliveryRequestsFirestoreKey)
-        .snapshots()
-        .listen(_currentRequestListUpdated);
-
-    // listen to controller changes
-    _currentRequestListController.stream
-        .listen(_onCurrentRequestListUpdated);
-  }
-
-  void _currentRequestListUpdated(
-      QuerySnapshot<Map<String, dynamic>> snapshot) {
-    _currentRequestListController
-        .add(PackageRequestList.fromSnapshot(snapshot));
-  }
-
-  void _onCurrentRequestListUpdated(PackageRequestList list) {
-    _deliveryService.setCurrentTaskList(list);
-    notifyListeners();
   }
 
   int getLatestRequestCount() {
