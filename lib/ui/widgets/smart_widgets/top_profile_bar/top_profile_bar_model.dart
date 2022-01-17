@@ -1,8 +1,16 @@
 import 'package:stacked/stacked.dart';
 import 'package:vinkybox/app/app.locator.dart';
+import 'package:vinkybox/app/app.logger.dart';
 import 'package:vinkybox/services/user_service.dart';
 
 class TopProfileBarModel extends BaseViewModel {
+  final log = getLogger('TopProfileBarModel');
+
+  final _userService = locator<UserService>();
+
+  String? get name => _userService.currentUser.fullName;
+  String? get dorm => _userService.currentUser.dorm;
+
   bool _pressed = false;
   bool get pressed => _pressed;
 

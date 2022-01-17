@@ -9,6 +9,73 @@ class TopProfileBar extends StatelessWidget {
 
   final double profilePicSize = 70;
 
+  _showModalBottomSheet(
+      BuildContext context, TopProfileBarModel model) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+            height: 1000,
+            decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                )),
+            child: <Widget>[
+              const Text(
+                'Profile',
+                style: TextStyle(fontSize: 18),
+              ).padding(top: 20),
+              CachedNetworkImage(
+                height: profilePicSize * 1.5,
+                width: profilePicSize * 1.5,
+                imageUrl: model.getProfilePicUrl(),
+                imageBuilder: (context, imageProvider) =>
+                    CircleAvatar(
+                  radius: profilePicSize,
+                  backgroundImage: imageProvider,
+                ),
+                placeholder: (context, url) =>
+                    const CircularProgressIndicator(),
+                errorWidget: (context, url, error) =>
+                    const Icon(Icons.error),
+              ).padding(vertical: 15),
+              // Information
+              Text(
+                '${model.name}',
+                style: const TextStyle(
+                    fontSize: 24, fontWeight: FontWeight.w600),
+              ),
+              Text('${model.dorm}',
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.w200)),
+              // Statistics
+              <Widget>[
+                <Widget>[
+                  const Text('0 Packages',
+                      style: TextStyle(
+                          fontSize: 24, fontWeight: FontWeight.w500)),
+                  const Text('Sent'),
+                ].toColumn(),
+                <Widget>[
+                  const Text('0 Packages',
+                      style: TextStyle(
+                          fontSize: 24, fontWeight: FontWeight.w500)),
+                  const Text('Received'),
+                ].toColumn(),
+              ]
+                  .toRow(
+                      mainAxisAlignment:
+                          MainAxisAlignment.spaceEvenly)
+                  .padding(top: 25)
+            ]
+                .toColumn(mainAxisSize: MainAxisSize.min)
+                .padding(bottom: 70));
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<TopProfileBarModel>.reactive(
@@ -26,6 +93,9 @@ class TopProfileBar extends StatelessWidget {
               .gestures(
                 onTapChange: (tapState) =>
                     model.updatePressedStatus(tapState),
+                onTap: () {
+                  _showModalBottomSheet(context, model);
+                },
               )
               .scale(
                 all: model.pressed ? 0.95 : 1.0,
