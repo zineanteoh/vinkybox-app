@@ -5,6 +5,7 @@ import 'package:vinkybox/app/app.logger.dart';
 import 'package:vinkybox/constants/request_info.dart';
 import 'package:vinkybox/models/application_models.dart';
 import 'package:vinkybox/services/delivery_service.dart';
+import 'package:vinkybox/ui/views/delivery/delivery_viewmodel.dart';
 
 class RequestDeliveryViewModel extends BaseViewModel {
   final log = getLogger("RequestDeliveryViewModel");
@@ -30,7 +31,7 @@ class RequestDeliveryViewModel extends BaseViewModel {
     _navigationService.back();
   }
 
-  Future submitRequest() async {
+  Future submitRequest(DeliveryViewModel deliveryModel) async {
     // if all selected
     if (_packageSize != "" &&
         _pickUpLocation != "" &&
@@ -60,6 +61,9 @@ class RequestDeliveryViewModel extends BaseViewModel {
 
       // Navigate back
       navigateBack();
+
+      // refresh delivery view
+      deliveryModel.onRefresh();
     } else {
       log.e("Request did not go through!");
     }

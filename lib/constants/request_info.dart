@@ -20,8 +20,7 @@ const List<String> requestPickUpLocation = [
 
 // Note: This list is likely to be user-customizable. Dummy strings for now
 const List<String> requestDropOffLocation = [
-  "In-person Pick Up",
-  "Main Lobby Entrance",
+  "My dorm",
 ];
 
 const List<String> requestTime = [

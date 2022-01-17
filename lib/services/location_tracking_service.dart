@@ -8,8 +8,8 @@ import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
 import 'package:vinkybox/services/google_map_service.dart';
 
-class LocationService {
-  final log = getLogger('LocationService');
+class LocationTrackingService {
+  final log = getLogger('LocationTrackingService');
 
   final _firebaseDatabaseApi = locator<FirebaseDatabaseApi>();
   final _googleMapService = locator<GoogleMapService>();
@@ -22,17 +22,12 @@ class LocationService {
 
   late StreamSubscription<LocationData> _locationListeners;
 
-  // TEMPORARY
-  bool isDelivering = true;
-  void setIsDeliverying(bool val) {
-    isDelivering = val;
+  Future<LocationData> getLocation() async {
+    _locationData = await _location.getLocation();
+    return _locationData;
   }
 
-  // Hard coding delivery key (a unique key that identifies package delivery)
-  final deliveryKey = "key1";
-
-  Future initializeLocationTracking(Function notifyListeners) async {
-    log.i('Initializing location service $isDelivering');
+  Future requestLocationTrackingPermission() async {
     log.i('Requesting permission...');
 
     _serviceEnabled = await _location.serviceEnabled();
@@ -52,14 +47,17 @@ class LocationService {
         return;
       }
     }
+  }
 
+  Future initializeLocationTracking(
+      Function notifyListeners, String deliveryId) async {
     _locationData = await _location.getLocation();
     await _firebaseDatabaseApi.updatePackageLocation(
-        deliveryKey, _locationData.latitude, _locationData.longitude);
+        deliveryId, _locationData.latitude, _locationData.longitude);
 
     _locationListeners = _location.onLocationChanged.listen(
       (LocationData currentLocation) async {
-        await _firebaseDatabaseApi.updatePackageLocation(deliveryKey,
+        await _firebaseDatabaseApi.updatePackageLocation(deliveryId,
             currentLocation.latitude, currentLocation.longitude);
         // Update markers on map
         await _googleMapService.updateMarker(
@@ -71,14 +69,19 @@ class LocationService {
     log.i('Location is $_locationData');
   }
 
-  Future<Map> getPackageLocation() async {
+  Future<Map<String, double>> getPackageLocation(
+      String deliveryId) async {
     DataSnapshot snapshot =
-        await _firebaseDatabaseApi.getPackageLocation('key1');
+        await _firebaseDatabaseApi.getPackageLocation(deliveryId);
 
     String encodedJson = jsonEncode(snapshot.value);
-    Map valueMap = jsonDecode(encodedJson);
+    Map<String, dynamic> valueMap = jsonDecode(encodedJson);
+    Map<String, double> packageLocation = {};
+    packageLocation['latitude'] = double.parse(valueMap['latitude']);
+    packageLocation['longitude'] =
+        double.parse(valueMap['longitude']);
 
-    return valueMap;
+    return packageLocation;
   }
 
   Future<Map> getDestinationLocation() async {
@@ -91,7 +94,8 @@ class LocationService {
     return valueMap;
   }
 
-  void unsubscriveLocationTracking() {
-    _locationListeners.cancel();
+  Future unsubscribeLocationTracking() async {
+    log.i('Unsubscribing to all location listeners');
+    await _locationListeners.cancel();
   }
 }

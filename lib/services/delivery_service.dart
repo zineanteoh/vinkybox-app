@@ -3,21 +3,35 @@ import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
 import 'package:vinkybox/constants/request_info.dart';
 import 'package:vinkybox/models/application_models.dart';
+import 'package:vinkybox/services/location_tracking_service.dart';
 import 'package:vinkybox/services/user_service.dart';
 
 class DeliveryService {
   final log = getLogger('DeliveryService');
 
   // Delivery Request List contains ALL requests
-  List<dynamic> _deliveryRequestList = [];
+  PackageRequestList _deliveryRequestList = PackageRequestList();
 
   // My packages list contains only user's package requests
-  List<dynamic> _myPackagesList = [];
-  List<dynamic> get myPackagesList => _myPackagesList;
+  PackageRequestList _myPackagesList = PackageRequestList();
+  PackageRequestList get myPackagesList => _myPackagesList;
+  void setMyPackagesList(PackageRequestList list) {
+    _myPackagesList = list;
+  }
 
   // Latest requests list contains other users' package requests
-  List<dynamic> _latestRequestList = [];
-  List<dynamic> get latestRequestList => _latestRequestList;
+  PackageRequestList _latestRequestList = PackageRequestList();
+  PackageRequestList get latestRequestList => _latestRequestList;
+  void setLatestRequestList(PackageRequestList list) {
+    _latestRequestList = list;
+  }
+
+  // Current tasks list contains all user's 'accepted' package requests
+  PackageRequestList _currentTasksList = PackageRequestList();
+  PackageRequestList get currentTasksList => _currentTasksList;
+  void setCurrentTaskList(PackageRequestList list) {
+    _currentTasksList = list;
+  }
 
   final _firestoreApi = locator<FirestoreApi>();
   final _userService = locator<UserService>();
@@ -28,25 +42,31 @@ class DeliveryService {
       required String dropOffLocation}) async {
     await _firestoreApi.createDeliveryRequest(
       req: PackageRequest(
-          user: _userService.currentUser.toJson(),
-          status: deliveryStatus[0],
-          packageSize: packageSize,
-          pickUpLocation: pickUpLocation,
-          dropOffLocation: dropOffLocation,
-          time: DateTime.now().toString()),
+        user: _userService.currentUser.toJson(),
+        status: deliveryStatus[0],
+        packageSize: packageSize,
+        pickUpLocation: pickUpLocation,
+        dropOffLocation: dropOffLocation,
+        time: DateTime.now().toString(),
+        statusAccepted: {},
+      ),
     );
+    // need to fetch request again (should be one operation)
+    _deliveryRequestList =
+        await _firestoreApi.fetchDeliveryRequestList();
     updateLists();
     log.v('Package has been requested!');
   }
 
-  Future<List<dynamic>> fetchDeliveryRequestList() async {
+  Future<PackageRequestList> fetchDeliveryRequestList() async {
     _deliveryRequestList =
         await _firestoreApi.fetchDeliveryRequestList();
     updateLists();
     return _deliveryRequestList;
   }
 
-  /// Updates the [_myPackagesList] and [_latestRequestList]
+  /// Updates the [_myPackagesList], [_latestRequestList],
+  /// and [_currentTasksList]
   ///
   /// Filters the [_deliveryRequestList] by checking if the
   /// user id of packageRequest is the same as the id of
@@ -57,31 +77,48 @@ class DeliveryService {
   ///
   /// Otherwise add the request to [_latestRequestList].
   void updateLists() {
-    _myPackagesList = _deliveryRequestList
+    List<PackageRequest> temp = [];
+
+    // myPackages
+    temp = _deliveryRequestList.requestList
         .where((packageRequest) =>
-            packageRequest['user']['id'] ==
-            _userService.currentUser.id)
+            packageRequest.user['id'] == _userService.currentUser.id)
         .toList();
-    _latestRequestList = _deliveryRequestList
+    _myPackagesList = PackageRequestList(requestList: temp);
+
+    // latestRequest
+    temp = _deliveryRequestList.requestList
         .where((packageRequest) =>
-            packageRequest['user']['id'] !=
-            _userService.currentUser.id)
+            packageRequest.user['id'] !=
+                _userService.currentUser.id &&
+            (packageRequest.status == deliveryStatus[0] ||
+                packageRequest.status == deliveryStatus[1]))
         .toList();
+    _latestRequestList = PackageRequestList(requestList: temp);
+
+    // currentTask
+    temp = _deliveryRequestList.requestList
+        .where((packageRequest) =>
+            packageRequest.statusAccepted.isNotEmpty &&
+            packageRequest.statusAccepted['deliverer']['id'] ==
+                _userService.currentUser.id)
+        .toList();
+    _currentTasksList = PackageRequestList(requestList: temp);
   }
 
   /// Calls [FirestoreApi] to accept a request of [deliveryId]
   ///
-  /// Add a 'status-accepted' json that includes the deliverer
+  /// Add a 'statusAccepted' json that includes the deliverer
   /// and time info to the document of [deliveryId]
   ///
   /// If successful, change the request of [deliveryId] status
-  /// to 'collecting'
+  /// to [deliveryStatus] index 1 ('collecting')
   ///
   /// If unsuccessful, prompt a dialog message saying request
   /// could not be accepted
   Future acceptRequest(String deliveryId) async {
     Map<String, dynamic> acceptRequestInfo = {
-      'status-accepted': {
+      'statusAccepted': {
         'deliverer': _userService.currentUser.toJson(),
         'time': DateTime.now().toString(),
       }
@@ -92,6 +129,30 @@ class DeliveryService {
           deliveryId, acceptRequestInfo, deliveryStatus[1]);
     } catch (e) {
       log.e("An error occurred. Could not accept delivery request");
+    }
+  }
+
+  /// Calls [FirestoreApi] to pick up a request of [deliveryId]
+  ///
+  /// Add a 'statusPickedUp' json that includes the pickup
+  /// time to the document of [deliveryId]
+  ///
+  /// If successful, change the request of [deliveryId] status
+  /// to [deliveryStatus] index 2 ('delivering')
+  ///
+  /// If unsuccessful, prompt a dialog message saying request
+  /// could not be picked up
+  Future pickUpRequest(String deliveryId) async {
+    Map<String, dynamic> pickUpRequestInfo = {
+      'statusPickUp': {
+        'time': DateTime.now().toString(),
+      }
+    };
+    try {
+      await _firestoreApi.pickUpDeliveryRequest(
+          deliveryId, pickUpRequestInfo, deliveryStatus[2]);
+    } catch (e) {
+      log.e('An error occurred. Could not pick up delivery request');
     }
   }
 }

@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:vinkybox/app/app.logger.dart';
 import 'package:vinkybox/constants/app_keys.dart';
-import 'package:vinkybox/constants/request_info.dart';
 import 'package:vinkybox/exceptions/firestore_api_exception.dart';
 import 'package:vinkybox/models/application_models.dart';
 
@@ -78,9 +77,14 @@ class FirestoreApi {
     log.i('package request: $req');
 
     try {
-      final deliveryDocument =
-          await _deliveryRequestsCollection.add(req.toJson());
-      log.v('PackageRequest created at ${deliveryDocument.id}');
+      late String requestId;
+      await _deliveryRequestsCollection
+          .add(req.toJson())
+          .then((value) {
+        requestId = value.id;
+        return value.update({'id': value.id});
+      });
+      log.v('PackageRequest created at ${requestId}');
     } catch (error) {
       throw FirestoreApiException(
         message: 'Failed to create new delivery request',
@@ -96,8 +100,8 @@ class FirestoreApi {
   ///
   /// Each delivery requests includes an 'id' field that is the
   /// delivery id.
-  Future<List<dynamic>> fetchDeliveryRequestList() async {
-    List<dynamic> deliveryRequests = [];
+  Future<PackageRequestList> fetchDeliveryRequestList() async {
+    List<PackageRequest> deliveryRequests = [];
     try {
       deliveryRequests = await _deliveryRequestsCollection
           .limit(20)
@@ -110,7 +114,8 @@ class FirestoreApi {
             Map<String, dynamic> request =
                 doc.data() as Map<String, dynamic>;
             request['id'] = doc.id;
-            deliveryRequests.add(request);
+            log.i('this is request json: $request');
+            deliveryRequests.add(PackageRequest.fromJson(request));
           }
           return deliveryRequests;
         },
@@ -119,11 +124,11 @@ class FirestoreApi {
       log.e(
           "An error occurred. Could not fetch delivery request list: ${e.toString()}");
     }
-    return deliveryRequests;
+    return PackageRequestList(requestList: deliveryRequests);
   }
 
-  /// Adds the [acceptRequestInfo] collection and [deliveryId]
-  /// to the firestore, and updates delivery status to [newStatus]
+  /// Adds [acceptRequestInfo] to [deliveryId] document to the
+  /// firestore, and updates delivery status to [newStatus]
   /// if successful.
   ///
   /// Uses firestore [WriteBatch] to perform the writes as a
@@ -143,7 +148,31 @@ class FirestoreApi {
 
       await batch.commit();
     } catch (e) {
-      log.e("An error occurred. Could not accept delivery request");
+      log.e('An error occurred. Could not accept delivery request');
+    }
+  }
+
+  /// Adds the [pickUpRequestInfo] to [deliveryId] document
+  /// and update delivery status to [newStatus] if successful.
+  ///
+  /// Uses firestore [WriteBatch] to perform the writes as a
+  /// single operation.
+  ///
+  /// If unsuccessful, log the error.
+  Future pickUpDeliveryRequest(
+      String deliveryId,
+      Map<String, dynamic> pickUpRequestInfo,
+      String newStatus) async {
+    WriteBatch batch = FirebaseFirestore.instance.batch();
+    try {
+      batch.update(_deliveryRequestsCollection.doc(deliveryId),
+          pickUpRequestInfo);
+      batch.update(_deliveryRequestsCollection.doc(deliveryId),
+          {'status': newStatus});
+
+      await batch.commit();
+    } catch (e) {
+      log.e('An error occurred. Could not pick up delivery request');
     }
   }
 }

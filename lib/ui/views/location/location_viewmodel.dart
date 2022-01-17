@@ -1,13 +1,22 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:stacked/stacked.dart';
 import 'package:vinkybox/app/app.locator.dart';
+import 'package:vinkybox/app/app.logger.dart';
+import 'package:vinkybox/constants/marker_locations.dart';
+import 'package:vinkybox/constants/request_info.dart';
+import 'package:vinkybox/models/application_models.dart';
+import 'package:vinkybox/services/delivery_service.dart';
 import 'package:vinkybox/services/google_map_service.dart';
-import 'package:vinkybox/services/location_service.dart';
+import 'package:vinkybox/services/location_tracking_service.dart';
 import 'package:vinkybox/services/package_tracking_service.dart';
 
 class LocationViewModel extends BaseViewModel {
+  final log = getLogger('LocationViewModel');
+
   final _googleMapService = locator<GoogleMapService>();
-  final _locationService = locator<LocationService>();
+  final _deliveryService = locator<DeliveryService>();
+  final _locationTrackingService = locator<LocationTrackingService>();
   final _packageTrackingService = locator<PackageTrackingService>();
 
   bool get isMapCreated => _googleMapService.isMapCreated;
@@ -19,11 +28,22 @@ class LocationViewModel extends BaseViewModel {
 
   Set<Marker> get markers => _googleMapService.markers;
 
-  // TEMPORARY
-  bool get isDelivering => _locationService.isDelivering;
-
-  void init() {
-    _googleMapService.init();
+  Future init() async {
+    log.i('Initializing location view model');
+    List<Map<String, dynamic>> dropOffMarkerLocations = [];
+    for (PackageRequest task
+        in _deliveryService.currentTasksList.requestList) {
+      Map<String, double> coor = dropOffLocations[task.user['dorm']]!;
+      Map<String, dynamic> loc = {
+        'name': task.user['dorm'],
+        'longitude': coor['longitude'],
+        'latitude': coor['latitude'],
+      };
+      log.i('location is: $loc');
+      // loc['name'] = task.user['dorm'];
+      dropOffMarkerLocations.add(loc);
+    }
+    await _googleMapService.init(dropOffMarkerLocations);
   }
 
   void onMapCreated(GoogleMapController controller) {
@@ -31,27 +51,52 @@ class LocationViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  // Enable location tracking by writing to RTDB & updating google map markers
-  void initializeLocationTracking() {
-    _locationService.initializeLocationTracking(notifyListeners);
+  /// Initialize location tracking for tasks with status = 'delivering'
+  ///
+  /// Unsubscribe location tracking when delivery status is changed
+  void initializeLocationTracking() async {
+    log.i('Initializing location tracking for deliverer');
+    await _locationTrackingService
+        .requestLocationTrackingPermission();
+
+    for (PackageRequest task
+        in _deliveryService.currentTasksList.requestList) {
+      if (task.status == deliveryStatus[2]) {
+        log.i('this is task: $task');
+        _locationTrackingService.initializeLocationTracking(
+            notifyListeners, task.id!);
+      }
+    }
   }
 
   void unsubscribeLocationTracking() {
-    _locationService.unsubscriveLocationTracking();
+    _locationTrackingService.unsubscribeLocationTracking();
   }
 
   // Enable package tracking by only reading from RTDB & updating markers
-  void initializePackageTracking() {
+  void initializePackageTracking(String deliveryId) {
+    log.i('Initializing package tracking for requester');
     _packageTrackingService.activatePackageTrackingListeners(
-        'key1', notifyListeners);
+        deliveryId, notifyListeners);
   }
 
-  void unsubscrivePackageTracking() {
+  void unsubscribePackageTracking() {
     _packageTrackingService.unsubscribePackageTracking();
   }
 
-  void navigateCameraToPackageLocation() async {
-    Map location = await _locationService.getPackageLocation();
+  void navigateCameraToPackageLocation(String deliveryId) async {
+    Map<String, double> location;
+    if (deliveryId == "") {
+      LocationData locationData =
+          await _locationTrackingService.getLocation();
+      location = {
+        'latitude': locationData.latitude!,
+        'longitude': locationData.longitude!,
+      };
+    } else {
+      location = await _locationTrackingService
+          .getPackageLocation(deliveryId);
+    }
     _googleMapService.navigateToPackageLocation(location);
   }
 }

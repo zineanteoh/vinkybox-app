@@ -18,22 +18,22 @@ class BottomToolbar extends StatelessWidget {
           model.setCurrentIndex(index);
         },
         curve: Curves.easeInBack,
-        activeColor: skyblueColor,
+        activeColor: blueJeansColor,
         reverse: true,
         enableShadow: true,
         currentIndex: model.currentIndex,
         items: [
           TitledNavigationBarItem(
-            icon: const Icon(CarbonIcons.delivery_parcel),
+            icon: const Icon(CarbonIcons.home),
             title: const Text(
-              'Delivery',
+              'My Home',
               style: TextStyle(fontSize: 18),
             ),
           ),
           TitledNavigationBarItem(
-            icon: const Icon(CarbonIcons.map),
+            icon: const Icon(CarbonIcons.delivery_parcel),
             title: const Text(
-              'Track Your Package',
+              'Deliver For Others',
               style: TextStyle(fontSize: 18),
             ),
           ),

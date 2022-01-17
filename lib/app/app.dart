@@ -5,15 +5,15 @@ import 'package:vinkybox/api/firestore_api.dart';
 import 'package:vinkybox/services/delivery_service.dart';
 import 'package:vinkybox/services/firebase_authentication_service.dart';
 import 'package:vinkybox/services/google_map_service.dart';
-import 'package:vinkybox/services/location_service.dart';
+import 'package:vinkybox/services/location_tracking_service.dart';
 import 'package:vinkybox/services/package_tracking_service.dart';
 import 'package:vinkybox/services/page_controller_service.dart';
 import 'package:vinkybox/services/user_service.dart';
-import 'package:vinkybox/ui/views/delivery/latest_requests/latest_requests_view.dart';
+import 'package:vinkybox/ui/views/deliver_for_others/deliver_for_others_view.dart';
+import 'package:vinkybox/ui/views/delivery/current_tasks/current_tasks_view.dart';
 import 'package:vinkybox/ui/views/delivery/request_delivery/request_delivery_view.dart';
 import 'package:vinkybox/ui/views/home/home_view.dart';
 import 'package:vinkybox/ui/views/location/location_view.dart';
-import 'package:vinkybox/ui/views/location/temp_home_view.dart';
 import 'package:vinkybox/ui/views/login/login_view.dart';
 import 'package:vinkybox/ui/views/marketplace/marketplace_view.dart';
 import 'package:vinkybox/ui/views/delivery/my_packages/my_packages_view.dart';
@@ -39,10 +39,10 @@ import 'package:vinkybox/ui/views/startup/startup_view.dart';
     // Delivery
     CupertinoRoute(page: RequestDeliveryView),
     CupertinoRoute(page: MyPackagesView),
-    CupertinoRoute(page: LatestRequestsView),
+    CupertinoRoute(page: CurrentTasksView),
 
     // Maps
-    CupertinoRoute(page: TempHomeView),
+    CupertinoRoute(page: DeliverForOthersView),
     CupertinoRoute(page: LocationView),
 
     // Marketplace
@@ -65,7 +65,7 @@ import 'package:vinkybox/ui/views/startup/startup_view.dart';
     LazySingleton(classType: DeliveryService),
 
     // Location-based
-    LazySingleton(classType: LocationService),
+    LazySingleton(classType: LocationTrackingService),
     LazySingleton(classType: GoogleMapService),
     LazySingleton(classType: PackageTrackingService),
     Singleton(classType: FirebaseAuthenticationService),

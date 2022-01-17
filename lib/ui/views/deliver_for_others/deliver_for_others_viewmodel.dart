@@ -1,28 +1,39 @@
+import 'dart:async';
+
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
 import 'package:vinkybox/models/application_models.dart';
 import 'package:vinkybox/services/delivery_service.dart';
 
-class MyPackagesViewModel extends BaseViewModel {
-  final log = getLogger("MyPackagesViewModel");
-
-  final _navigationService = locator<NavigationService>();
+class DeliverForOthersViewModel extends BaseViewModel {
+  final log = getLogger('DeliverForOthersViewModel');
   final _deliveryService = locator<DeliveryService>();
 
-  PackageRequestList get myPackagesList =>
-      _deliveryService.myPackagesList;
-  bool get isMyPackagesEmpty => myPackagesList.requestList.isEmpty;
-
-  // Pull_to_refresh
+  // Refresh
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   RefreshController get refreshController => _refreshController;
 
-  void navigateBack() {
-    _navigationService.back();
+  PackageRequestList get latestRequestList =>
+      _deliveryService.latestRequestList;
+  bool get isRequestEmpty => latestRequestList.requestList.isEmpty;
+
+  final String deliveryPersonAsset =
+      "assets/images/delivery-person.svg";
+
+  bool _cardPressed = false;
+  bool get cardPressed => _cardPressed;
+
+  void updateCardPressedStatus(tapStatus) {
+    _cardPressed = tapStatus;
+    notifyListeners();
+  }
+
+  void onModelReadyLoad() async {
+    await _deliveryService.fetchDeliveryRequestList();
+    notifyListeners();
   }
 
   Future loadLatestRequests() async {
@@ -37,14 +48,12 @@ class MyPackagesViewModel extends BaseViewModel {
     setBusy(true);
     await Future.delayed(const Duration(milliseconds: 1000));
     await _deliveryService.fetchDeliveryRequestList();
-    // log.i('${_deliveryService.myPackagesList}');
-    // if failed,use refreshFailed()
     setBusy(false);
-    notifyListeners(); // need to also notify listeners for child widgets
+    notifyListeners();
     _refreshController.refreshCompleted();
   }
 
-  int getMyPackagesCount() {
-    return myPackagesList.requestList.length;
+  int getLatestRequestCount() {
+    return latestRequestList.requestList.length;
   }
 }

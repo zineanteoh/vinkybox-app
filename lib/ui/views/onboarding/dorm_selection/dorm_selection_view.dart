@@ -54,7 +54,7 @@ class DormSelectionView extends StatelessWidget {
                             : 'Click Here',
                         style: const TextStyle(
                           fontSize: 24,
-                          color: skyblueColor,
+                          color: blueJeansColor,
                         ),
                       ),
                     ),

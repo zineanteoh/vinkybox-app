@@ -1,15 +1,19 @@
-import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:timelines/timelines.dart';
 import 'package:vinkybox/constants/request_info.dart';
+import 'package:vinkybox/models/application_models.dart';
 import 'package:vinkybox/ui/shared/app_colors.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/delivery_request_item/delivery_request_item_model.dart';
 
 class DeliveryRequestItem extends StatelessWidget {
-  final dynamic deliveryRequest;
-  const DeliveryRequestItem({required this.deliveryRequest, Key? key})
+  final PackageRequest deliveryRequest;
+  bool isUserTask;
+  DeliveryRequestItem(
+      {required this.deliveryRequest,
+      this.isUserTask = false,
+      Key? key})
       : super(key: key);
 
   _showModalBottomSheet(
@@ -32,7 +36,7 @@ class DeliveryRequestItem extends StatelessWidget {
             _status(model.statusInfo),
             model.isMyPackage() && model.statusIsNotNew()
                 ? _name('Deliverer: ${model.delivererNameInfo}')
-                : SizedBox.shrink(),
+                : const SizedBox.shrink(),
             getActionOrPackageButton(model, context),
           ]
               .toColumn(mainAxisSize: MainAxisSize.min)
@@ -47,8 +51,12 @@ class DeliveryRequestItem extends StatelessWidget {
       DeliveryRequestItemModel model, dynamic request) {
     return <Widget>[
       _packageSize(model.packageSizeInfo),
+      isUserTask
+          ? _name('Deliver to: ${model.nameInfo}')
+          : const SizedBox.shrink(),
       _location(model.pickUpLocationInfo, model.dormInfo),
       _status(model.statusInfo),
+      _taskActionButton(isUserTask, model, context),
     ]
         .toColumn(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,7 +121,7 @@ String _getDeliveryStatusMessage(String status) {
 
 Widget _name(String name) {
   return Text(name, style: const TextStyle(fontSize: 18))
-      .padding(bottom: 20)
+      .padding(top: 10)
       .alignment(Alignment.center);
 }
 
@@ -161,12 +169,12 @@ Widget _location(String pickUpLocation, String dropOffLocation) {
         children: [
           Text(pickUpLocation,
               style: const TextStyle(
-                  color: skyblueColor,
+                  color: blueJeansColor,
                   fontSize: 20,
                   fontWeight: FontWeight.bold)),
           Text(dropOffLocation,
               style: const TextStyle(
-                  color: skyblueColor,
+                  color: blueJeansColor,
                   fontSize: 20,
                   fontWeight: FontWeight.bold)),
         ],
@@ -196,7 +204,7 @@ Widget _status(String status) {
               int deliveryIndex = deliveryStatus.indexOf(status);
               if (index < deliveryIndex) {
                 return const SolidLineConnector(
-                    color: limeGreenColor);
+                    color: mediumSpringGreenColor);
               } else {
                 return const SolidLineConnector();
               }
@@ -205,7 +213,8 @@ Widget _status(String status) {
               // Status dot indicator
               int deliveryIndex = deliveryStatus.indexOf(status);
               if (index <= deliveryIndex) {
-                return const DotIndicator(color: limeGreenColor);
+                return const DotIndicator(
+                    color: mediumSpringGreenColor);
               } else {
                 return const DotIndicator();
               }
@@ -224,6 +233,85 @@ Widget _status(String status) {
           .padding(top: 10),
     ],
   ).alignment(Alignment.center).padding(top: 12, bottom: 20);
+}
+
+Widget _taskActionButton(bool isUserTask,
+    DeliveryRequestItemModel model, BuildContext context) {
+  return isUserTask
+      ? model.statusInfo == deliveryStatus[1]
+          ? const Text('I am ready to pickup',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600))
+              .padding(vertical: 10, horizontal: 25)
+              .borderRadius(all: 10)
+              .ripple()
+              .backgroundColor(orangeYellowCrayolaColor,
+                  animate: true)
+              .clipRRect(all: 10)
+              .borderRadius(all: 10, animate: true)
+              .elevation(
+                model.userTaskActionPressed ? 0 : 20,
+                borderRadius: BorderRadius.circular(25),
+                shadowColor: const Color(0x30000000),
+              )
+              .gestures(
+                onTapChange: (tapState) =>
+                    model.updateUserTaskActionPressedStatus(tapState),
+                onTap: () {
+                  model.pickUpRequest();
+                  Navigator.pop(context);
+                },
+              )
+              .scale(
+                all: model.acceptPressed ? 0.8 : 1.0,
+                animate: true,
+              )
+              .animate(
+                const Duration(milliseconds: 150),
+                Curves.easeOut,
+              )
+              .alignment(Alignment.center)
+              .padding(bottom: 15)
+          : model.statusInfo == deliveryStatus[2]
+              ? const Text('Delivery Complete!',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600))
+                  .padding(vertical: 10, horizontal: 25)
+                  .borderRadius(all: 10)
+                  .ripple()
+                  .backgroundColor(mediumSpringGreenColor,
+                      animate: true)
+                  .clipRRect(all: 10)
+                  .borderRadius(all: 10, animate: true)
+                  .elevation(
+                    model.userTaskActionPressed ? 0 : 20,
+                    borderRadius: BorderRadius.circular(25),
+                    shadowColor: const Color(0x30000000),
+                  )
+                  .gestures(
+                    onTapChange: (tapState) => model
+                        .updateUserTaskActionPressedStatus(tapState),
+                    onTap: () {
+                      // model.pickUpRequest();
+                      Navigator.pop(context);
+                    },
+                  )
+                  .scale(
+                    all: model.acceptPressed ? 0.8 : 1.0,
+                    animate: true,
+                  )
+                  .animate(
+                    const Duration(milliseconds: 150),
+                    Curves.easeOut,
+                  )
+                  .alignment(Alignment.center)
+                  .padding(bottom: 15)
+              : const SizedBox.shrink()
+      : const SizedBox.shrink();
 }
 
 Widget _actionButtons(
@@ -282,8 +370,8 @@ Widget _actionButtons(
           onTapChange: (tapState) =>
               model.updateAcceptPressedStatus(tapState),
           onTap: () {
-            print('Accepting request!');
             model.acceptRequest();
+            Navigator.pop(context);
           },
         )
         .scale(
@@ -323,7 +411,7 @@ Widget _trackPackageButton(
           onTapChange: (tapState) =>
               model.updateTrackPackagePressedStatus(tapState),
           onTap: () {
-            // model.submitRequest();
+            model.trackPackage();
           })
       .scale(
         all: model.trackPackagePressed ? 0.95 : 1.0,
@@ -332,17 +420,18 @@ Widget _trackPackageButton(
       .animate(
         const Duration(milliseconds: 150),
         Curves.easeOut,
-      );
+      )
+      .padding(top: 20);
 }
 
 Widget getActionOrPackageButton(
     DeliveryRequestItemModel model, BuildContext context) {
-  // my package & not new => track
-  // my package & new => sizedbox
+  // my package & not delivering => track
+  // my package & delivering => sizedbox
   // not my package & not new => sizedbox
   // not my package & new => action buttons
   if (model.isMyPackage()) {
-    return model.statusIsNotNew()
+    return model.statusIsDelivering()
         ? _trackPackageButton(model, context)
         : const SizedBox.shrink();
   }

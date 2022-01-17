@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
-import 'package:vinkybox/ui/views/delivery/delivery_viewmodel.dart';
-import 'package:vinkybox/ui/widgets/smart_widgets/request_delivery_button/request_delivery_button_model.dart';
+import 'package:vinkybox/ui/widgets/smart_widgets/current_task_button/current_task_button_model.dart';
 
-class RequestDeliveryButton extends StatelessWidget {
-  final DeliveryViewModel deliveryModel;
-  const RequestDeliveryButton({Key? key, required this.deliveryModel})
-      : super(key: key);
+class CurrentTaskButton extends StatelessWidget {
+  const CurrentTaskButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<RequestDeliveryButtonModel>.reactive(
-      onModelReady: (model) => model.initialize(deliveryModel),
+    return ViewModelBuilder<CurrentTaskButtonModel>.reactive(
       builder: (context, model, child) {
-        Widget deliveryButton({required Widget child}) {
+        Widget _currentTaskButton({required Widget child}) {
           return Styled.widget(child: child)
               .alignment(Alignment.center)
               .borderRadius(all: 15)
@@ -69,7 +65,7 @@ class RequestDeliveryButton extends StatelessWidget {
           ),
         );
 
-        return deliveryButton(
+        return _currentTaskButton(
           child: <Widget>[
             icon,
             <Widget>[
@@ -78,11 +74,11 @@ class RequestDeliveryButton extends StatelessWidget {
             ].toColumn(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
-            ),
+            )
           ].toRow(),
         );
       },
-      viewModelBuilder: () => RequestDeliveryButtonModel(),
+      viewModelBuilder: () => CurrentTaskButtonModel(),
     );
   }
 }

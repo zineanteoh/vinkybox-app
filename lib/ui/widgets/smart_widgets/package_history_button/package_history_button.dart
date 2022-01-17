@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
-import 'package:vinkybox/ui/widgets/smart_widgets/my_packages_button/my_packages_button_model.dart';
+import 'package:vinkybox/ui/widgets/smart_widgets/package_history_button/package_history_button_model.dart';
 
-class MyPackagesButton extends StatelessWidget {
-  const MyPackagesButton({Key? key}) : super(key: key);
+class PackageHistoryButton extends StatelessWidget {
+  const PackageHistoryButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<MyPackagesButtonModel>.reactive(
+    return ViewModelBuilder<PackageHistoryButtonModel>.reactive(
       builder: (context, model, child) {
         Widget deliveryButton({required Widget child}) {
           return Styled.widget(child: child)
@@ -48,9 +48,9 @@ class MyPackagesButton extends StatelessWidget {
                 )
                 .padding(left: 15, right: 10);
 
-        final Widget title = Text(
-          'My Packages (${model.getMyPackagesCount()})',
-          style: const TextStyle(
+        const Widget title = Text(
+          'Package History',
+          style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
@@ -78,7 +78,7 @@ class MyPackagesButton extends StatelessWidget {
           ].toRow(),
         );
       },
-      viewModelBuilder: () => MyPackagesButtonModel(),
+      viewModelBuilder: () => PackageHistoryButtonModel(),
     );
   }
 }

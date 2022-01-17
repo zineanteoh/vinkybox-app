@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:vinkybox/ui/views/deliver_for_others/deliver_for_others_view.dart';
 import 'package:vinkybox/ui/views/delivery/delivery_view.dart';
 import 'package:vinkybox/ui/views/home/home_viewmodel.dart';
-import 'package:vinkybox/ui/views/location/temp_home_view.dart';
-import 'package:vinkybox/ui/views/marketplace/marketplace_view.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/bottom_toolbar/bottom_toolbar.dart';
 
 class HomeView extends StatelessWidget {
@@ -18,7 +17,7 @@ class HomeView extends StatelessWidget {
           onPageChanged: (value) => model.onPageChange(value),
           children: const <Widget>[
             DeliveryView(),
-            TempHomeView(),
+            DeliverForOthersView(),
           ],
         ),
         bottomNavigationBar: const BottomToolbar(),

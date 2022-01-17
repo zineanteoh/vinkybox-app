@@ -19,7 +19,7 @@ class GoogleMapService {
   // Vanderbilt position
   static const CameraPosition initialPosition = CameraPosition(
     target: LatLng(36.14479001860207, -86.80285895018181),
-    zoom: 16,
+    zoom: 16.5,
   );
   CameraPosition get initialCameraPosition => initialPosition;
 
@@ -31,9 +31,11 @@ class GoogleMapService {
   late BitmapDescriptor _destinationMarkerIcon;
   late BitmapDescriptor _packageMarkerIcon;
 
-  Future init() async {
+  Future init(
+      List<Map<String, dynamic>> dropOffMarkerLocations) async {
+    log.i('initializing google map service');
     await setMarkerIcons();
-    addDestinationMarker();
+    addDestinationMarker(dropOffMarkerLocations);
     addPackageMarker();
   }
 
@@ -53,7 +55,7 @@ class GoogleMapService {
   }
 
   void changeMapMode() {
-    getJsonFile("assets/light_map.json").then(setMapStyle);
+    // getJsonFile("assets/light_map.json").then(setMapStyle);
   }
 
   Future<String> getJsonFile(String path) async {
@@ -73,22 +75,31 @@ class GoogleMapService {
         const ImageConfiguration(), 'assets/images/package.png');
   }
 
-  void addDestinationMarker() {
-    _markers.add(
-      Marker(
-        markerId: const MarkerId('0'),
-        position:
-            const LatLng(36.140420491942166, -86.79948097118331),
-        infoWindow: const InfoWindow(
-            title: 'West House', snippet: 'Drop off Location'),
-        icon: _destinationMarkerIcon,
-      ),
-    );
+  void addDestinationMarker(
+      List<Map<String, dynamic>> dropOffLocations) {
+    log.i('adding destination marker');
+    int id = 1;
+    for (Map<String, dynamic> loc in dropOffLocations) {
+      log.i('drop off locations: $loc');
+      _markers.add(
+        Marker(
+          markerId: MarkerId('$id'),
+          position: LatLng(
+            loc['longitude'] as double,
+            loc['latitude'] as double,
+          ),
+          infoWindow: InfoWindow(
+              title: loc['name'], snippet: 'Drop off Location'),
+          icon: _destinationMarkerIcon,
+        ),
+      );
+      id++;
+    }
   }
 
   void addPackageMarker() {
     _markers.add(Marker(
-      markerId: const MarkerId('1'),
+      markerId: const MarkerId('0'),
       position: const LatLng(36.145262, -86.802859),
       infoWindow: const InfoWindow(
           title: 'Vinky', snippet: 'Your Package is with him/her!'),
@@ -104,7 +115,7 @@ class GoogleMapService {
     // Change LatLng for package marker
     updatedMarkers.add(_markers
         .toList()
-        .first
+        .last // this chooses the marker to update
         .copyWith(positionParam: LatLng(latitude, longitude)));
     // Keep destination marker the same
     updatedMarkers.add(_markers.toList().last.copyWith());
@@ -118,11 +129,14 @@ class GoogleMapService {
 
   // Navigate camera to package location
   void navigateToPackageLocation(Map packageLocation) async {
-    log.i('${packageLocation}');
+    log.i('${packageLocation['longitude']}');
+    log.i('${packageLocation['latitude']}');
 
     _controller.animateCamera(CameraUpdate.newLatLngZoom(
-        LatLng(double.parse(packageLocation['latitude']),
-            double.parse(packageLocation['longitude'])),
+        LatLng(
+          packageLocation['latitude'],
+          packageLocation['longitude'],
+        ),
         16));
   }
 }
