@@ -13,6 +13,7 @@ import 'package:stacked/stacked_annotations.dart';
 
 import '../ui/views/deliver_for_others/deliver_for_others_view.dart';
 import '../ui/views/delivery/current_tasks/current_tasks_view.dart';
+import '../ui/views/delivery/delivery_viewmodel.dart';
 import '../ui/views/delivery/my_packages/my_packages_view.dart';
 import '../ui/views/delivery/request_delivery/request_delivery_view.dart';
 import '../ui/views/home/home_view.dart';
@@ -100,8 +101,12 @@ class StackedRouter extends RouterBase {
       );
     },
     RequestDeliveryView: (data) {
+      var args = data.getArgs<RequestDeliveryViewArguments>(nullOk: false);
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => const RequestDeliveryView(),
+        builder: (context) => RequestDeliveryView(
+          key: args.key,
+          deliveryModel: args.deliveryModel,
+        ),
         settings: data,
       );
     },
@@ -146,6 +151,13 @@ class StackedRouter extends RouterBase {
 /// ************************************************************************
 /// Arguments holder classes
 /// *************************************************************************
+
+/// RequestDeliveryView arguments holder class
+class RequestDeliveryViewArguments {
+  final Key? key;
+  final DeliveryViewModel deliveryModel;
+  RequestDeliveryViewArguments({this.key, required this.deliveryModel});
+}
 
 /// LocationView arguments holder class
 class LocationViewArguments {

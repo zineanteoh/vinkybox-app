@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
+import 'package:vinkybox/ui/views/delivery/delivery_viewmodel.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/request_delivery_button/request_delivery_button_model.dart';
 
 class RequestDeliveryButton extends StatelessWidget {
-  const RequestDeliveryButton({Key? key}) : super(key: key);
+  final DeliveryViewModel deliveryModel;
+  const RequestDeliveryButton({Key? key, required this.deliveryModel})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<RequestDeliveryButtonModel>.reactive(
+      onModelReady: (model) => model.initialize(deliveryModel),
       builder: (context, model, child) {
         Widget deliveryButton({required Widget child}) {
           return Styled.widget(child: child)

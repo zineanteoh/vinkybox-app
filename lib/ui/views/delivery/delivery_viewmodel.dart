@@ -1,11 +1,9 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
-import 'package:vinkybox/constants/app_keys.dart';
 import 'package:vinkybox/models/application_models.dart';
 import 'package:vinkybox/services/delivery_service.dart';
 

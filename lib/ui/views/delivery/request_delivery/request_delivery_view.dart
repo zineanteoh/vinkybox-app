@@ -6,11 +6,14 @@ import 'package:vinkybox/constants/request_info.dart';
 import 'package:vinkybox/ui/shared/app_colors.dart';
 import 'package:vinkybox/ui/shared/text_styles.dart';
 import 'package:vinkybox/ui/shared/ui_helpers.dart';
+import 'package:vinkybox/ui/views/delivery/delivery_viewmodel.dart';
 import 'package:vinkybox/ui/views/delivery/request_delivery/request_delivery_viewmodel.dart';
 import 'package:vinkybox/ui/widgets/dumb_widgets/header_bar.dart';
 
 class RequestDeliveryView extends StatelessWidget {
-  const RequestDeliveryView({Key? key}) : super(key: key);
+  final DeliveryViewModel deliveryModel;
+  const RequestDeliveryView({Key? key, required this.deliveryModel})
+      : super(key: key);
 
   Widget requestSection(
       model, headerTitle, buttonsList, onSelectedFunction) {
@@ -77,7 +80,7 @@ class RequestDeliveryView extends StatelessWidget {
             onTapChange: (tapState) =>
                 model.updateConfirmPressedStatus(tapState),
             onTap: () {
-              model.submitRequest();
+              model.submitRequest(deliveryModel);
             })
         .scale(
           all: model.confirmPressed ? 0.95 : 1.0,

@@ -11,6 +11,9 @@ class DeliverForOthersViewModel extends BaseViewModel {
   final log = getLogger('DeliverForOthersViewModel');
   final _deliveryService = locator<DeliveryService>();
 
+  // Refresh
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
   RefreshController get refreshController => _refreshController;
 
   PackageRequestList get latestRequestList =>
@@ -32,10 +35,6 @@ class DeliverForOthersViewModel extends BaseViewModel {
     await _deliveryService.fetchDeliveryRequestList();
     notifyListeners();
   }
-
-  // Pull_to_refresh
-  final RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
 
   Future loadLatestRequests() async {
     setBusy(true);

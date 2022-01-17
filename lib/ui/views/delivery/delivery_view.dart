@@ -33,13 +33,13 @@ class DeliveryView extends StatelessWidget {
     ].toColumn().padding(top: 25);
   }
 
-  Widget userActionButtons() {
+  Widget userActionButtons(DeliveryViewModel model) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         UIHelper.verticalSpaceMedium(),
-        const RequestDeliveryButton(),
+        RequestDeliveryButton(deliveryModel: model),
         UIHelper.verticalSpaceSmallMedium(),
         const PackageHistoryButton(),
         UIHelper.verticalSpaceSmallMedium(),
@@ -77,7 +77,7 @@ class DeliveryView extends StatelessWidget {
                   itemCount: 1,
                   itemBuilder: (context, index) => Column(
                     children: [
-                      userActionButtons(),
+                      userActionButtons(model),
                       myPackagesSection(model),
                     ],
                   ),
