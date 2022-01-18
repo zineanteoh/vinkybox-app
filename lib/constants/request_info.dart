@@ -1,10 +1,13 @@
 import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
 
+enum PackageSize { None, Small, Medium, Large, Other }
+
 const List<String> requestPackageSize = [
   "Small",
   "Medium",
   "Large",
+  "Other",
 ];
 
 const List<IconData> packageSizeIcon = [

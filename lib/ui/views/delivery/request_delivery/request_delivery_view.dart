@@ -35,11 +35,13 @@ class RequestDeliveryView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start);
   }
 
-  Widget packageOption(model, assetUrl, size, desc1, desc2) {
+  Widget packageOption(
+      model, assetUrl, size, desc1, desc2, radioValue) {
     return <Widget>[
       Image.asset(
         assetUrl,
-      ).padding(left: 10, vertical: 10),
+        width: 90,
+      ).padding(vertical: 10),
       <Widget>[
         Text(
           size,
@@ -54,66 +56,78 @@ class RequestDeliveryView extends StatelessWidget {
         Text(
           desc2,
           style: const TextStyle(
-              fontSize: 16, fontWeight: FontWeight.w400),
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              color: Colors.grey),
         )
       ]
           .toColumn(
             crossAxisAlignment: CrossAxisAlignment.start,
           )
-          .padding(left: 10)
-    ]
-        .toRow(mainAxisSize: MainAxisSize.max)
-        .borderRadius(all: 15)
-        .ripple()
-        .backgroundColor(Colors.white, animate: true)
-        .clipRRect(all: 25) // clip ripple
-        .borderRadius(all: 25, animate: true)
-        .elevation(
-          20,
-          // model.pressed ? 0 : 20,
-          borderRadius: BorderRadius.circular(25),
-          shadowColor: const Color(0x30000000),
-        )
-        .constrained(height: 80)
-        .gestures(
-            // onTapChange: (tapState) =>
-            //     model.updatePressedStatus(tapState),
-            // onTap: model.onPress,
-            )
-        .scale(
-          all: 1.0,
-          // all: model.pressed ? 0.95 : 1.0,
-          animate: true,
-        )
-        .animate(
-          const Duration(milliseconds: 150),
-          Curves.easeOut,
-        )
-        .padding(vertical: 15, left: 20);
+          .padding(left: 10),
+      // Radio button
+      Radio<PackageSize>(
+        groupValue: model.currentSize,
+        value: radioValue,
+        onChanged: (PackageSize? size) {
+          model.setCurrentSize(size);
+        },
+      ),
+    ].toRow(mainAxisSize: MainAxisSize.max).gestures(
+      onTap: () {
+        model.setCurrentSize(radioValue);
+      },
+    );
   }
 
   Widget packageSizeButtons(model) {
     return <Widget>[
-      packageOption(model, 'assets/images/box_small.png', 'Small',
-          'Max: 1kg or 20cm', 'Carry with one hand'),
-      packageOption(model, 'assets/images/box_small.png', 'Medium',
-          'Max: 5kg or 50cm', 'Carry with two hands'),
+      packageOption(
+          model,
+          'assets/images/box_small.png',
+          'Small',
+          'Max: 1kg or 20cm',
+          'Carry with one hand',
+          PackageSize.Small),
+      packageOption(
+          model,
+          'assets/images/box_medium.png',
+          'Medium',
+          'Max: 5kg or 50cm',
+          'Carry with two hands',
+          PackageSize.Medium),
       packageOption(model, 'assets/images/box_large.png', 'Large',
-          'Max: 10kg or 100cm', 'Quite big'),
-      packageOption(model, 'assets/images/box_small.png', 'Other',
-          'Max: ??kg or over ??cm', 'Need a trolley'),
+          'Max: 10kg or 100cm', 'Quite big', PackageSize.Large),
+      packageOption(
+          model,
+          'assets/images/question_mark.png',
+          'Other',
+          'Max: ??kg or over ??cm',
+          'Need a trolley',
+          PackageSize.Other),
     ].toColumn(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.start,
-    );
+        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        // crossAxisAlignment: CrossAxisAlignment.start,
+        // mainAxisSize: MainAxisSize.min,
+        );
   }
 
   Widget requestPackageSizeSection(model) {
     return <Widget>[
       UIHelper.verticalSpaceMedium(),
-      const Text('Package Size', style: subHeaderStyle),
+      const <Widget>[
+        Flexible(
+          child: Text(
+            'How big is your package?',
+            style: TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ].toRow().padding(left: 15),
       UIHelper.verticalSpaceSmall(),
-      packageSizeButtons(model),
+      packageSizeButtons(model).padding(vertical: 15, left: 20),
     ].toColumn(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start);
@@ -132,6 +146,41 @@ class RequestDeliveryView extends StatelessWidget {
   Widget requestTimeSection(model) {
     return requestSection(
         model, "Between", requestTime, model.selectTime);
+  }
+
+  Widget requestNext(RequestDeliveryViewModel model) {
+    return const Text(
+      'Next',
+      style: TextStyle(
+          color: Colors.white,
+          fontSize: 24,
+          fontWeight: FontWeight.w600),
+    )
+        .padding(vertical: 10, horizontal: 120)
+        .borderRadius(all: 10)
+        .ripple()
+        .backgroundColor(Colors.lightGreen, animate: true)
+        .clipRRect(all: 10)
+        .borderRadius(all: 10, animate: true)
+        .elevation(
+          model.confirmPressed ? 0 : 20,
+          borderRadius: BorderRadius.circular(25),
+          shadowColor: const Color(0x30000000),
+        )
+        .gestures(
+            onTapChange: (tapState) =>
+                model.updateConfirmPressedStatus(tapState),
+            onTap: () {
+              model.submitRequest(deliveryModel);
+            })
+        .scale(
+          all: model.confirmPressed ? 0.95 : 1.0,
+          animate: true,
+        )
+        .animate(
+          const Duration(milliseconds: 150),
+          Curves.easeOut,
+        );
   }
 
   Widget requestConfirm(RequestDeliveryViewModel model) {
@@ -183,13 +232,14 @@ class RequestDeliveryView extends StatelessWidget {
                   model: model,
                   headerText: "Request Delivery",
                 ),
-                UIHelper.verticalSpaceMedium(),
+                UIHelper.verticalSpaceSmall(),
                 requestPackageSizeSection(model),
                 // requestPickUpLocationSection(model),
                 // requestDropOffLocationSection(model),
                 // requestTimeSection(model),
                 UIHelper.verticalSpaceMedium(),
-                requestConfirm(model),
+                requestNext(model),
+                // requestConfirm(model),
               ],
             ),
           ),

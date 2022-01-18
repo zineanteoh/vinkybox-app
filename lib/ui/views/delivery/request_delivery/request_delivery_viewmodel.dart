@@ -22,6 +22,14 @@ class RequestDeliveryViewModel extends BaseViewModel {
   String _dropOffLocation = "";
   String _time = "";
 
+  PackageSize _currentSize = PackageSize.None;
+  PackageSize get currentSize => _currentSize;
+
+  void setCurrentSize(PackageSize size) {
+    _currentSize = size;
+    notifyListeners();
+  }
+
   void updateConfirmPressedStatus(bool tapState) {
     _confirmPressed = tapState;
     notifyListeners();
