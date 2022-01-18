@@ -17,16 +17,15 @@ class RequestDeliveryViewModel extends BaseViewModel {
   final _deliveryService = locator<DeliveryService>();
 
   late PackageRequest currentRequest;
-  String _packageSize = "";
   String _pickUpLocation = "";
   String _dropOffLocation = "";
-  String _time = "";
+  // String _time = "";
 
-  PackageSize _currentSize = PackageSize.None;
-  PackageSize get currentSize => _currentSize;
+  PackageSize _packageSize = PackageSize.None;
+  PackageSize get currentSize => _packageSize;
 
   void setCurrentSize(PackageSize size) {
-    _currentSize = size;
+    _packageSize = size;
     notifyListeners();
   }
 
@@ -41,14 +40,13 @@ class RequestDeliveryViewModel extends BaseViewModel {
 
   Future submitRequest(DeliveryViewModel deliveryModel) async {
     // if all selected
-    if (_packageSize != "" &&
+    if (_packageSize != PackageSize.None &&
         _pickUpLocation != "" &&
-        _dropOffLocation != "" &&
-        _time != "") {
+        _dropOffLocation != "") {
       // Submit to firestore
       log.i("A package request is sent!");
       final result = await _deliveryService.submitNewDeliveryRequest(
-          packageSize: _packageSize,
+          packageSize: _packageSize.toString(),
           dropOffLocation: _dropOffLocation,
           pickUpLocation: _pickUpLocation);
 
@@ -77,10 +75,10 @@ class RequestDeliveryViewModel extends BaseViewModel {
     }
   }
 
-  void selectPackageSize(index) {
-    _packageSize = requestPackageSize[index];
-    log.i("Package size: $_packageSize");
-  }
+  // void selectPackageSize(index) {
+  //   _packageSize = requestPackageSize[index];
+  //   log.i("Package size: $_packageSize");
+  // }
 
   void selectPickUpLocation(index) {
     _pickUpLocation = requestPickUpLocation[index];
@@ -90,10 +88,5 @@ class RequestDeliveryViewModel extends BaseViewModel {
   void selectDropOffLocation(index) {
     _dropOffLocation = requestDropOffLocation[index];
     log.i("Drop off: $_dropOffLocation");
-  }
-
-  void selectTime(index) {
-    _time = requestTime[index];
-    log.i("Time: $_time");
   }
 }

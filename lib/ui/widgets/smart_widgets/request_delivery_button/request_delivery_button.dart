@@ -1,6 +1,8 @@
+import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
+import 'package:vinkybox/ui/shared/app_colors.dart';
 import 'package:vinkybox/ui/views/delivery/delivery_viewmodel.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/request_delivery_button/request_delivery_button_model.dart';
 
@@ -43,26 +45,26 @@ class RequestDeliveryButton extends StatelessWidget {
               );
         }
 
-        final Widget icon =
-            Icon(model.icon, size: 20, color: Colors.white)
-                .padding(all: 12)
-                .decorated(
-                  color: model.iconBgColor,
-                  borderRadius: BorderRadius.circular(30),
-                )
-                .padding(left: 15, right: 10);
+        final Widget icon = const Icon(CarbonIcons.delivery_parcel,
+                size: 20, color: Colors.white)
+            .padding(all: 12)
+            .decorated(
+              color: blueJeansColor,
+              borderRadius: BorderRadius.circular(30),
+            )
+            .padding(left: 15, right: 10);
 
-        final Widget title = Text(
-          model.title,
-          style: const TextStyle(
+        const Widget title = Text(
+          "Request Delivery",
+          style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
         );
 
-        final Widget description = Text(
-          model.description,
-          style: const TextStyle(
+        const Widget description = Text(
+          "Too busy? Let others deliver for you!",
+          style: TextStyle(
             color: Colors.black26,
             fontWeight: FontWeight.bold,
             fontSize: 12,

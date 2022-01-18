@@ -38,43 +38,53 @@ class RequestDeliveryView extends StatelessWidget {
   Widget packageOption(
       model, assetUrl, size, desc1, desc2, radioValue) {
     return <Widget>[
-      Image.asset(
-        assetUrl,
-        width: 90,
-      ).padding(vertical: 10),
-      <Widget>[
-        Text(
-          size,
-          style: const TextStyle(
-              fontSize: 24, fontWeight: FontWeight.w600),
-        ),
-        Text(
-          desc1,
-          style: const TextStyle(
-              fontSize: 16, fontWeight: FontWeight.w400),
-        ),
-        Text(
-          desc2,
-          style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-              color: Colors.grey),
-        )
-      ]
-          .toColumn(
-            crossAxisAlignment: CrossAxisAlignment.start,
-          )
-          .padding(left: 10),
-      // Radio button
-      Radio<PackageSize>(
-        groupValue: model.currentSize,
-        value: radioValue,
-        onChanged: (PackageSize? size) {
-          model.setCurrentSize(size);
-        },
+      Row(
+        children: [
+          Image.asset(
+            assetUrl,
+            height: 95,
+          ).padding(vertical: 10),
+          <Widget>[
+            Text(
+              size,
+              style: const TextStyle(
+                  fontSize: 24, fontWeight: FontWeight.w600),
+            ),
+            Text(
+              desc1,
+              style: const TextStyle(
+                  fontSize: 16, fontWeight: FontWeight.w400),
+            ),
+            Text(
+              desc2,
+              style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.grey),
+            )
+          ]
+              .toColumn(
+                crossAxisAlignment: CrossAxisAlignment.start,
+              )
+              .padding(left: 10),
+        ],
       ),
-    ].toRow(mainAxisSize: MainAxisSize.max).gestures(
-      onTap: () {
+      // Radio button
+      Transform.scale(
+        scale: 2.0,
+        child: Radio<PackageSize>(
+          groupValue: model.currentSize,
+          value: radioValue,
+          onChanged: (PackageSize? size) {
+            model.setCurrentSize(size);
+          },
+          activeColor: paradisePinkColor,
+        ),
+      )
+    ]
+        .toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween)
+        .gestures(
+      onTapChange: (tapState) {
         model.setCurrentSize(radioValue);
       },
     );
@@ -83,33 +93,38 @@ class RequestDeliveryView extends StatelessWidget {
   Widget packageSizeButtons(model) {
     return <Widget>[
       packageOption(
-          model,
-          'assets/images/box_small.png',
-          'Small',
-          'Max: 1kg or 20cm',
-          'Carry with one hand',
-          PackageSize.Small),
+        model,
+        'assets/images/box_small.png',
+        'Small',
+        'Max: 1kg or 20cm',
+        'Carry with one hand',
+        PackageSize.Small,
+      ),
       packageOption(
-          model,
-          'assets/images/box_medium.png',
-          'Medium',
-          'Max: 5kg or 50cm',
-          'Carry with two hands',
-          PackageSize.Medium),
-      packageOption(model, 'assets/images/box_large.png', 'Large',
-          'Max: 10kg or 100cm', 'Quite big', PackageSize.Large),
+        model,
+        'assets/images/box_medium.png',
+        'Medium',
+        'Max: 5kg or 50cm',
+        'Carry with two hands',
+        PackageSize.Medium,
+      ),
       packageOption(
-          model,
-          'assets/images/question_mark.png',
-          'Other',
-          'Max: ??kg or over ??cm',
-          'Need a trolley',
-          PackageSize.Other),
-    ].toColumn(
-        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        // crossAxisAlignment: CrossAxisAlignment.start,
-        // mainAxisSize: MainAxisSize.min,
-        );
+        model,
+        'assets/images/box_large.png',
+        'Large',
+        'Max: 10kg or 100cm',
+        'Quite big',
+        PackageSize.Large,
+      ),
+      packageOption(
+        model,
+        'assets/images/question_mark.png',
+        'Other',
+        'Over 10kg or 100cm',
+        'Need a trolley',
+        PackageSize.Other,
+      ),
+    ].toColumn();
   }
 
   Widget requestPackageSizeSection(model) {
@@ -125,9 +140,9 @@ class RequestDeliveryView extends StatelessWidget {
             ),
           ),
         ),
-      ].toRow().padding(left: 15),
+      ].toRow().padding(horizontal: 30),
       UIHelper.verticalSpaceSmall(),
-      packageSizeButtons(model).padding(vertical: 15, left: 20),
+      packageSizeButtons(model).padding(bottom: 15, horizontal: 30),
     ].toColumn(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start);
@@ -159,7 +174,11 @@ class RequestDeliveryView extends StatelessWidget {
         .padding(vertical: 10, horizontal: 120)
         .borderRadius(all: 10)
         .ripple()
-        .backgroundColor(Colors.lightGreen, animate: true)
+        .backgroundColor(
+            model.currentSize == PackageSize.None
+                ? lightBlueColor
+                : blueJeansColor,
+            animate: true)
         .clipRRect(all: 10)
         .borderRadius(all: 10, animate: true)
         .elevation(
@@ -223,25 +242,20 @@ class RequestDeliveryView extends StatelessWidget {
     return ViewModelBuilder<RequestDeliveryViewModel>.reactive(
       builder: (context, model, child) => Scaffold(
         body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(
-                left: 20.0, right: 20.0, top: 50.0),
-            child: Column(
-              children: [
-                HeaderBar(
-                  model: model,
-                  headerText: "Request Delivery",
-                ),
-                UIHelper.verticalSpaceSmall(),
-                requestPackageSizeSection(model),
-                // requestPickUpLocationSection(model),
-                // requestDropOffLocationSection(model),
-                // requestTimeSection(model),
-                UIHelper.verticalSpaceMedium(),
-                requestNext(model),
-                // requestConfirm(model),
-              ],
-            ),
+          child: Column(
+            children: [
+              HeaderBar(
+                model: model,
+                headerText: "Request Delivery",
+              ).padding(left: 20.0, right: 20.0, top: 50.0),
+              UIHelper.verticalSpaceSmall(),
+              requestPackageSizeSection(model),
+              // requestPickUpLocationSection(model),
+              // requestDropOffLocationSection(model),
+              UIHelper.verticalSpaceMedium(),
+              requestNext(model),
+              // requestConfirm(model),
+            ],
           ),
         ),
       ),
