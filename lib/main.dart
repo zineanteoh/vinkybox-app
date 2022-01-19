@@ -11,7 +11,7 @@ import 'dart:io' show Platform;
 
 // Run the following to start emulator
 // firebase emulators:start --import=exported-dev-data --export-on-exit=exported-dev-data
-const bool USE_EMULATOR = true;
+const bool USE_EMULATOR = false;
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
