@@ -69,7 +69,7 @@ class _DeliveryViewState extends State<DeliveryView>
                 TopProfileBar(),
                 WelcomeMessage(),
               ],
-            ),
+            ).padding(top: 10),
             Expanded(
               child: SmartRefresher(
                 header: const ClassicHeader(

@@ -3,9 +3,12 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
 import 'package:vinkybox/constants/request_info.dart';
+import 'package:vinkybox/helpers/enum_parser.dart';
 import 'package:vinkybox/models/application_models.dart';
 import 'package:vinkybox/services/delivery_service.dart';
 import 'package:vinkybox/ui/views/delivery/delivery_viewmodel.dart';
+
+enum RequestDeliveryStage { selectingSize, selectingLocation }
 
 class RequestDeliveryViewModel extends BaseViewModel {
   final log = getLogger("RequestDeliveryViewModel");
@@ -19,14 +22,19 @@ class RequestDeliveryViewModel extends BaseViewModel {
   late PackageRequest currentRequest;
   String _pickUpLocation = "";
   String _dropOffLocation = "";
-  // String _time = "";
+
+  RequestDeliveryStage _currentStage =
+      RequestDeliveryStage.selectingSize;
+  RequestDeliveryStage get currentStage => _currentStage;
 
   PackageSize _packageSize = PackageSize.None;
   PackageSize get currentSize => _packageSize;
 
-  void setCurrentSize(PackageSize size) {
-    _packageSize = size;
-    notifyListeners();
+  void setCurrentSize(PackageSize? size) {
+    if (size != null) {
+      _packageSize = size;
+      notifyListeners();
+    }
   }
 
   void updateConfirmPressedStatus(bool tapState) {
@@ -34,8 +42,21 @@ class RequestDeliveryViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void navigateBack() {
-    _navigationService.back();
+  void navigateBack({isGoingHome = false}) {
+    if (!isGoingHome &&
+        _currentStage == RequestDeliveryStage.selectingLocation) {
+      _currentStage = RequestDeliveryStage.selectingSize;
+      notifyListeners();
+    } else {
+      _navigationService.back();
+    }
+  }
+
+  void nextStage() {
+    if (_packageSize != PackageSize.None) {
+      _currentStage = RequestDeliveryStage.selectingLocation;
+      notifyListeners();
+    }
   }
 
   Future submitRequest(DeliveryViewModel deliveryModel) async {
@@ -46,7 +67,7 @@ class RequestDeliveryViewModel extends BaseViewModel {
       // Submit to firestore
       log.i("A package request is sent!");
       final result = await _deliveryService.submitNewDeliveryRequest(
-          packageSize: _packageSize.toString(),
+          packageSize: parsePackageSize(_packageSize),
           dropOffLocation: _dropOffLocation,
           pickUpLocation: _pickUpLocation);
 
@@ -66,7 +87,7 @@ class RequestDeliveryViewModel extends BaseViewModel {
       }
 
       // Navigate back
-      navigateBack();
+      navigateBack(isGoingHome: true);
 
       // refresh delivery view
       deliveryModel.onRefresh();

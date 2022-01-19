@@ -36,7 +36,12 @@ class RequestDeliveryView extends StatelessWidget {
   }
 
   Widget packageOption(
-      model, assetUrl, size, desc1, desc2, radioValue) {
+      RequestDeliveryViewModel model,
+      String assetUrl,
+      String size,
+      String desc1,
+      String desc2,
+      PackageSize radioValue) {
     return <Widget>[
       Row(
         children: [
@@ -48,7 +53,7 @@ class RequestDeliveryView extends StatelessWidget {
             Text(
               size,
               style: const TextStyle(
-                  fontSize: 24, fontWeight: FontWeight.w600),
+                  fontSize: 22, fontWeight: FontWeight.w600),
             ),
             Text(
               desc1,
@@ -70,15 +75,20 @@ class RequestDeliveryView extends StatelessWidget {
         ],
       ),
       // Radio button
-      Transform.scale(
-        scale: 2.0,
-        child: Radio<PackageSize>(
-          groupValue: model.currentSize,
-          value: radioValue,
-          onChanged: (PackageSize? size) {
-            model.setCurrentSize(size);
-          },
-          activeColor: paradisePinkColor,
+      Theme(
+        data: ThemeData(
+          unselectedWidgetColor: Colors.grey,
+        ),
+        child: Transform.scale(
+          scale: 2.0,
+          child: Radio<PackageSize>(
+            groupValue: model.currentSize,
+            value: radioValue,
+            onChanged: (PackageSize? size) {
+              model.setCurrentSize(size);
+            },
+            activeColor: blueJeansColor,
+          ),
         ),
       )
     ]
@@ -90,7 +100,7 @@ class RequestDeliveryView extends StatelessWidget {
     );
   }
 
-  Widget packageSizeButtons(model) {
+  Widget packageSizeButtons(RequestDeliveryViewModel model) {
     return <Widget>[
       packageOption(
         model,
@@ -127,7 +137,7 @@ class RequestDeliveryView extends StatelessWidget {
     ].toColumn();
   }
 
-  Widget requestPackageSizeSection(model) {
+  Widget requestPackageSizeSection(RequestDeliveryViewModel model) {
     return <Widget>[
       UIHelper.verticalSpaceMedium(),
       const <Widget>[
@@ -135,17 +145,43 @@ class RequestDeliveryView extends StatelessWidget {
           child: Text(
             'How big is your package?',
             style: TextStyle(
-              fontSize: 28,
+              fontSize: 24,
               fontWeight: FontWeight.w600,
             ),
           ),
         ),
-      ].toRow().padding(horizontal: 30),
+      ].toRow(),
       UIHelper.verticalSpaceSmall(),
-      packageSizeButtons(model).padding(bottom: 15, horizontal: 30),
-    ].toColumn(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start);
+      packageSizeButtons(model),
+    ]
+        .toColumn(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start)
+        .padding(horizontal: 30, bottom: 15);
+  }
+
+  Widget requestLocationSection(RequestDeliveryViewModel model) {
+    return <Widget>[
+      UIHelper.verticalSpaceMedium(),
+      const <Widget>[
+        Flexible(
+          child: Text(
+            'Where is your package located?',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ].toRow(),
+      UIHelper.verticalSpaceSmall(),
+      requestPickUpLocationSection(model),
+      requestDropOffLocationSection(model),
+    ]
+        .toColumn(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start)
+        .padding(horizontal: 30);
   }
 
   Widget requestPickUpLocationSection(model) {
@@ -190,7 +226,7 @@ class RequestDeliveryView extends StatelessWidget {
             onTapChange: (tapState) =>
                 model.updateConfirmPressedStatus(tapState),
             onTap: () {
-              model.submitRequest(deliveryModel);
+              model.nextStage();
             })
         .scale(
           all: model.confirmPressed ? 0.95 : 1.0,
@@ -246,15 +282,21 @@ class RequestDeliveryView extends StatelessWidget {
             children: [
               HeaderBar(
                 model: model,
-                headerText: "Request Delivery",
-              ).padding(left: 20.0, right: 20.0, top: 50.0),
+                headerText: "Delivery Request",
+              ).padding(horizontal: 20.0, top: 50.0),
               UIHelper.verticalSpaceSmall(),
-              requestPackageSizeSection(model),
-              // requestPickUpLocationSection(model),
-              // requestDropOffLocationSection(model),
-              UIHelper.verticalSpaceMedium(),
-              requestNext(model),
-              // requestConfirm(model),
+              (model.currentStage ==
+                      RequestDeliveryStage.selectingSize)
+                  ? <Widget>[
+                      requestPackageSizeSection(model),
+                      UIHelper.verticalSpaceMedium(),
+                      requestNext(model),
+                    ].toColumn()
+                  : <Widget>[
+                      requestLocationSection(model),
+                      UIHelper.verticalSpaceMedium(),
+                      requestConfirm(model),
+                    ].toColumn(),
             ],
           ),
         ),
