@@ -41,7 +41,7 @@ class DeliverForOthersView extends StatelessWidget {
         )
         .scale(all: model.cardPressed ? 0.95 : 1.0, animate: true)
         .animate(const Duration(milliseconds: 150), Curves.easeOut)
-        .padding(vertical: 40);
+        .padding(vertical: 20);
   }
 
   @override
