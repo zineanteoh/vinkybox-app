@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:vinkybox/ui/shared/ui_helpers.dart';
 import 'package:vinkybox/ui/views/delivery/delivery_viewmodel.dart';
 import 'package:vinkybox/ui/widgets/dumb_widgets/my_current_packages_header.dart';
+import 'package:vinkybox/ui/widgets/dumb_widgets/nothing_here_message.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/current_task_button/current_task_button.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/delivery_request_item/delivery_request_item.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/package_history_button/package_history_button.dart';
@@ -43,9 +45,10 @@ class _DeliveryViewState extends State<DeliveryView>
         child: model.isBusy
             ? const CircularProgressIndicator()
             : model.isRequestEmpty
-                ? const Text(
-                        'Nothing here... Why not request a delivery?')
-                    .padding(top: 30)
+                ? const NothingHereMessage(
+                    imageUrl: "assets/images/parachute.png",
+                    nothingMessage1: "Nothing here...",
+                    nothingMessage2: "Why not request a delivery?")
                 : DeliveryRequestItem(
                     deliveryRequest:
                         model.myCurrentPackagesList.requestList[0]),
@@ -64,9 +67,9 @@ class _DeliveryViewState extends State<DeliveryView>
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.end,
-            children: const <Widget>[
-              ProfilePic(),
-              WelcomeMessage(),
+            children: <Widget>[
+              const ProfilePic(),
+              const WelcomeMessage().padding(left: 15.w),
             ],
           ),
           Expanded(
@@ -93,7 +96,7 @@ class _DeliveryViewState extends State<DeliveryView>
         ],
       ).padding(
         horizontal: 20.w,
-        top: 20.h,
+        top: 50.h,
       ),
       viewModelBuilder: () => DeliveryViewModel(),
     );

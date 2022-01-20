@@ -25,11 +25,10 @@ class WelcomeMessage extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-      ]
-          .toColumn(
-            crossAxisAlignment: CrossAxisAlignment.start,
-          )
-          .padding(left: 20.w, top: 40.h),
+      ].toColumn(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+      ),
       viewModelBuilder: () => WelcomeMessageModel(),
     );
   }
