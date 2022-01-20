@@ -3,14 +3,44 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
-import 'package:vinkybox/ui/widgets/smart_widgets/top_profile_bar/top_profile_bar_model.dart';
+import 'package:vinkybox/ui/widgets/smart_widgets/profile_pic/profile_pic_model.dart';
 
-class TopProfileBar extends StatelessWidget {
-  const TopProfileBar({Key? key}) : super(key: key);
+class ProfilePic extends StatelessWidget {
+  const ProfilePic({Key? key}) : super(key: key);
+
+  _profilePic(
+      {required Widget child,
+      required ProfilePicModel model,
+      required BuildContext context}) {
+    return Styled.widget(child: child)
+        .ripple(
+          customBorder: const CircleBorder(),
+        )
+        .elevation(
+          model.pressed ? 0 : 20,
+          borderRadius: BorderRadius.circular(25.w),
+          shadowColor: const Color(0x30000000),
+        )
+        .gestures(
+          onTapChange: (tapState) =>
+              model.updatePressedStatus(tapState),
+          onTap: () {
+            _showModalBottomSheet(context: context, model: model);
+          },
+        )
+        .scale(
+          all: model.pressed ? 0.95 : 1.0,
+          animate: true,
+        )
+        .animate(
+          const Duration(milliseconds: 150),
+          Curves.easeOut,
+        );
+  }
 
   _showModalBottomSheet(
       {required BuildContext context,
-      required TopProfileBarModel model}) {
+      required ProfilePicModel model}) {
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -91,39 +121,9 @@ class TopProfileBar extends StatelessWidget {
     );
   }
 
-  _profilePic(
-      {required Widget child,
-      required TopProfileBarModel model,
-      required BuildContext context}) {
-    return Styled.widget(child: child)
-        .ripple(
-          customBorder: const CircleBorder(),
-        )
-        .elevation(
-          model.pressed ? 0 : 20,
-          borderRadius: BorderRadius.circular(25.w),
-          shadowColor: const Color(0x30000000),
-        )
-        .gestures(
-          onTapChange: (tapState) =>
-              model.updatePressedStatus(tapState),
-          onTap: () {
-            _showModalBottomSheet(context: context, model: model);
-          },
-        )
-        .scale(
-          all: model.pressed ? 0.95 : 1.0,
-          animate: true,
-        )
-        .animate(
-          const Duration(milliseconds: 150),
-          Curves.easeOut,
-        );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<TopProfileBarModel>.reactive(
+    return ViewModelBuilder<ProfilePicModel>.reactive(
       builder: (context, model, child) {
         return _profilePic(
           context: context,
@@ -143,7 +143,7 @@ class TopProfileBar extends StatelessWidget {
           ),
         );
       },
-      viewModelBuilder: () => TopProfileBarModel(),
+      viewModelBuilder: () => ProfilePicModel(),
     );
   }
 }

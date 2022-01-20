@@ -9,8 +9,8 @@ import 'package:vinkybox/ui/widgets/dumb_widgets/my_current_packages_header.dart
 import 'package:vinkybox/ui/widgets/smart_widgets/current_task_button/current_task_button.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/delivery_request_item/delivery_request_item.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/package_history_button/package_history_button.dart';
+import 'package:vinkybox/ui/widgets/smart_widgets/profile_pic/profile_pic.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/request_delivery_button/request_delivery_button.dart';
-import 'package:vinkybox/ui/widgets/smart_widgets/top_profile_bar/top_profile_bar.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/welcome_message/welcome_message.dart';
 
 class DeliveryView extends StatefulWidget {
@@ -22,7 +22,20 @@ class DeliveryView extends StatefulWidget {
 
 class _DeliveryViewState extends State<DeliveryView>
     with AutomaticKeepAliveClientMixin<DeliveryView> {
-  Widget myPackagesSection(DeliveryViewModel model) {
+  _userActionButtons(DeliveryViewModel model) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        RequestDeliveryButton(deliveryModel: model)
+            .padding(top: 10.h),
+        const PackageHistoryButton().padding(top: 10.h),
+        const CurrentTaskButton().padding(top: 10.h),
+      ],
+    );
+  }
+
+  _myPackagesSection(DeliveryViewModel model) {
     return <Widget>[
       MyCurrentPackagesHeader(
           myCurrentPackagesCount: model.getLatestRequestCount()),
@@ -37,26 +50,12 @@ class _DeliveryViewState extends State<DeliveryView>
                     deliveryRequest:
                         model.myCurrentPackagesList.requestList[0]),
       ),
-    ].toColumn().padding(top: 25);
-  }
-
-  Widget userActionButtons(DeliveryViewModel model) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        UIHelper.verticalSpaceMedium(),
-        RequestDeliveryButton(deliveryModel: model),
-        UIHelper.verticalSpaceSmallMedium(),
-        const PackageHistoryButton(),
-        UIHelper.verticalSpaceSmallMedium(),
-        const CurrentTaskButton(),
-      ],
-    );
+    ].toColumn().padding(top: 20);
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ViewModelBuilder<DeliveryViewModel>.reactive(
       onModelReady: (model) => model.onRefresh(),
       disposeViewModel: false,
@@ -66,7 +65,7 @@ class _DeliveryViewState extends State<DeliveryView>
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: const <Widget>[
-              TopProfileBar(),
+              ProfilePic(),
               WelcomeMessage(),
             ],
           ),
@@ -84,8 +83,8 @@ class _DeliveryViewState extends State<DeliveryView>
                 itemCount: 1,
                 itemBuilder: (context, index) => Column(
                   children: [
-                    userActionButtons(model),
-                    myPackagesSection(model),
+                    _userActionButtons(model),
+                    _myPackagesSection(model),
                   ],
                 ),
               ),
@@ -94,7 +93,7 @@ class _DeliveryViewState extends State<DeliveryView>
         ],
       ).padding(
         horizontal: 20.w,
-        top: 25.h,
+        top: 20.h,
       ),
       viewModelBuilder: () => DeliveryViewModel(),
     );
