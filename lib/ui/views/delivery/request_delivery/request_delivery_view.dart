@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:group_button/group_button.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
@@ -15,89 +16,45 @@ class RequestDeliveryView extends StatelessWidget {
   const RequestDeliveryView({Key? key, required this.deliveryModel})
       : super(key: key);
 
-  Widget requestSection(
-      model, headerTitle, buttonsList, onSelectedFunction) {
+  Widget requestSizeSection(RequestDeliveryViewModel model) {
     return <Widget>[
-      UIHelper.verticalSpaceMedium(),
-      Text('$headerTitle', style: subHeaderStyle),
-      UIHelper.verticalSpaceSmall(),
-      GroupButton(
-        mainGroupAlignment: MainGroupAlignment.start,
-        isRadio: true,
-        spacing: 10,
-        buttons: buttonsList,
-        selectedColor: blueJeansColor,
-        borderRadius: BorderRadius.circular(30),
-        onSelected: (i, selected) => onSelectedFunction(i),
-      ),
+      <Widget>[
+        Flexible(
+          child: Text(
+            'How big is your package?',
+            style: TextStyle(
+              fontSize: 24.sp,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ].toRow().padding(bottom: 10.h),
+      packageSizeButtons(model),
     ].toColumn(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start);
   }
 
-  Widget packageOption(
-      RequestDeliveryViewModel model,
-      String assetUrl,
-      String size,
-      String desc1,
-      String desc2,
-      PackageSize radioValue) {
+  Widget requestLocationSection(RequestDeliveryViewModel model) {
     return <Widget>[
-      Row(
-        children: [
-          Image.asset(
-            assetUrl,
-            height: 95,
-          ).padding(vertical: 10),
-          <Widget>[
-            Text(
-              size,
-              style: const TextStyle(
-                  fontSize: 22, fontWeight: FontWeight.w600),
+      UIHelper.verticalSpaceMedium(),
+      <Widget>[
+        Flexible(
+          child: Text(
+            'Where is your package located?',
+            style: TextStyle(
+              fontSize: 24.sp,
+              fontWeight: FontWeight.w600,
             ),
-            Text(
-              desc1,
-              style: const TextStyle(
-                  fontSize: 16, fontWeight: FontWeight.w400),
-            ),
-            Text(
-              desc2,
-              style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.grey),
-            )
-          ]
-              .toColumn(
-                crossAxisAlignment: CrossAxisAlignment.start,
-              )
-              .padding(left: 10),
-        ],
-      ),
-      // Radio button
-      Theme(
-        data: ThemeData(
-          unselectedWidgetColor: Colors.grey,
-        ),
-        child: Transform.scale(
-          scale: 2.0,
-          child: Radio<PackageSize>(
-            groupValue: model.currentSize,
-            value: radioValue,
-            onChanged: (PackageSize? size) {
-              model.setCurrentSize(size);
-            },
-            activeColor: blueJeansColor,
           ),
         ),
-      )
-    ]
-        .toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween)
-        .gestures(
-      onTapChange: (tapState) {
-        model.setCurrentSize(radioValue);
-      },
-    );
+      ].toRow(),
+      UIHelper.verticalSpaceSmall(),
+      requestPickUpLocationSection(model),
+      requestDropOffLocationSection(model),
+    ].toColumn(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start);
   }
 
   Widget packageSizeButtons(RequestDeliveryViewModel model) {
@@ -137,51 +94,87 @@ class RequestDeliveryView extends StatelessWidget {
     ].toColumn();
   }
 
-  Widget requestPackageSizeSection(RequestDeliveryViewModel model) {
+  Widget packageOption(
+      RequestDeliveryViewModel model,
+      String assetUrl,
+      String packageSize,
+      String desc1,
+      String desc2,
+      PackageSize radioValue) {
     return <Widget>[
-      UIHelper.verticalSpaceMedium(),
-      const <Widget>[
-        Flexible(
-          child: Text(
-            'How big is your package?',
+      <Widget>[
+        Image.asset(
+          assetUrl,
+          height: 80.sp,
+        ).padding(vertical: 10.h),
+        <Widget>[
+          Text(
+            packageSize,
             style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w600,
-            ),
+                fontSize: 22.sp, fontWeight: FontWeight.w600),
+          ),
+          Text(
+            desc1,
+            style: TextStyle(
+                fontSize: 15.sp, fontWeight: FontWeight.w400),
+          ),
+          Text(
+            desc2,
+            style: TextStyle(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w400,
+                color: Colors.grey),
+          )
+        ]
+            .toColumn(
+              crossAxisAlignment: CrossAxisAlignment.start,
+            )
+            .padding(left: 5.w),
+      ].toRow(),
+      // Radio button
+      Theme(
+        data: ThemeData(
+          unselectedWidgetColor: Colors.grey,
+        ),
+        child: Transform.scale(
+          scale: 2.0.w,
+          child: Radio<PackageSize>(
+            groupValue: model.currentSize,
+            value: radioValue,
+            onChanged: (PackageSize? packageSize) {
+              model.setCurrentSize(packageSize);
+            },
+            activeColor: blueJeansColor,
           ),
         ),
-      ].toRow(),
-      UIHelper.verticalSpaceSmall(),
-      packageSizeButtons(model),
+      ).padding(right: 10.w),
     ]
-        .toColumn(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start)
-        .padding(horizontal: 30, bottom: 15);
+        .toRow(mainAxisAlignment: MainAxisAlignment.spaceBetween)
+        .gestures(
+      onTapChange: (tapState) {
+        model.setCurrentSize(radioValue);
+      },
+    );
   }
 
-  Widget requestLocationSection(RequestDeliveryViewModel model) {
+  Widget requestSection(
+      model, headerTitle, buttonsList, onSelectedFunction) {
     return <Widget>[
-      UIHelper.verticalSpaceMedium(),
-      const <Widget>[
-        Flexible(
-          child: Text(
-            'Where is your package located?',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-      ].toRow(),
-      UIHelper.verticalSpaceSmall(),
-      requestPickUpLocationSection(model),
-      requestDropOffLocationSection(model),
+      Text('$headerTitle', style: subHeaderStyle),
+      GroupButton(
+        mainGroupAlignment: MainGroupAlignment.start,
+        isRadio: true,
+        spacing: 10,
+        buttons: buttonsList,
+        selectedColor: blueJeansColor,
+        borderRadius: BorderRadius.circular(30),
+        onSelected: (i, selected) => onSelectedFunction(i),
+      ).padding(top: 10.h),
     ]
         .toColumn(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start)
-        .padding(horizontal: 30);
+        .padding(top: 20.h);
   }
 
   Widget requestPickUpLocationSection(model) {
@@ -200,14 +193,14 @@ class RequestDeliveryView extends StatelessWidget {
   }
 
   Widget requestNext(RequestDeliveryViewModel model) {
-    return const Text(
+    return Text(
       'Next',
       style: TextStyle(
           color: Colors.white,
-          fontSize: 24,
+          fontSize: 24.sp,
           fontWeight: FontWeight.w600),
     )
-        .padding(vertical: 10, horizontal: 120)
+        .padding(vertical: 10.h, horizontal: 120.w)
         .borderRadius(all: 10)
         .ripple()
         .backgroundColor(
@@ -239,14 +232,14 @@ class RequestDeliveryView extends StatelessWidget {
   }
 
   Widget requestConfirm(RequestDeliveryViewModel model) {
-    return const Text(
+    return Text(
       'Confirm',
       style: TextStyle(
           color: Colors.white,
-          fontSize: 24,
+          fontSize: 24.sp,
           fontWeight: FontWeight.w600),
     )
-        .padding(vertical: 10, horizontal: 120)
+        .padding(vertical: 10.h, horizontal: 120.w)
         .borderRadius(all: 10)
         .ripple()
         .backgroundColor(brightGreenColor, animate: true)
@@ -282,19 +275,30 @@ class RequestDeliveryView extends StatelessWidget {
             children: [
               HeaderBar(
                 model: model,
-                headerText: "Delivery Request",
-              ).padding(horizontal: 20.0, top: 50.0),
-              UIHelper.verticalSpaceSmall(),
+                headerText: "Request a Delivery",
+              ).padding(
+                horizontal: 20.w,
+                top: 30.h,
+                bottom: 10.h,
+              ),
               (model.currentStage ==
                       RequestDeliveryStage.selectingSize)
                   ? <Widget>[
-                      requestPackageSizeSection(model),
-                      UIHelper.verticalSpaceMedium(),
+                      requestSizeSection(model).padding(
+                        top: 15.h,
+                        right: 20.w,
+                        bottom: 20.h,
+                        left: 30.w,
+                      ),
                       requestNext(model),
                     ].toColumn()
                   : <Widget>[
-                      requestLocationSection(model),
-                      UIHelper.verticalSpaceMedium(),
+                      requestLocationSection(model).padding(
+                        top: 15.h,
+                        right: 20.w,
+                        bottom: 20.h,
+                        left: 30.w,
+                      ),
                       requestConfirm(model),
                     ].toColumn(),
             ],
