@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
@@ -68,7 +69,7 @@ class _DeliveryViewState extends State<DeliveryView>
               TopProfileBar(),
               WelcomeMessage(),
             ],
-          ).padding(top: 10),
+          ),
           Expanded(
             child: SmartRefresher(
               header: const ClassicHeader(
@@ -92,9 +93,8 @@ class _DeliveryViewState extends State<DeliveryView>
           ),
         ],
       ).padding(
-        horizontal: 20,
-        top: 30,
-        bottom: 0,
+        horizontal: 20.w,
+        top: 25.h,
       ),
       viewModelBuilder: () => DeliveryViewModel(),
     );
