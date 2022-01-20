@@ -28,7 +28,7 @@ class _DeliveryViewState extends State<DeliveryView>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         RequestDeliveryButton(deliveryModel: model)
-            .padding(top: 10.h),
+            .padding(top: 15.h),
         const PackageHistoryButton().padding(top: 10.h),
         const CurrentTaskButton().padding(top: 10.h),
       ],
@@ -37,7 +37,7 @@ class _DeliveryViewState extends State<DeliveryView>
 
   Widget _myPackagesSection(DeliveryViewModel model) {
     return <Widget>[
-      MyCurrentPackagesHeader(
+      MyPackagesHeader(
           myCurrentPackagesCount: model.getLatestRequestCount()),
       Container(
         child: model.isBusy
