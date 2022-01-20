@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/action_button/action_button_model.dart';
@@ -33,7 +34,7 @@ class ActionButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(25),
           shadowColor: const Color(0x30000000),
         )
-        .constrained(height: 80)
+        .constrained(height: 60.h)
         .gestures(
           onTapChange: (tapState) =>
               model.updatePressedStatus(tapState),
@@ -50,21 +51,21 @@ class ActionButton extends StatelessWidget {
   }
 
   Widget _icon() {
-    return Icon(iconData, size: 20, color: Colors.white)
-        .padding(all: 12)
+    return Icon(iconData, size: 20.sp, color: Colors.white)
+        .padding(all: 10.sp)
         .decorated(
           color: iconColor,
           borderRadius: BorderRadius.circular(30),
         )
-        .padding(left: 15, right: 10);
+        .padding(left: 15.w, right: 10.w);
   }
 
   Widget _title() {
     return Text(
       actionTitle,
-      style: const TextStyle(
+      style: TextStyle(
         fontWeight: FontWeight.bold,
-        fontSize: 16,
+        fontSize: 15.sp,
       ),
     );
   }
@@ -72,10 +73,10 @@ class ActionButton extends StatelessWidget {
   Widget _description() {
     return Text(
       actionDescription,
-      style: const TextStyle(
+      style: TextStyle(
         color: Colors.black26,
         fontWeight: FontWeight.bold,
-        fontSize: 12,
+        fontSize: 12.sp,
       ),
     );
   }

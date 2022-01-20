@@ -51,7 +51,7 @@ class _DeliveryViewState extends State<DeliveryView>
                     deliveryRequest:
                         model.myCurrentPackagesList.requestList[0]),
       ),
-    ].toColumn().padding(top: 20);
+    ].toColumn().padding(top: 20.h);
   }
 
   @override
