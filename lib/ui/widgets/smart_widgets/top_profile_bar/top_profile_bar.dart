@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/top_profile_bar/top_profile_bar_model.dart';
@@ -7,113 +8,132 @@ import 'package:vinkybox/ui/widgets/smart_widgets/top_profile_bar/top_profile_ba
 class TopProfileBar extends StatelessWidget {
   const TopProfileBar({Key? key}) : super(key: key);
 
-  final double profilePicSize = 70;
-
   _showModalBottomSheet(
-      BuildContext context, TopProfileBarModel model) {
+      {required BuildContext context,
+      required TopProfileBarModel model}) {
     showModalBottomSheet(
       context: context,
       builder: (context) {
         return Container(
-            height: 1000,
-            decoration: const BoxDecoration(
+            // height: 1000.h,
+            decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
+                  // add rounded corners
+                  topLeft: Radius.circular(30.w),
+                  topRight: Radius.circular(30.w),
                 )),
             child: <Widget>[
-              const Text(
+              Text(
                 'Profile',
-                style: TextStyle(fontSize: 18),
-              ).padding(top: 20),
+                style: TextStyle(fontSize: 18.sp),
+              ).padding(top: 20.h),
               CachedNetworkImage(
-                height: profilePicSize * 1.5,
-                width: profilePicSize * 1.5,
+                height: 100.w,
+                width: 100.w,
                 imageUrl: model.getProfilePicUrl(),
                 imageBuilder: (context, imageProvider) =>
                     CircleAvatar(
-                  radius: profilePicSize,
+                  // radius: 70.w,
                   backgroundImage: imageProvider,
                 ),
                 placeholder: (context, url) =>
                     const CircularProgressIndicator(),
                 errorWidget: (context, url, error) =>
                     const Icon(Icons.error),
-              ).padding(vertical: 15),
-              // Information
+              ).padding(vertical: 15.h),
+              // User Information
               Text(
                 '${model.name}',
-                style: const TextStyle(
-                    fontSize: 24, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                    fontSize: 24.sp, fontWeight: FontWeight.w600),
               ),
               Text('${model.dorm}',
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.w200)),
-              // Statistics
+                  style: TextStyle(
+                      fontSize: 20.sp, fontWeight: FontWeight.w200)),
+              // User Statistics
               <Widget>[
                 <Widget>[
-                  const Text('0 Packages',
+                  Text('0 Packages',
                       style: TextStyle(
-                          fontSize: 24, fontWeight: FontWeight.w500)),
-                  const Text('Sent'),
+                          fontSize: 22.sp,
+                          fontWeight: FontWeight.w500)),
+                  Text(
+                    'Sent',
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
                 ].toColumn(),
                 <Widget>[
-                  const Text('0 Packages',
+                  Text('0 Packages',
                       style: TextStyle(
-                          fontSize: 24, fontWeight: FontWeight.w500)),
-                  const Text('Received'),
+                          fontSize: 22.sp,
+                          fontWeight: FontWeight.w500)),
+                  Text(
+                    'Received',
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
                 ].toColumn(),
               ]
                   .toRow(
                       mainAxisAlignment:
                           MainAxisAlignment.spaceEvenly)
-                  .padding(top: 25)
+                  .padding(top: 25.h)
             ]
                 .toColumn(mainAxisSize: MainAxisSize.min)
-                .padding(bottom: 70));
+                .padding(bottom: 70.h));
       },
     );
+  }
+
+  _profilePic(
+      {required Widget child,
+      required TopProfileBarModel model,
+      required BuildContext context}) {
+    return Styled.widget(child: child)
+        .ripple(
+          customBorder: const CircleBorder(),
+        )
+        .elevation(
+          model.pressed ? 0 : 20,
+          borderRadius: BorderRadius.circular(25.w),
+          shadowColor: const Color(0x30000000),
+        )
+        .gestures(
+          onTapChange: (tapState) =>
+              model.updatePressedStatus(tapState),
+          onTap: () {
+            _showModalBottomSheet(context: context, model: model);
+          },
+        )
+        .scale(
+          all: model.pressed ? 0.95 : 1.0,
+          animate: true,
+        )
+        .animate(
+          const Duration(milliseconds: 150),
+          Curves.easeOut,
+        );
   }
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<TopProfileBarModel>.reactive(
       builder: (context, model, child) {
-        Widget profilePic({required Widget child}) {
-          return Styled.widget(child: child)
-              .ripple(
-                customBorder: const CircleBorder(),
-              )
-              .elevation(
-                model.pressed ? 0 : 20,
-                borderRadius: BorderRadius.circular(25),
-                shadowColor: const Color(0x30000000),
-              )
-              .gestures(
-                onTapChange: (tapState) =>
-                    model.updatePressedStatus(tapState),
-                onTap: () {
-                  _showModalBottomSheet(context, model);
-                },
-              )
-              .scale(
-                all: model.pressed ? 0.95 : 1.0,
-                animate: true,
-              )
-              .animate(
-                const Duration(milliseconds: 150),
-                Curves.easeOut,
-              );
-        }
-
-        return profilePic(
+        return _profilePic(
+          context: context,
+          model: model,
           child: CachedNetworkImage(
-            height: profilePicSize,
-            width: profilePicSize,
+            height: 70.w,
+            width: 70.w,
             imageUrl: model.getProfilePicUrl(),
             imageBuilder: (context, imageProvider) => CircleAvatar(
-              radius: profilePicSize,
+              radius: 70.w,
               backgroundImage: imageProvider,
             ),
             placeholder: (context, url) =>
@@ -127,30 +147,3 @@ class TopProfileBar extends StatelessWidget {
     );
   }
 }
-
-// Material(
-//   elevation: 4.0,
-//   shape: const CircleBorder(),
-//   clipBehavior: Clip.hardEdge,
-//   color: Colors.transparent,
-//   child: ClipRRect(
-//     borderRadius: BorderRadius.circular(profilePicSize / 2),
-//     child: Ink.image(
-//         width: profilePicSize,
-//         height: profilePicSize,
-//         image: const AssetImage(
-//             'assets/images/temp_profile.png'),
-//         child: InkWell(
-//           onTap: () {
-//             print('clicked');
-//           },
-//         )),
-//   ),
-//   // child: CachedNetworkImage(
-//   //   imageUrl:
-//   //       "https://secure.gravatar.com/avatar/ef4a9338dca42372f15427cdb4595ef7",
-//   //   placeholder: (context, url) =>
-//   //       new CircularProgressIndicator(),
-//   //   errorWidget: (context, url, error) => new Icon(Icons.error),
-//   // ),
-// ),
