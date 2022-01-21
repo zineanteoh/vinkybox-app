@@ -147,8 +147,6 @@ Widget _packageSize(String size) {
 }
 
 Widget _time(String time) {
-  // '2:50PM, Jan 1',
-  // TimeAgo.timeAgoSinceDate(item.created_date)
   return Text(TimeAgo.timeAgoSinceDate(time),
           style: TextStyle(fontSize: 14.sp, color: Colors.black38))
       .padding(top: 15.h);
@@ -161,36 +159,48 @@ Widget _location(String pickUpLocation, String dropOffLocation) {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text('Pick Up',
-              style:
-                  TextStyle(color: Colors.blue[200], fontSize: 14)),
+              style: TextStyle(
+                  color: Colors.blue[200], fontSize: 14.sp)),
           Text('Drop Off',
-              style: TextStyle(color: Colors.blue[200], fontSize: 14))
+              style:
+                  TextStyle(color: Colors.blue[200], fontSize: 14.sp))
         ],
       ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(pickUpLocation,
-              style: const TextStyle(
+      <Widget>[
+        Expanded(
+          child: SizedBox(
+            child: Text(
+              pickUpLocation,
+              textAlign: TextAlign.start,
+              style: TextStyle(
                   color: blueJeansColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold)),
-          Text(dropOffLocation,
-              style: const TextStyle(
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+        Expanded(
+          child: SizedBox(
+            child: Text(
+              dropOffLocation,
+              textAlign: TextAlign.end,
+              style: TextStyle(
                   color: blueJeansColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold)),
-        ],
-      )
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+      ].toRow()
     ],
-  ).padding(vertical: 12, horizontal: 20);
+  ).padding(vertical: 12.h, horizontal: 20.w);
 }
 
 Widget _status(String status) {
   return Column(
     children: [
       ConstrainedBox(
-        constraints: const BoxConstraints(maxHeight: 15),
+        constraints: BoxConstraints(maxHeight: 15.h),
         child: Timeline.tileBuilder(
           theme: TimelineThemeData(
             direction: Axis.horizontal,
@@ -229,26 +239,26 @@ Widget _status(String status) {
       ),
       // Delivery status message
       Text(_getDeliveryStatusMessage(status),
-              style: const TextStyle(
-                  fontSize: 18,
+              style: TextStyle(
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.w600,
                   color: Colors.black54))
-          .padding(top: 10),
+          .padding(top: 10.h),
     ],
-  ).alignment(Alignment.center).padding(top: 12, bottom: 20);
+  ).alignment(Alignment.center).padding(top: 12.h, bottom: 18.h);
 }
 
 Widget _taskActionButton(bool isUserTask,
     DeliveryRequestItemModel model, BuildContext context) {
   return isUserTask
       ? model.statusInfo == deliveryStatus[1]
-          ? const Text('I am ready to pickup',
+          ? Text('I am ready to pickup',
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: 20,
+                      fontSize: 20.sp,
                       fontWeight: FontWeight.w600))
-              .padding(vertical: 10, horizontal: 25)
-              .borderRadius(all: 10)
+              .padding(vertical: 10.h, horizontal: 25.w)
+              .borderRadius(all: 10.r)
               .ripple()
               .backgroundColor(orangeYellowCrayolaColor,
                   animate: true)
@@ -276,15 +286,15 @@ Widget _taskActionButton(bool isUserTask,
                 Curves.easeOut,
               )
               .alignment(Alignment.center)
-              .padding(bottom: 15)
+              .padding(bottom: 15.h)
           : model.statusInfo == deliveryStatus[2]
-              ? const Text('Delivery Complete!',
+              ? Text('Delivery Complete!',
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 20,
+                          fontSize: 20.sp,
                           fontWeight: FontWeight.w600))
-                  .padding(vertical: 10, horizontal: 25)
-                  .borderRadius(all: 10)
+                  .padding(vertical: 10.h, horizontal: 25.w)
+                  .borderRadius(all: 10.r)
                   .ripple()
                   .backgroundColor(mediumSpringGreenColor,
                       animate: true)
@@ -312,7 +322,7 @@ Widget _taskActionButton(bool isUserTask,
                     Curves.easeOut,
                   )
                   .alignment(Alignment.center)
-                  .padding(bottom: 15)
+                  .padding(bottom: 15.h)
               : const SizedBox.shrink()
       : const SizedBox.shrink();
 }
@@ -320,15 +330,15 @@ Widget _taskActionButton(bool isUserTask,
 Widget _actionButtons(
     DeliveryRequestItemModel model, BuildContext context) {
   return <Widget>[
-    const Text('Cancel',
+    Text('Cancel',
             style: TextStyle(
-                color: Color.fromARGB(255, 109, 109, 109),
-                fontSize: 24,
+                color: const Color.fromARGB(255, 109, 109, 109),
+                fontSize: 22.sp,
                 fontWeight: FontWeight.w600))
-        .padding(vertical: 10, horizontal: 25)
-        .borderRadius(all: 10)
+        .padding(vertical: 10.h, horizontal: 25.w)
+        .borderRadius(all: 10.r)
         .ripple()
-        .backgroundColor(Color.fromARGB(255, 229, 229, 229),
+        .backgroundColor(const Color.fromARGB(255, 229, 229, 229),
             animate: true)
         .clipRRect(all: 10)
         .borderRadius(all: 10, animate: true)
@@ -350,16 +360,15 @@ Widget _actionButtons(
         .animate(
           const Duration(milliseconds: 150),
           Curves.easeOut,
-        )
-        .padding(right: 20),
+        ),
     // accept button
-    const Text('Accept',
+    Text('Accept',
             style: TextStyle(
                 color: Colors.white,
-                fontSize: 24,
+                fontSize: 22.sp,
                 fontWeight: FontWeight.w600))
-        .padding(vertical: 10, horizontal: 25)
-        .borderRadius(all: 10)
+        .padding(vertical: 10.h, horizontal: 25.w)
+        .borderRadius(all: 10.r)
         .ripple()
         .backgroundColor(brightGreenColor, animate: true)
         .clipRRect(all: 10)
@@ -386,21 +395,23 @@ Widget _actionButtons(
           Curves.easeOut,
         ),
   ]
-      .toRow(mainAxisAlignment: MainAxisAlignment.center)
-      .padding(top: 10);
+      .toRow(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      )
+      .padding(top: 10.h);
 }
 
 Widget _trackPackageButton(
     DeliveryRequestItemModel model, BuildContext context) {
-  return const Text(
+  return Text(
     'Track Package',
     style: TextStyle(
         color: Colors.white,
-        fontSize: 24,
+        fontSize: 22.sp,
         fontWeight: FontWeight.w600),
   )
-      .padding(vertical: 10, horizontal: 60)
-      .borderRadius(all: 10)
+      .padding(vertical: 10.h, horizontal: 60.w)
+      .borderRadius(all: 10.r)
       .ripple()
       .backgroundColor(brightGreenColor, animate: true)
       .clipRRect(all: 10)
@@ -424,7 +435,7 @@ Widget _trackPackageButton(
         const Duration(milliseconds: 150),
         Curves.easeOut,
       )
-      .padding(top: 20);
+      .padding(top: 20.h);
 }
 
 Widget getActionOrPackageButton(

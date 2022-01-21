@@ -37,7 +37,6 @@ class RequestDeliveryView extends StatelessWidget {
 
   Widget requestLocationSection(RequestDeliveryViewModel model) {
     return <Widget>[
-      UIHelper.verticalSpaceMedium(),
       <Widget>[
         Flexible(
           child: Text(
@@ -48,8 +47,7 @@ class RequestDeliveryView extends StatelessWidget {
             ),
           ),
         ),
-      ].toRow(),
-      UIHelper.verticalSpaceSmall(),
+      ].toRow().padding(bottom: 10.h),
       requestPickUpLocationSection(model),
       requestDropOffLocationSection(model),
     ].toColumn(
@@ -59,7 +57,7 @@ class RequestDeliveryView extends StatelessWidget {
 
   Widget packageSizeButtons(RequestDeliveryViewModel model) {
     return <Widget>[
-      packageOption(
+      sizeOption(
         model,
         'assets/images/box_small.png',
         'Small',
@@ -67,7 +65,7 @@ class RequestDeliveryView extends StatelessWidget {
         'Carry with one hand',
         PackageSize.Small,
       ),
-      packageOption(
+      sizeOption(
         model,
         'assets/images/box_medium.png',
         'Medium',
@@ -75,7 +73,7 @@ class RequestDeliveryView extends StatelessWidget {
         'Carry with two hands',
         PackageSize.Medium,
       ),
-      packageOption(
+      sizeOption(
         model,
         'assets/images/box_large.png',
         'Large',
@@ -83,7 +81,7 @@ class RequestDeliveryView extends StatelessWidget {
         'Quite big',
         PackageSize.Large,
       ),
-      packageOption(
+      sizeOption(
         model,
         'assets/images/question_mark.png',
         'Other',
@@ -94,7 +92,7 @@ class RequestDeliveryView extends StatelessWidget {
     ].toColumn();
   }
 
-  Widget packageOption(
+  Widget sizeOption(
       RequestDeliveryViewModel model,
       String assetUrl,
       String packageSize,
@@ -157,14 +155,15 @@ class RequestDeliveryView extends StatelessWidget {
     );
   }
 
-  Widget requestSection(
+  Widget locationOption(
       model, headerTitle, buttonsList, onSelectedFunction) {
     return <Widget>[
-      Text('$headerTitle', style: subHeaderStyle),
+      Text('$headerTitle', style: TextStyle(fontSize: 16.sp)),
+      // Temporary group buttons
       GroupButton(
         mainGroupAlignment: MainGroupAlignment.start,
         isRadio: true,
-        spacing: 10,
+        spacing: 10.w,
         buttons: buttonsList,
         selectedColor: blueJeansColor,
         borderRadius: BorderRadius.circular(30),
@@ -178,19 +177,19 @@ class RequestDeliveryView extends StatelessWidget {
   }
 
   Widget requestPickUpLocationSection(model) {
-    return requestSection(model, "Pick up Location",
+    return locationOption(model, "Pick up Location",
         requestPickUpLocation, model.selectPickUpLocation);
   }
 
   Widget requestDropOffLocationSection(model) {
-    return requestSection(model, "Drop off Location",
+    return locationOption(model, "Drop off Location",
         requestDropOffLocation, model.selectDropOffLocation);
   }
 
-  Widget requestTimeSection(model) {
-    return requestSection(
-        model, "Between", requestTime, model.selectTime);
-  }
+  // Widget requestTimeSection(model) {
+  //   return locationOption(
+  //       model, "Between", requestTime, model.selectTime);
+  // }
 
   Widget requestNext(RequestDeliveryViewModel model) {
     return Text(
