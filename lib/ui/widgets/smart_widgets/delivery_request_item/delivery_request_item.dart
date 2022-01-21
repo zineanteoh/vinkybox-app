@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:timelines/timelines.dart';
 import 'package:vinkybox/constants/request_info.dart';
+import 'package:vinkybox/helpers/time_ago.dart';
 import 'package:vinkybox/models/application_models.dart';
 import 'package:vinkybox/ui/shared/app_colors.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/delivery_request_item/delivery_request_item_model.dart';
@@ -22,12 +24,11 @@ class DeliveryRequestItem extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return Container(
-          height: 1000,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
+                topLeft: Radius.circular(30.w),
+                topRight: Radius.circular(30.w),
               )),
           child: <Widget>[
             _packageSize(model.packageSizeInfo),
@@ -40,7 +41,7 @@ class DeliveryRequestItem extends StatelessWidget {
             getActionOrPackageButton(model, context),
           ]
               .toColumn(mainAxisSize: MainAxisSize.min)
-              .padding(bottom: 70),
+              .padding(bottom: 70.h),
         );
       },
     );
@@ -54,6 +55,7 @@ class DeliveryRequestItem extends StatelessWidget {
       isUserTask
           ? _name('Deliver to: ${model.nameInfo}')
           : const SizedBox.shrink(),
+      _time(model.timeInfo).alignment(Alignment.center),
       _location(model.pickUpLocationInfo, model.dormInfo),
       _status(model.statusInfo),
       _taskActionButton(isUserTask, model, context),
@@ -87,7 +89,7 @@ class DeliveryRequestItem extends StatelessWidget {
           const Duration(milliseconds: 150),
           Curves.easeOut,
         )
-        .padding(vertical: 10);
+        .padding(top: 10.h);
   }
 
   @override
@@ -120,8 +122,8 @@ String _getDeliveryStatusMessage(String status) {
 }
 
 Widget _name(String name) {
-  return Text(name, style: const TextStyle(fontSize: 18))
-      .padding(top: 10)
+  return Text(name, style: TextStyle(fontSize: 16.sp))
+      .padding(top: 8.h)
       .alignment(Alignment.center);
 }
 
@@ -136,19 +138,20 @@ Widget _packageSize(String size) {
     children: [
       getBoxSizeIcon(size),
       Text(' $size',
-          style: const TextStyle(
-            fontSize: 18,
+          style: TextStyle(
+            fontSize: 18.sp,
             fontWeight: FontWeight.w500,
           )),
     ],
-  ).padding(top: 20);
+  ).padding(top: 10.h);
 }
 
 Widget _time(String time) {
   // '2:50PM, Jan 1',
-  return Text(time,
-          style: const TextStyle(fontSize: 14, color: Colors.black38))
-      .padding(vertical: 15);
+  // TimeAgo.timeAgoSinceDate(item.created_date)
+  return Text(TimeAgo.timeAgoSinceDate(time),
+          style: TextStyle(fontSize: 14.sp, color: Colors.black38))
+      .padding(top: 15.h);
 }
 
 Widget _location(String pickUpLocation, String dropOffLocation) {
