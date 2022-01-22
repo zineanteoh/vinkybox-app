@@ -64,8 +64,9 @@ class MyPackagesView extends StatelessWidget {
                     : model.myPackagesList.requestList.length,
                 itemBuilder: (context, index) {
                   return model.isMyPackagesEmpty
-                      ? const NothingHereMessage(
+                      ? NothingHereMessage(
                           imageUrl: "assets/images/parachute.png",
+                          imageWidth: 150.w,
                           nothingMessage1: "Nothing here...",
                           nothingMessage2:
                               "Why not request a delivery?")

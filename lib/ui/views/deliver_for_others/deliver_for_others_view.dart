@@ -6,6 +6,7 @@ import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:vinkybox/ui/views/deliver_for_others/deliver_for_others_viewmodel.dart';
 import 'package:vinkybox/ui/widgets/dumb_widgets/deliver_for_others_header.dart';
+import 'package:vinkybox/ui/widgets/dumb_widgets/nothing_here_message.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/delivery_request_item/delivery_request_item.dart';
 
 class DeliverForOthersView extends StatelessWidget {
@@ -70,8 +71,11 @@ class DeliverForOthersView extends StatelessWidget {
                   : model.latestRequestList.requestList.length,
               itemBuilder: (context, index) {
                 return model.isRequestEmpty
-                    ? const Text(
-                        'There are no requests at the moment!')
+                    ? NothingHereMessage(
+                        imageUrl: "assets/images/mailbox.png",
+                        imageWidth: 170.w,
+                        nothingMessage1: "It's empty...",
+                        nothingMessage2: "Where is everyone?")
                     : model.isBusy
                         ? const SizedBox(
                             width: 40,

@@ -43,8 +43,9 @@ class _DeliveryViewState extends State<DeliveryView>
         child: model.isBusy
             ? const CircularProgressIndicator()
             : model.isRequestEmpty
-                ? const NothingHereMessage(
+                ? NothingHereMessage(
                     imageUrl: "assets/images/parachute.png",
+                    imageWidth: 120.w,
                     nothingMessage1: "Nothing here...",
                     nothingMessage2: "Why not request a delivery?")
                 : DeliveryRequestItem(
