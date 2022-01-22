@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 class PageControllerService with ReactiveServiceMixin {
+  PageControllerService() {
+    listenToReactiveValues(
+        [_currentBottomToolbarIndex, _pageController]);
+  }
+
   final ReactiveValue<int> _currentBottomToolbarIndex =
       ReactiveValue<int>(0);
 
   final ReactiveValue<PageController> _pageController =
       ReactiveValue<PageController>(PageController(initialPage: 0));
-
-  PageControllerService() {
-    listenToReactiveValues(
-        [_currentBottomToolbarIndex, _pageController]);
-  }
 
   int get currentBottomToolbarIndex =>
       _currentBottomToolbarIndex.value;

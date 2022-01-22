@@ -384,6 +384,8 @@ Widget _actionButtons(
           onTap: () {
             model.acceptRequest();
             Navigator.pop(context);
+            // redirect user to home page
+            model.navigateToHomePage();
           },
         )
         .scale(
