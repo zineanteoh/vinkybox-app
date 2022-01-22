@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
@@ -23,7 +24,7 @@ class MyPackagesView extends StatelessWidget {
               headerText: model.getMyPackagesCount() == 0
                   ? 'My Packages'
                   : 'My Packages (${model.getMyPackagesCount()})',
-            ),
+            ).padding(bottom: 10.h),
             Expanded(
               // child: SmartRefresher(
               //   header: const ClassicHeader(
@@ -83,7 +84,7 @@ class MyPackagesView extends StatelessWidget {
                 },
               ),
             ),
-          ].toColumn().padding(left: 20.0, right: 20.0, top: 50.0),
+          ].toColumn().padding(horizontal: 25.w, top: 30.h),
         ),
       ),
       viewModelBuilder: () => MyPackagesViewModel(),

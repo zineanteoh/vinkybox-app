@@ -60,42 +60,37 @@ class _DeliveryViewState extends State<DeliveryView>
     return ViewModelBuilder<DeliveryViewModel>.reactive(
       onModelReady: (model) => model.onRefresh(),
       disposeViewModel: false,
-      builder: (context, model, child) => Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              const ProfilePic(),
-              const WelcomeMessage().padding(left: 15.w),
-            ],
-          ),
-          Expanded(
-            child: SmartRefresher(
-              header: const ClassicHeader(
-                completeText: 'Request is up to date!',
-                idleText: 'Pull to Refresh',
-                refreshingText: 'Fetching Requests...',
-              ),
-              enablePullDown: true,
-              controller: model.refreshController,
-              onRefresh: model.onRefresh,
-              child: ListView.builder(
-                itemCount: 1,
-                itemBuilder: (context, index) => Column(
-                  children: [
-                    _userActionButtons(model),
-                    _myPackagesSection(model),
-                  ],
-                ),
+      builder: (context, model, child) => <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            const ProfilePic(),
+            const WelcomeMessage().padding(left: 15.w),
+          ],
+        ),
+        Expanded(
+          child: SmartRefresher(
+            header: const ClassicHeader(
+              completeText: 'Request is up to date!',
+              idleText: 'Pull to Refresh',
+              refreshingText: 'Fetching Requests...',
+            ),
+            enablePullDown: true,
+            controller: model.refreshController,
+            onRefresh: model.onRefresh,
+            child: ListView.builder(
+              itemCount: 1,
+              itemBuilder: (context, index) => Column(
+                children: [
+                  _userActionButtons(model),
+                  _myPackagesSection(model),
+                ],
               ),
             ),
           ),
-        ],
-      ).padding(
-        horizontal: 20.w,
-        top: 50.h,
-      ),
+        ),
+      ].toColumn().padding(horizontal: 20.w, top: 50.h),
       viewModelBuilder: () => DeliveryViewModel(),
     );
   }
