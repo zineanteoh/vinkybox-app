@@ -41,50 +41,48 @@ class DeliverForOthersView extends StatelessWidget {
         )
         .scale(all: model.cardPressed ? 0.95 : 1.0, animate: true)
         .animate(const Duration(milliseconds: 150), Curves.easeOut)
-        .padding(vertical: 40);
+        .padding(vertical: 20);
   }
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<DeliverForOthersViewModel>.reactive(
-      builder: (context, model, child) => Scaffold(
-        body: <Widget>[
-          _howToDeliverCard(model),
-          DeliverForOthersHeader(
-              latestRequestCount: model.getLatestRequestCount()),
-          Expanded(
-            child: SmartRefresher(
-              header: const ClassicHeader(
-                completeText: 'Request is up to date!',
-                idleText: 'Pull to Refresh',
-                refreshingText: 'Fetching Requests...',
-              ),
-              enablePullDown: true,
-              controller: model.refreshController,
-              onRefresh: model.onRefresh,
-              child: ListView.builder(
-                itemCount: model.isRequestEmpty || model.isBusy
-                    ? 1
-                    : model.latestRequestList.requestList.length,
-                itemBuilder: (context, index) {
-                  return model.isRequestEmpty
-                      ? const Text(
-                          'There are no requests at the moment!')
-                      : model.isBusy
-                          ? const SizedBox(
-                              width: 40,
-                              height: 40,
-                              child: CircularProgressIndicator(),
-                            ).alignment(Alignment.center)
-                          : DeliveryRequestItem(
-                              deliveryRequest: model.latestRequestList
-                                  .requestList[index]);
-                },
-              ),
+      builder: (context, model, child) => <Widget>[
+        _howToDeliverCard(model),
+        DeliverForOthersHeader(
+            latestRequestCount: model.getLatestRequestCount()),
+        Expanded(
+          child: SmartRefresher(
+            header: const ClassicHeader(
+              completeText: 'Request is up to date!',
+              idleText: 'Pull to Refresh',
+              refreshingText: 'Fetching Requests...',
+            ),
+            enablePullDown: true,
+            controller: model.refreshController,
+            onRefresh: model.onRefresh,
+            child: ListView.builder(
+              itemCount: model.isRequestEmpty || model.isBusy
+                  ? 1
+                  : model.latestRequestList.requestList.length,
+              itemBuilder: (context, index) {
+                return model.isRequestEmpty
+                    ? const Text(
+                        'There are no requests at the moment!')
+                    : model.isBusy
+                        ? const SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: CircularProgressIndicator(),
+                          ).alignment(Alignment.center)
+                        : DeliveryRequestItem(
+                            deliveryRequest: model.latestRequestList
+                                .requestList[index]);
+              },
             ),
           ),
-        ].toColumn().padding(horizontal: 20, top: 50),
-      ),
+        ),
+      ].toColumn().padding(horizontal: 20, top: 50),
       viewModelBuilder: () => DeliverForOthersViewModel(),
     );
   }

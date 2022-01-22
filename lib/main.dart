@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.router.dart';
@@ -11,7 +13,7 @@ import 'dart:io' show Platform;
 
 // Run the following to start emulator
 // firebase emulators:start --import=exported-dev-data --export-on-exit=exported-dev-data
-const bool USE_EMULATOR = true;
+const bool USE_EMULATOR = false;
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +23,15 @@ Future main() async {
     await _connectToFirestoreEmulator();
   }
 
+  // Locator for dependency injection
   setupLocator();
+
+  // Force portrait mode
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp],
+  );
+
   runApp(const MyApp());
 }
 
@@ -48,15 +58,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'VinkyBox',
-        navigatorKey: StackedService.navigatorKey,
-        onGenerateRoute: StackedRouter().onGenerateRoute,
-        home: const StartUpView(),
-        theme: ThemeData(
-          scaffoldBackgroundColor: Colors.white,
-          canvasColor: Colors.transparent,
-        ),
-        debugShowCheckedModeBanner: false);
+    return ScreenUtilInit(
+      designSize: const Size(360, 690),
+      builder: () => MaterialApp(
+          title: 'VinkyBox',
+          navigatorKey: StackedService.navigatorKey,
+          onGenerateRoute: StackedRouter().onGenerateRoute,
+          home: const StartUpView(),
+          theme: ThemeData(
+            scaffoldBackgroundColor: Colors.white,
+            canvasColor: Colors.transparent,
+          ),
+          debugShowCheckedModeBanner: false),
+    );
   }
 }

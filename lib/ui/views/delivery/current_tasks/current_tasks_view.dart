@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
@@ -21,6 +22,8 @@ class CurrentTasksView extends StatelessWidget {
               model: model,
               headerText:
                   'You have ${model.getCurrentTasksCount()} task(s)',
+            ).padding(
+              bottom: 10.h,
             ),
             model.getCurrentTasksCount() > 0
                 ? const OpenMapButton()
@@ -46,10 +49,11 @@ class CurrentTasksView extends StatelessWidget {
                                   'You have not accepted any tasks!')
                               .alignment(Alignment.center)
                           : model.isBusy
-                              ? const SizedBox(
-                                  width: 40,
-                                  height: 40,
-                                  child: CircularProgressIndicator(),
+                              ? SizedBox(
+                                  width: 40.w,
+                                  height: 40.w,
+                                  child:
+                                      const CircularProgressIndicator(),
                                 ).alignment(Alignment.center)
                               : DeliveryRequestItem(
                                   deliveryRequest: model
@@ -60,7 +64,7 @@ class CurrentTasksView extends StatelessWidget {
                     },
                   )),
             )
-          ].toColumn().padding(left: 20, right: 20, top: 50),
+          ].toColumn().padding(top: 30.h, horizontal: 25.w),
         ),
       ),
       viewModelBuilder: () => CurrentTasksViewModel(),

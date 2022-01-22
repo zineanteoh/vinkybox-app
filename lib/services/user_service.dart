@@ -47,7 +47,7 @@ class UserService {
     }
   }
 
-  // TODO: temporarily set to false (startup_viewmodel)
+  // TODO: temporarily set to volume (startup_viewmodel)
   bool get hasLoggedInUser =>
       false; // _firebaseAuthenticationService.currentUser == null;
 

@@ -3,8 +3,8 @@ import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
 import 'package:vinkybox/services/user_service.dart';
 
-class TopProfileBarModel extends BaseViewModel {
-  final log = getLogger('TopProfileBarModel');
+class ProfilePicModel extends BaseViewModel {
+  final log = getLogger('ProfilePicModel');
 
   final _userService = locator<UserService>();
 

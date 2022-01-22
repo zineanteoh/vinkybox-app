@@ -11,16 +11,19 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<HomeViewModel>.reactive(
-      builder: (context, model, child) => Scaffold(
-        body: PageView(
-          controller: model.pageController,
-          onPageChanged: (value) => model.onPageChange(value),
-          children: const <Widget>[
-            DeliveryView(),
-            DeliverForOthersView(),
-          ],
+      builder: (context, model, child) => WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
+          body: PageView(
+            controller: model.pageController,
+            onPageChanged: (value) => model.onPageChange(value),
+            children: const <Widget>[
+              DeliveryView(),
+              DeliverForOthersView(),
+            ],
+          ),
+          bottomNavigationBar: const BottomToolbar(),
         ),
-        bottomNavigationBar: const BottomToolbar(),
       ),
       viewModelBuilder: () => HomeViewModel(),
     );

@@ -4,6 +4,7 @@ import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:vinkybox/ui/views/delivery/my_packages/my_packages_viewmodel.dart';
 import 'package:vinkybox/ui/widgets/dumb_widgets/header_bar.dart';
+import 'package:vinkybox/ui/widgets/dumb_widgets/nothing_here_message.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/delivery_request_item/delivery_request_item.dart';
 
 // TODO: duplicate this into my_current_packages_view and package_history_view
@@ -62,9 +63,11 @@ class MyPackagesView extends StatelessWidget {
                     : model.myPackagesList.requestList.length,
                 itemBuilder: (context, index) {
                   return model.isMyPackagesEmpty
-                      ? const Text(
-                              'You have not requested any packages!')
-                          .alignment(Alignment.center)
+                      ? const NothingHereMessage(
+                          imageUrl: "assets/images/parachute.png",
+                          nothingMessage1: "Nothing here...",
+                          nothingMessage2:
+                              "Why not request a delivery?")
                       : model.isBusy
                           ? const Center(
                               child: SizedBox(
