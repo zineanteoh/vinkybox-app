@@ -5,8 +5,6 @@ import 'package:stacked/stacked.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:vinkybox/constants/request_info.dart';
 import 'package:vinkybox/ui/shared/app_colors.dart';
-import 'package:vinkybox/ui/shared/text_styles.dart';
-import 'package:vinkybox/ui/shared/ui_helpers.dart';
 import 'package:vinkybox/ui/views/delivery/delivery_viewmodel.dart';
 import 'package:vinkybox/ui/views/delivery/request_delivery/request_delivery_viewmodel.dart';
 import 'package:vinkybox/ui/widgets/dumb_widgets/header_bar.dart';
@@ -270,38 +268,29 @@ class RequestDeliveryView extends StatelessWidget {
     return ViewModelBuilder<RequestDeliveryViewModel>.reactive(
       builder: (context, model, child) => Scaffold(
         body: SafeArea(
-          child: Column(
-            children: [
-              HeaderBar(
-                model: model,
-                headerText: "Request a Delivery",
-              ).padding(
-                horizontal: 20.w,
-                top: 30.h,
-                bottom: 10.h,
-              ),
-              (model.currentStage ==
-                      RequestDeliveryStage.selectingSize)
-                  ? <Widget>[
-                      requestSizeSection(model).padding(
-                        top: 15.h,
-                        right: 20.w,
-                        bottom: 20.h,
-                        left: 30.w,
-                      ),
-                      requestNext(model),
-                    ].toColumn()
-                  : <Widget>[
-                      requestLocationSection(model).padding(
-                        top: 15.h,
-                        right: 20.w,
-                        bottom: 20.h,
-                        left: 30.w,
-                      ),
-                      requestConfirm(model),
-                    ].toColumn(),
-            ],
-          ),
+          child: <Widget>[
+            HeaderBar(
+              model: model,
+              headerText: "Request a Delivery",
+            ).padding(
+              bottom: 10.h,
+            ),
+            (model.currentStage == RequestDeliveryStage.selectingSize)
+                ? <Widget>[
+                    requestSizeSection(model).padding(
+                      top: 15.h,
+                      bottom: 20.h,
+                    ),
+                    requestNext(model),
+                  ].toColumn()
+                : <Widget>[
+                    requestLocationSection(model).padding(
+                      top: 15.h,
+                      bottom: 20.h,
+                    ),
+                    requestConfirm(model),
+                  ].toColumn(),
+          ].toColumn().padding(top: 30.h, horizontal: 25.w),
         ),
       ),
       viewModelBuilder: () => RequestDeliveryViewModel(),
