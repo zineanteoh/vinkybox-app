@@ -10,6 +10,7 @@ class ActionButton extends StatelessWidget {
   final String actionTitle;
   final String actionDescription;
   final Function onPressFunction; // function to call when pressed
+  final bool isCurrentTask;
 
   const ActionButton({
     Key? key,
@@ -18,46 +19,32 @@ class ActionButton extends StatelessWidget {
     required this.actionTitle,
     required this.actionDescription,
     required this.onPressFunction,
+    this.isCurrentTask = false,
   }) : super(key: key);
 
-  Widget _deliveryButton(
-      {required Widget child, required ActionButtonModel model}) {
-    return Styled.widget(child: child)
-        .alignment(Alignment.center)
-        .borderRadius(all: 15)
-        .ripple()
-        .backgroundColor(Colors.white, animate: true)
-        .clipRRect(all: 25) // clip ripple
-        .borderRadius(all: 25, animate: true)
-        .elevation(
-          model.pressed ? 0 : 20,
-          borderRadius: BorderRadius.circular(25),
-          shadowColor: const Color(0x30000000),
-        )
-        .constrained(height: 60.h)
-        .gestures(
-          onTapChange: (tapState) =>
-              model.updatePressedStatus(tapState),
-          onTap: () => model.onPress(onPressFunction),
-        )
-        .scale(
-          all: model.pressed ? 0.95 : 1.0,
-          animate: true,
-        )
-        .animate(
-          const Duration(milliseconds: 150),
-          Curves.easeOut,
-        );
-  }
-
-  Widget _icon() {
-    return Icon(iconData, size: 20.sp, color: Colors.white)
-        .padding(all: 10.sp)
-        .decorated(
-          color: iconColor,
-          borderRadius: BorderRadius.circular(30),
-        )
-        .padding(left: 15.w, right: 10.w);
+  Widget _icon(ActionButtonModel model) {
+    return <Widget>[
+      Icon(iconData, size: 20.sp, color: Colors.white)
+          .padding(all: 10.sp)
+          .decorated(
+            color: iconColor,
+            borderRadius: BorderRadius.circular(30),
+          )
+          .padding(vertical: 10.h, left: 15.w, right: 10.w),
+      isCurrentTask && model.currentTaskAlertCount != 0
+          ? CircleAvatar(
+              maxRadius: 10.r,
+              backgroundColor: Colors.red,
+              child: Text(
+                '${model.currentTaskAlertCount}',
+                style: TextStyle(
+                  fontSize: 11.w,
+                  color: Colors.white,
+                ),
+              ),
+            ).padding(right: 5.w, top: 5.h)
+          : const SizedBox.shrink(),
+    ].toStack(alignment: AlignmentDirectional.topEnd);
   }
 
   Widget _title() {
@@ -84,18 +71,43 @@ class ActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<ActionButtonModel>.reactive(
-        viewModelBuilder: () => ActionButtonModel(),
-        builder: (context, model, child) => _deliveryButton(
-            child: <Widget>[
-              _icon(),
-              <Widget>[
-                _title(),
-                _description(),
-              ].toColumn(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-              )
-            ].toRow(),
-            model: model));
+      viewModelBuilder: () => ActionButtonModel(),
+      builder: (context, model, child) => <Widget>[
+        _icon(model),
+        <Widget>[
+          _title(),
+          _description(),
+        ].toColumn(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+        )
+      ]
+          .toRow()
+          .alignment(Alignment.center)
+          .borderRadius(all: 15)
+          .ripple()
+          .backgroundColor(Colors.white, animate: true)
+          .clipRRect(all: 25) // clip ripple
+          .borderRadius(all: 25, animate: true)
+          .elevation(
+            model.pressed ? 0 : 20,
+            borderRadius: BorderRadius.circular(25),
+            shadowColor: const Color(0x30000000),
+          )
+          .constrained(height: 60.h)
+          .gestures(
+            onTapChange: (tapState) =>
+                model.updatePressedStatus(tapState),
+            onTap: () => model.onPress(onPressFunction),
+          )
+          .scale(
+            all: model.pressed ? 0.95 : 1.0,
+            animate: true,
+          )
+          .animate(
+            const Duration(milliseconds: 150),
+            Curves.easeOut,
+          ),
+    );
   }
 }

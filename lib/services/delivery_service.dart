@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:stacked/stacked.dart';
 import 'package:vinkybox/api/firestore_api.dart';
 import 'package:vinkybox/app/app.locator.dart';
 import 'package:vinkybox/app/app.logger.dart';
@@ -6,7 +9,11 @@ import 'package:vinkybox/models/application_models.dart';
 import 'package:vinkybox/services/location_tracking_service.dart';
 import 'package:vinkybox/services/user_service.dart';
 
-class DeliveryService {
+class DeliveryService with ReactiveServiceMixin {
+  DeliveryService() {
+    listenToReactiveValues([_currentTasksListCount]);
+  }
+
   final log = getLogger('DeliveryService');
 
   // Delivery Request List contains ALL requests
@@ -29,8 +36,13 @@ class DeliveryService {
   // Current tasks list contains all user's 'accepted' package requests
   PackageRequestList _currentTasksList = PackageRequestList();
   PackageRequestList get currentTasksList => _currentTasksList;
+  final ReactiveValue<int> _currentTasksListCount =
+      ReactiveValue<int>(0);
+  int get currentTaskListCount => _currentTasksListCount.value;
   void setCurrentTaskList(PackageRequestList list) {
     _currentTasksList = list;
+    _currentTasksListCount.value =
+        _currentTasksList.requestList.length;
   }
 
   final _firestoreApi = locator<FirestoreApi>();
@@ -103,7 +115,7 @@ class DeliveryService {
             packageRequest.statusAccepted['deliverer']['id'] ==
                 _userService.currentUser.id)
         .toList();
-    _currentTasksList = PackageRequestList(requestList: temp);
+    setCurrentTaskList(PackageRequestList(requestList: temp));
   }
 
   /// Calls [FirestoreApi] to accept a request of [deliveryId]
@@ -127,6 +139,9 @@ class DeliveryService {
     try {
       await _firestoreApi.acceptDeliveryRequest(
           deliveryId, acceptRequestInfo, deliveryStatus[1]);
+      // log.i('accepted request: $_currentTasksList');
+      // brute force: locally update current task alert counter
+      _currentTasksListCount.value++;
     } catch (e) {
       log.e("An error occurred. Could not accept delivery request");
     }

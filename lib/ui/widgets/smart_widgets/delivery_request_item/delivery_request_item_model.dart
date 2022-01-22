@@ -10,6 +10,7 @@ import 'package:vinkybox/constants/app_keys.dart';
 import 'package:vinkybox/constants/request_info.dart';
 import 'package:vinkybox/models/application_models.dart';
 import 'package:vinkybox/services/delivery_service.dart';
+import 'package:vinkybox/services/page_controller_service.dart';
 import 'package:vinkybox/services/user_service.dart';
 
 class DeliveryRequestItemModel extends BaseViewModel {
@@ -18,6 +19,7 @@ class DeliveryRequestItemModel extends BaseViewModel {
   final _userService = locator<UserService>();
   final _deliveryService = locator<DeliveryService>();
   final _navigationService = locator<NavigationService>();
+  final _pageControllerService = locator<PageControllerService>();
 
   bool _pressed = false;
   bool get pressed => _pressed;
@@ -151,6 +153,11 @@ class DeliveryRequestItemModel extends BaseViewModel {
     //     'IsUserDelivering is now: ${_deliveryService.isUserDelivering}');
     // enable location tracking
     notifyListeners();
+  }
+
+  // Called when user accepts a request
+  void navigateToHomePage() {
+    _pageControllerService.animateToPageWithController(0);
   }
 
   void trackPackage() {

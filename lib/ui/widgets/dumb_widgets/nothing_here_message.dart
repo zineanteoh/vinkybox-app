@@ -22,7 +22,7 @@ class NothingHereMessage extends StatelessWidget {
         nothingMessage1,
         style: TextStyle(
           fontSize: 14.sp,
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.bold,
         ),
       ),
       Text(

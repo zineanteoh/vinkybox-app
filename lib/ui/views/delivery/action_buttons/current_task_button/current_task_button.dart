@@ -17,7 +17,8 @@ class CurrentTaskButton extends StatelessWidget {
             iconColor: mediumSpringGreenColor,
             actionTitle: "Current Tasks",
             actionDescription: "See all your current tasks here!",
-            onPressFunction: model.onPress);
+            onPressFunction: model.onPress,
+            isCurrentTask: true);
       },
       viewModelBuilder: () => CurrentTaskButtonModel(),
     );

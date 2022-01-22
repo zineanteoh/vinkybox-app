@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:stacked/stacked.dart';
@@ -12,19 +13,21 @@ class DeliverForOthersView extends StatelessWidget {
 
   Widget _howToDeliverCard(DeliverForOthersViewModel model) {
     return <Widget>[
-      const Text(
+      Text(
         'Learn How Delivery Works!',
-        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
-      ).padding(top: 20, bottom: 10),
+        style:
+            TextStyle(fontWeight: FontWeight.w600, fontSize: 18.sp),
+      ).padding(bottom: 15.h),
       SvgPicture.asset(
         model.deliveryPersonAsset,
         semanticsLabel: 'Delivery Person',
-        width: 220,
-      ).padding(bottom: 20),
+        height: 130.h,
+      ),
     ]
         .toColumn()
+        .padding(vertical: 15.h)
         .alignment(Alignment.center)
-        .borderRadius(all: 15)
+        .borderRadius(all: 15.r)
         .ripple()
         .backgroundColor(Colors.white, animate: true)
         .clipRRect(all: 25)
@@ -41,7 +44,7 @@ class DeliverForOthersView extends StatelessWidget {
         )
         .scale(all: model.cardPressed ? 0.95 : 1.0, animate: true)
         .animate(const Duration(milliseconds: 150), Curves.easeOut)
-        .padding(vertical: 20);
+        .padding(vertical: 15.h);
   }
 
   @override
@@ -82,7 +85,7 @@ class DeliverForOthersView extends StatelessWidget {
             ),
           ),
         ),
-      ].toColumn().padding(horizontal: 20, top: 50),
+      ].toColumn().padding(horizontal: 20.w, top: 50.h),
       viewModelBuilder: () => DeliverForOthersViewModel(),
     );
   }
