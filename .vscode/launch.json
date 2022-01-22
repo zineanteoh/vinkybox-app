@@ -15,6 +15,12 @@
 			"request": "launch",
 			"type": "dart",
 			"deviceId": "280FC7AD-3B41-4E44-B0FC-63ECE833B05A"
+		},
+		{
+			"name": "iPhone X",
+			"request": "launch",
+			"type": "dart",
+			"deviceId": "2B5821B2-7475-43C4-A660-6107E51A3F1E"
 		}
 	],
 	"compounds": [
