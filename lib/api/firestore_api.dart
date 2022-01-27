@@ -177,15 +177,19 @@ class FirestoreApi {
   }
 
   /// Update delivery request to [newStatus] to mark as completed
-  Future completeDeliveryRequest(String deliveryId, String newStatus,
-      PackageRequest deliveryrequest) async {
+  Future completeDeliveryRequest(
+      {required String deliveryId,
+      required String userId,
+      required String newStatus,
+      required List<PackageHistoryItem> newHistory}) async {
     WriteBatch batch = FirebaseFirestore.instance.batch();
     try {
       // update new status
       batch.update(_deliveryRequestsCollection.doc(deliveryId),
           {'status': newStatus});
       // convert to deliveryHistoryItem and add to user's packageHistory
-
+      batch.update(_usersCollection.doc(userId),
+          {'packageHistory': newHistory});
     } catch (e) {
       log.e('An error occurred. Could not pick up delivery request');
     }
