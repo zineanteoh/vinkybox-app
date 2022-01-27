@@ -11,8 +11,8 @@ _$_AppUser _$$_AppUserFromJson(Map<String, dynamic> json) => _$_AppUser(
       email: json['email'] as String?,
       fullName: json['fullName'] as String?,
       dorm: json['dorm'] as String?,
-      packageSentCount: json['packageSentCount'] as int?,
-      packageReceivedCount: json['packageReceivedCount'] as int?,
+      packageSentCount: json['packageSentCount'] as int,
+      packageReceivedCount: json['packageReceivedCount'] as int,
       packageHistory: (json['packageHistory'] as List<dynamic>?)
               ?.map(
                   (e) => PackageHistoryItem.fromJson(e as Map<String, dynamic>))

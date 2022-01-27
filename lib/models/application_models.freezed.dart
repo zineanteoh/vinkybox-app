@@ -26,8 +26,8 @@ class _$AppUserTearOff {
       String? email,
       String? fullName,
       String? dorm,
-      int? packageSentCount,
-      int? packageReceivedCount,
+      required int packageSentCount,
+      required int packageReceivedCount,
       List<PackageHistoryItem> packageHistory = const []}) {
     return _AppUser(
       id: id,
@@ -54,8 +54,8 @@ mixin _$AppUser {
   String? get email => throw _privateConstructorUsedError;
   String? get fullName => throw _privateConstructorUsedError;
   String? get dorm => throw _privateConstructorUsedError;
-  int? get packageSentCount => throw _privateConstructorUsedError;
-  int? get packageReceivedCount => throw _privateConstructorUsedError;
+  int get packageSentCount => throw _privateConstructorUsedError;
+  int get packageReceivedCount => throw _privateConstructorUsedError;
   List<PackageHistoryItem> get packageHistory =>
       throw _privateConstructorUsedError;
 
@@ -73,8 +73,8 @@ abstract class $AppUserCopyWith<$Res> {
       String? email,
       String? fullName,
       String? dorm,
-      int? packageSentCount,
-      int? packageReceivedCount,
+      int packageSentCount,
+      int packageReceivedCount,
       List<PackageHistoryItem> packageHistory});
 }
 
@@ -116,11 +116,11 @@ class _$AppUserCopyWithImpl<$Res> implements $AppUserCopyWith<$Res> {
       packageSentCount: packageSentCount == freezed
           ? _value.packageSentCount
           : packageSentCount // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       packageReceivedCount: packageReceivedCount == freezed
           ? _value.packageReceivedCount
           : packageReceivedCount // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       packageHistory: packageHistory == freezed
           ? _value.packageHistory
           : packageHistory // ignore: cast_nullable_to_non_nullable
@@ -139,8 +139,8 @@ abstract class _$AppUserCopyWith<$Res> implements $AppUserCopyWith<$Res> {
       String? email,
       String? fullName,
       String? dorm,
-      int? packageSentCount,
-      int? packageReceivedCount,
+      int packageSentCount,
+      int packageReceivedCount,
       List<PackageHistoryItem> packageHistory});
 }
 
@@ -183,11 +183,11 @@ class __$AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
       packageSentCount: packageSentCount == freezed
           ? _value.packageSentCount
           : packageSentCount // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       packageReceivedCount: packageReceivedCount == freezed
           ? _value.packageReceivedCount
           : packageReceivedCount // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       packageHistory: packageHistory == freezed
           ? _value.packageHistory
           : packageHistory // ignore: cast_nullable_to_non_nullable
@@ -204,8 +204,8 @@ class _$_AppUser implements _AppUser {
       this.email,
       this.fullName,
       this.dorm,
-      this.packageSentCount,
-      this.packageReceivedCount,
+      required this.packageSentCount,
+      required this.packageReceivedCount,
       this.packageHistory = const []});
 
   factory _$_AppUser.fromJson(Map<String, dynamic> json) =>
@@ -220,9 +220,9 @@ class _$_AppUser implements _AppUser {
   @override
   final String? dorm;
   @override
-  final int? packageSentCount;
+  final int packageSentCount;
   @override
-  final int? packageReceivedCount;
+  final int packageReceivedCount;
   @JsonKey()
   @override
   final List<PackageHistoryItem> packageHistory;
@@ -277,8 +277,8 @@ abstract class _AppUser implements AppUser {
       String? email,
       String? fullName,
       String? dorm,
-      int? packageSentCount,
-      int? packageReceivedCount,
+      required int packageSentCount,
+      required int packageReceivedCount,
       List<PackageHistoryItem> packageHistory}) = _$_AppUser;
 
   factory _AppUser.fromJson(Map<String, dynamic> json) = _$_AppUser.fromJson;
@@ -292,9 +292,9 @@ abstract class _AppUser implements AppUser {
   @override
   String? get dorm;
   @override
-  int? get packageSentCount;
+  int get packageSentCount;
   @override
-  int? get packageReceivedCount;
+  int get packageReceivedCount;
   @override
   List<PackageHistoryItem> get packageHistory;
   @override

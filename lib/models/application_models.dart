@@ -20,8 +20,8 @@ class AppUser with _$AppUser {
     String? email,
     String? fullName,
     String? dorm,
-    int? packageSentCount,
-    int? packageReceivedCount,
+    required int packageSentCount,
+    required int packageReceivedCount,
     @Default([]) List<PackageHistoryItem> packageHistory,
   }) = _AppUser;
 
