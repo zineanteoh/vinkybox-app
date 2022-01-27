@@ -26,8 +26,8 @@ class _$AppUserTearOff {
       String? email,
       String? fullName,
       String? dorm,
-      required int packageSentCount,
-      required int packageReceivedCount,
+      int packageSentCount = 0,
+      int packageReceivedCount = 0,
       List<PackageHistoryItem> packageHistory = const []}) {
     return _AppUser(
       id: id,
@@ -204,8 +204,8 @@ class _$_AppUser implements _AppUser {
       this.email,
       this.fullName,
       this.dorm,
-      required this.packageSentCount,
-      required this.packageReceivedCount,
+      this.packageSentCount = 0,
+      this.packageReceivedCount = 0,
       this.packageHistory = const []});
 
   factory _$_AppUser.fromJson(Map<String, dynamic> json) =>
@@ -219,8 +219,10 @@ class _$_AppUser implements _AppUser {
   final String? fullName;
   @override
   final String? dorm;
+  @JsonKey()
   @override
   final int packageSentCount;
+  @JsonKey()
   @override
   final int packageReceivedCount;
   @JsonKey()
@@ -277,8 +279,8 @@ abstract class _AppUser implements AppUser {
       String? email,
       String? fullName,
       String? dorm,
-      required int packageSentCount,
-      required int packageReceivedCount,
+      int packageSentCount,
+      int packageReceivedCount,
       List<PackageHistoryItem> packageHistory}) = _$_AppUser;
 
   factory _AppUser.fromJson(Map<String, dynamic> json) = _$_AppUser.fromJson;
