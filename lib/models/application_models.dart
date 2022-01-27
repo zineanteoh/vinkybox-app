@@ -14,10 +14,27 @@ class AppUser with _$AppUser {
     String? email,
     String? fullName,
     String? dorm,
+    int? packageSentCount,
+    int? packageReceivedCount,
+    @Default([]) List<PackageHistoryItem> packageHistory,
   }) = _AppUser;
 
   factory AppUser.fromJson(Map<String, dynamic> json) =>
       _$AppUserFromJson(json);
+}
+
+@freezed
+class PackageHistoryItem with _$PackageHistoryItem {
+  factory PackageHistoryItem({
+    required String id,
+    required String packageSize,
+    required String pickUpLocation,
+    required String dropOffLocation,
+    required String dateCompleted,
+  }) = _PackageHistoryItem;
+
+  factory PackageHistoryItem.fromJson(Map<String, dynamic> json) =>
+      _$PackageHistoryItemFromJson(json);
 }
 
 @freezed

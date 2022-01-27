@@ -22,12 +22,21 @@ class _$AppUserTearOff {
   const _$AppUserTearOff();
 
   _AppUser call(
-      {required String id, String? email, String? fullName, String? dorm}) {
+      {required String id,
+      String? email,
+      String? fullName,
+      String? dorm,
+      int? packageSentCount,
+      int? packageReceivedCount,
+      List<PackageHistoryItem> packageHistory = const []}) {
     return _AppUser(
       id: id,
       email: email,
       fullName: fullName,
       dorm: dorm,
+      packageSentCount: packageSentCount,
+      packageReceivedCount: packageReceivedCount,
+      packageHistory: packageHistory,
     );
   }
 
@@ -45,6 +54,10 @@ mixin _$AppUser {
   String? get email => throw _privateConstructorUsedError;
   String? get fullName => throw _privateConstructorUsedError;
   String? get dorm => throw _privateConstructorUsedError;
+  int? get packageSentCount => throw _privateConstructorUsedError;
+  int? get packageReceivedCount => throw _privateConstructorUsedError;
+  List<PackageHistoryItem> get packageHistory =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -55,7 +68,14 @@ mixin _$AppUser {
 abstract class $AppUserCopyWith<$Res> {
   factory $AppUserCopyWith(AppUser value, $Res Function(AppUser) then) =
       _$AppUserCopyWithImpl<$Res>;
-  $Res call({String id, String? email, String? fullName, String? dorm});
+  $Res call(
+      {String id,
+      String? email,
+      String? fullName,
+      String? dorm,
+      int? packageSentCount,
+      int? packageReceivedCount,
+      List<PackageHistoryItem> packageHistory});
 }
 
 /// @nodoc
@@ -72,6 +92,9 @@ class _$AppUserCopyWithImpl<$Res> implements $AppUserCopyWith<$Res> {
     Object? email = freezed,
     Object? fullName = freezed,
     Object? dorm = freezed,
+    Object? packageSentCount = freezed,
+    Object? packageReceivedCount = freezed,
+    Object? packageHistory = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -90,6 +113,18 @@ class _$AppUserCopyWithImpl<$Res> implements $AppUserCopyWith<$Res> {
           ? _value.dorm
           : dorm // ignore: cast_nullable_to_non_nullable
               as String?,
+      packageSentCount: packageSentCount == freezed
+          ? _value.packageSentCount
+          : packageSentCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      packageReceivedCount: packageReceivedCount == freezed
+          ? _value.packageReceivedCount
+          : packageReceivedCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      packageHistory: packageHistory == freezed
+          ? _value.packageHistory
+          : packageHistory // ignore: cast_nullable_to_non_nullable
+              as List<PackageHistoryItem>,
     ));
   }
 }
@@ -99,7 +134,14 @@ abstract class _$AppUserCopyWith<$Res> implements $AppUserCopyWith<$Res> {
   factory _$AppUserCopyWith(_AppUser value, $Res Function(_AppUser) then) =
       __$AppUserCopyWithImpl<$Res>;
   @override
-  $Res call({String id, String? email, String? fullName, String? dorm});
+  $Res call(
+      {String id,
+      String? email,
+      String? fullName,
+      String? dorm,
+      int? packageSentCount,
+      int? packageReceivedCount,
+      List<PackageHistoryItem> packageHistory});
 }
 
 /// @nodoc
@@ -117,6 +159,9 @@ class __$AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
     Object? email = freezed,
     Object? fullName = freezed,
     Object? dorm = freezed,
+    Object? packageSentCount = freezed,
+    Object? packageReceivedCount = freezed,
+    Object? packageHistory = freezed,
   }) {
     return _then(_AppUser(
       id: id == freezed
@@ -135,6 +180,18 @@ class __$AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
           ? _value.dorm
           : dorm // ignore: cast_nullable_to_non_nullable
               as String?,
+      packageSentCount: packageSentCount == freezed
+          ? _value.packageSentCount
+          : packageSentCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      packageReceivedCount: packageReceivedCount == freezed
+          ? _value.packageReceivedCount
+          : packageReceivedCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+      packageHistory: packageHistory == freezed
+          ? _value.packageHistory
+          : packageHistory // ignore: cast_nullable_to_non_nullable
+              as List<PackageHistoryItem>,
     ));
   }
 }
@@ -142,7 +199,14 @@ class __$AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_AppUser implements _AppUser {
-  _$_AppUser({required this.id, this.email, this.fullName, this.dorm});
+  _$_AppUser(
+      {required this.id,
+      this.email,
+      this.fullName,
+      this.dorm,
+      this.packageSentCount,
+      this.packageReceivedCount,
+      this.packageHistory = const []});
 
   factory _$_AppUser.fromJson(Map<String, dynamic> json) =>
       _$$_AppUserFromJson(json);
@@ -155,10 +219,17 @@ class _$_AppUser implements _AppUser {
   final String? fullName;
   @override
   final String? dorm;
+  @override
+  final int? packageSentCount;
+  @override
+  final int? packageReceivedCount;
+  @JsonKey()
+  @override
+  final List<PackageHistoryItem> packageHistory;
 
   @override
   String toString() {
-    return 'AppUser(id: $id, email: $email, fullName: $fullName, dorm: $dorm)';
+    return 'AppUser(id: $id, email: $email, fullName: $fullName, dorm: $dorm, packageSentCount: $packageSentCount, packageReceivedCount: $packageReceivedCount, packageHistory: $packageHistory)';
   }
 
   @override
@@ -169,7 +240,13 @@ class _$_AppUser implements _AppUser {
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.email, email) &&
             const DeepCollectionEquality().equals(other.fullName, fullName) &&
-            const DeepCollectionEquality().equals(other.dorm, dorm));
+            const DeepCollectionEquality().equals(other.dorm, dorm) &&
+            const DeepCollectionEquality()
+                .equals(other.packageSentCount, packageSentCount) &&
+            const DeepCollectionEquality()
+                .equals(other.packageReceivedCount, packageReceivedCount) &&
+            const DeepCollectionEquality()
+                .equals(other.packageHistory, packageHistory));
   }
 
   @override
@@ -178,7 +255,10 @@ class _$_AppUser implements _AppUser {
       const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(email),
       const DeepCollectionEquality().hash(fullName),
-      const DeepCollectionEquality().hash(dorm));
+      const DeepCollectionEquality().hash(dorm),
+      const DeepCollectionEquality().hash(packageSentCount),
+      const DeepCollectionEquality().hash(packageReceivedCount),
+      const DeepCollectionEquality().hash(packageHistory));
 
   @JsonKey(ignore: true)
   @override
@@ -196,7 +276,10 @@ abstract class _AppUser implements AppUser {
       {required String id,
       String? email,
       String? fullName,
-      String? dorm}) = _$_AppUser;
+      String? dorm,
+      int? packageSentCount,
+      int? packageReceivedCount,
+      List<PackageHistoryItem> packageHistory}) = _$_AppUser;
 
   factory _AppUser.fromJson(Map<String, dynamic> json) = _$_AppUser.fromJson;
 
@@ -209,8 +292,265 @@ abstract class _AppUser implements AppUser {
   @override
   String? get dorm;
   @override
+  int? get packageSentCount;
+  @override
+  int? get packageReceivedCount;
+  @override
+  List<PackageHistoryItem> get packageHistory;
+  @override
   @JsonKey(ignore: true)
   _$AppUserCopyWith<_AppUser> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+PackageHistoryItem _$PackageHistoryItemFromJson(Map<String, dynamic> json) {
+  return _PackageHistoryItem.fromJson(json);
+}
+
+/// @nodoc
+class _$PackageHistoryItemTearOff {
+  const _$PackageHistoryItemTearOff();
+
+  _PackageHistoryItem call(
+      {required String id,
+      required String packageSize,
+      required String pickUpLocation,
+      required String dropOffLocation,
+      required String dateCompleted}) {
+    return _PackageHistoryItem(
+      id: id,
+      packageSize: packageSize,
+      pickUpLocation: pickUpLocation,
+      dropOffLocation: dropOffLocation,
+      dateCompleted: dateCompleted,
+    );
+  }
+
+  PackageHistoryItem fromJson(Map<String, Object?> json) {
+    return PackageHistoryItem.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $PackageHistoryItem = _$PackageHistoryItemTearOff();
+
+/// @nodoc
+mixin _$PackageHistoryItem {
+  String get id => throw _privateConstructorUsedError;
+  String get packageSize => throw _privateConstructorUsedError;
+  String get pickUpLocation => throw _privateConstructorUsedError;
+  String get dropOffLocation => throw _privateConstructorUsedError;
+  String get dateCompleted => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $PackageHistoryItemCopyWith<PackageHistoryItem> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PackageHistoryItemCopyWith<$Res> {
+  factory $PackageHistoryItemCopyWith(
+          PackageHistoryItem value, $Res Function(PackageHistoryItem) then) =
+      _$PackageHistoryItemCopyWithImpl<$Res>;
+  $Res call(
+      {String id,
+      String packageSize,
+      String pickUpLocation,
+      String dropOffLocation,
+      String dateCompleted});
+}
+
+/// @nodoc
+class _$PackageHistoryItemCopyWithImpl<$Res>
+    implements $PackageHistoryItemCopyWith<$Res> {
+  _$PackageHistoryItemCopyWithImpl(this._value, this._then);
+
+  final PackageHistoryItem _value;
+  // ignore: unused_field
+  final $Res Function(PackageHistoryItem) _then;
+
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? packageSize = freezed,
+    Object? pickUpLocation = freezed,
+    Object? dropOffLocation = freezed,
+    Object? dateCompleted = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      packageSize: packageSize == freezed
+          ? _value.packageSize
+          : packageSize // ignore: cast_nullable_to_non_nullable
+              as String,
+      pickUpLocation: pickUpLocation == freezed
+          ? _value.pickUpLocation
+          : pickUpLocation // ignore: cast_nullable_to_non_nullable
+              as String,
+      dropOffLocation: dropOffLocation == freezed
+          ? _value.dropOffLocation
+          : dropOffLocation // ignore: cast_nullable_to_non_nullable
+              as String,
+      dateCompleted: dateCompleted == freezed
+          ? _value.dateCompleted
+          : dateCompleted // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$PackageHistoryItemCopyWith<$Res>
+    implements $PackageHistoryItemCopyWith<$Res> {
+  factory _$PackageHistoryItemCopyWith(
+          _PackageHistoryItem value, $Res Function(_PackageHistoryItem) then) =
+      __$PackageHistoryItemCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {String id,
+      String packageSize,
+      String pickUpLocation,
+      String dropOffLocation,
+      String dateCompleted});
+}
+
+/// @nodoc
+class __$PackageHistoryItemCopyWithImpl<$Res>
+    extends _$PackageHistoryItemCopyWithImpl<$Res>
+    implements _$PackageHistoryItemCopyWith<$Res> {
+  __$PackageHistoryItemCopyWithImpl(
+      _PackageHistoryItem _value, $Res Function(_PackageHistoryItem) _then)
+      : super(_value, (v) => _then(v as _PackageHistoryItem));
+
+  @override
+  _PackageHistoryItem get _value => super._value as _PackageHistoryItem;
+
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? packageSize = freezed,
+    Object? pickUpLocation = freezed,
+    Object? dropOffLocation = freezed,
+    Object? dateCompleted = freezed,
+  }) {
+    return _then(_PackageHistoryItem(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      packageSize: packageSize == freezed
+          ? _value.packageSize
+          : packageSize // ignore: cast_nullable_to_non_nullable
+              as String,
+      pickUpLocation: pickUpLocation == freezed
+          ? _value.pickUpLocation
+          : pickUpLocation // ignore: cast_nullable_to_non_nullable
+              as String,
+      dropOffLocation: dropOffLocation == freezed
+          ? _value.dropOffLocation
+          : dropOffLocation // ignore: cast_nullable_to_non_nullable
+              as String,
+      dateCompleted: dateCompleted == freezed
+          ? _value.dateCompleted
+          : dateCompleted // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_PackageHistoryItem implements _PackageHistoryItem {
+  _$_PackageHistoryItem(
+      {required this.id,
+      required this.packageSize,
+      required this.pickUpLocation,
+      required this.dropOffLocation,
+      required this.dateCompleted});
+
+  factory _$_PackageHistoryItem.fromJson(Map<String, dynamic> json) =>
+      _$$_PackageHistoryItemFromJson(json);
+
+  @override
+  final String id;
+  @override
+  final String packageSize;
+  @override
+  final String pickUpLocation;
+  @override
+  final String dropOffLocation;
+  @override
+  final String dateCompleted;
+
+  @override
+  String toString() {
+    return 'PackageHistoryItem(id: $id, packageSize: $packageSize, pickUpLocation: $pickUpLocation, dropOffLocation: $dropOffLocation, dateCompleted: $dateCompleted)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _PackageHistoryItem &&
+            const DeepCollectionEquality().equals(other.id, id) &&
+            const DeepCollectionEquality()
+                .equals(other.packageSize, packageSize) &&
+            const DeepCollectionEquality()
+                .equals(other.pickUpLocation, pickUpLocation) &&
+            const DeepCollectionEquality()
+                .equals(other.dropOffLocation, dropOffLocation) &&
+            const DeepCollectionEquality()
+                .equals(other.dateCompleted, dateCompleted));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(id),
+      const DeepCollectionEquality().hash(packageSize),
+      const DeepCollectionEquality().hash(pickUpLocation),
+      const DeepCollectionEquality().hash(dropOffLocation),
+      const DeepCollectionEquality().hash(dateCompleted));
+
+  @JsonKey(ignore: true)
+  @override
+  _$PackageHistoryItemCopyWith<_PackageHistoryItem> get copyWith =>
+      __$PackageHistoryItemCopyWithImpl<_PackageHistoryItem>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_PackageHistoryItemToJson(this);
+  }
+}
+
+abstract class _PackageHistoryItem implements PackageHistoryItem {
+  factory _PackageHistoryItem(
+      {required String id,
+      required String packageSize,
+      required String pickUpLocation,
+      required String dropOffLocation,
+      required String dateCompleted}) = _$_PackageHistoryItem;
+
+  factory _PackageHistoryItem.fromJson(Map<String, dynamic> json) =
+      _$_PackageHistoryItem.fromJson;
+
+  @override
+  String get id;
+  @override
+  String get packageSize;
+  @override
+  String get pickUpLocation;
+  @override
+  String get dropOffLocation;
+  @override
+  String get dateCompleted;
+  @override
+  @JsonKey(ignore: true)
+  _$PackageHistoryItemCopyWith<_PackageHistoryItem> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

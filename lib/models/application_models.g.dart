@@ -11,6 +11,13 @@ _$_AppUser _$$_AppUserFromJson(Map<String, dynamic> json) => _$_AppUser(
       email: json['email'] as String?,
       fullName: json['fullName'] as String?,
       dorm: json['dorm'] as String?,
+      packageSentCount: json['packageSentCount'] as int?,
+      packageReceivedCount: json['packageReceivedCount'] as int?,
+      packageHistory: (json['packageHistory'] as List<dynamic>?)
+              ?.map(
+                  (e) => PackageHistoryItem.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$_AppUserToJson(_$_AppUser instance) =>
@@ -19,6 +26,29 @@ Map<String, dynamic> _$$_AppUserToJson(_$_AppUser instance) =>
       'email': instance.email,
       'fullName': instance.fullName,
       'dorm': instance.dorm,
+      'packageSentCount': instance.packageSentCount,
+      'packageReceivedCount': instance.packageReceivedCount,
+      'packageHistory': instance.packageHistory,
+    };
+
+_$_PackageHistoryItem _$$_PackageHistoryItemFromJson(
+        Map<String, dynamic> json) =>
+    _$_PackageHistoryItem(
+      id: json['id'] as String,
+      packageSize: json['packageSize'] as String,
+      pickUpLocation: json['pickUpLocation'] as String,
+      dropOffLocation: json['dropOffLocation'] as String,
+      dateCompleted: json['dateCompleted'] as String,
+    );
+
+Map<String, dynamic> _$$_PackageHistoryItemToJson(
+        _$_PackageHistoryItem instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'packageSize': instance.packageSize,
+      'pickUpLocation': instance.pickUpLocation,
+      'dropOffLocation': instance.dropOffLocation,
+      'dateCompleted': instance.dateCompleted,
     };
 
 _$_PackageRequest _$$_PackageRequestFromJson(Map<String, dynamic> json) =>
