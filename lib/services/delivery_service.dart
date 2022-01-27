@@ -170,4 +170,14 @@ class DeliveryService with ReactiveServiceMixin {
       log.e('An error occurred. Could not pick up delivery request');
     }
   }
+
+  Future completeDeliveryRequest(
+      String deliveryId, PackageRequest deliveryRequest) async {
+    try {
+      await _firestoreApi.completeDeliveryRequest(
+          deliveryId, deliveryStatus[3], deliveryRequest);
+    } catch (e) {
+      log.e('An error occurred. Could not pick up delivery request');
+    }
+  }
 }

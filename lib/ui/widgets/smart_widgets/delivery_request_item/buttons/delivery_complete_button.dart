@@ -27,6 +27,7 @@ Widget deliveryCompleteButton(
             model.updateUserTaskActionPressedStatus(tapState),
         onTap: () {
           // complete request delivery
+          model.completeDeliveryRequest();
           Navigator.pop(context);
         },
       )
