@@ -54,12 +54,6 @@ class LoginViewModel extends BaseViewModel {
       tempEmail = "zi.nean.teoh@vanderbilt.edu";
       tempDorm = "West";
     }
-    _userService.setCurrentUser(AppUser(
-      id: tempId,
-      email: tempEmail,
-      fullName: getFullNameFromEmail(tempEmail),
-      dorm: tempDorm,
-    ));
 
     // Check if user in firestore (SUPER BRUTEFORCE)
     final _firestoreApi = locator<FirestoreApi>();
@@ -67,7 +61,13 @@ class LoginViewModel extends BaseViewModel {
     AppUser userr = AppUser(id: "0", fullName: "doesn't exist");
     await _firestoreApi.getUser(userId: tempId).then((AppUser? user) {
       userr = user!;
+      _userService.setCurrentUser(user);
     }).catchError((onError) {
+      _userService.setCurrentUser(AppUser(
+        id: tempId,
+        email: tempEmail,
+        fullName: getFullNameFromEmail(tempEmail),
+      ));
       _navigationService.navigateTo(Routes.onboardingView);
     });
 
