@@ -84,7 +84,7 @@ class ProfilePic extends StatelessWidget {
               // User Statistics
               <Widget>[
                 <Widget>[
-                  Text('0 Packages',
+                  Text('${model.packageSentCount} Packages',
                       style: TextStyle(
                           fontSize: 22.sp,
                           fontWeight: FontWeight.w500)),
@@ -97,7 +97,7 @@ class ProfilePic extends StatelessWidget {
                   ),
                 ].toColumn(),
                 <Widget>[
-                  Text('0 Packages',
+                  Text('${model.packageReceivedCount} Packages',
                       style: TextStyle(
                           fontSize: 22.sp,
                           fontWeight: FontWeight.w500)),

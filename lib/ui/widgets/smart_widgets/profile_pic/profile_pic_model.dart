@@ -10,6 +10,10 @@ class ProfilePicModel extends BaseViewModel {
 
   String? get name => _userService.currentUser.fullName;
   String? get dorm => _userService.currentUser.dorm;
+  int get packageSentCount =>
+      _userService.currentUser.packageSentCount;
+  int get packageReceivedCount =>
+      _userService.currentUser.packageReceivedCount;
 
   bool _pressed = false;
   bool get pressed => _pressed;
