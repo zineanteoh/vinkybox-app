@@ -1,5 +1,6 @@
 import 'package:carbon_icons/carbon_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 class HeaderBar extends StatelessWidget {
@@ -13,21 +14,20 @@ class HeaderBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return <Widget>[
       SizedBox(
-        height: 30,
-        width: 30,
+        height: 30.w,
+        width: 30.w,
         child: IconButton(
             padding: const EdgeInsets.all(0),
             onPressed: model.navigateBack,
-            icon: const Icon(
+            icon: Icon(
               CarbonIcons.chevron_left,
-              size: 30,
+              size: 30.w,
             )),
       ),
       Text(
         headerText,
-        style: const TextStyle(
-            fontSize: 28, fontWeight: FontWeight.bold),
-      ).padding(left: 8.0).alignment(Alignment.center),
+        style: TextStyle(fontSize: 28.w, fontWeight: FontWeight.bold),
+      ).padding(left: 8.w).alignment(Alignment.center),
     ].toRow();
   }
 }

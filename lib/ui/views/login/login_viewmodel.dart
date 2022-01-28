@@ -44,15 +44,12 @@ class LoginViewModel extends BaseViewModel {
     if (i == 1) {
       tempId = "00001";
       tempEmail = "phoebe.yu@vanderbilt.edu";
-      tempDorm = "Sutherland";
     } else if (i == 2) {
       tempId = "00002";
       tempEmail = "jane.sun@vanderbilt.edu";
-      tempDorm = "Sutherland";
     } else {
       tempId = "00003";
       tempEmail = "zi.nean.teoh@vanderbilt.edu";
-      tempDorm = "West";
     }
 
     // Check if user in firestore (SUPER BRUTEFORCE)
