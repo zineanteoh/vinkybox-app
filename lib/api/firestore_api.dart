@@ -145,7 +145,8 @@ class FirestoreApi {
           acceptRequestInfo);
       batch.update(_deliveryRequestsCollection.doc(deliveryId),
           {'status': newStatus});
-
+      log.v(
+          'Accepting delivery request and newstatus | $acceptRequestInfo | $newStatus');
       await batch.commit();
     } catch (e) {
       log.e('An error occurred. Could not accept delivery request');
@@ -188,8 +189,13 @@ class FirestoreApi {
       batch.update(_deliveryRequestsCollection.doc(deliveryId),
           {'status': newStatus});
       // convert to deliveryHistoryItem and add to user's packageHistory
-      batch.update(_usersCollection.doc(userId),
-          {'packageHistory': newHistory});
+      batch.update(_usersCollection.doc(userId), {
+        'packageHistory':
+            newHistory.map((item) => item.toJson()).toList()
+      });
+      log.v(
+          'Updated delivery request to new status | $deliveryId | $newStatus | $userId');
+      await batch.commit();
     } catch (e) {
       log.e('An error occurred. Could not pick up delivery request');
     }

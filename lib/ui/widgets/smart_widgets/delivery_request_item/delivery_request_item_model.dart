@@ -158,7 +158,6 @@ class DeliveryRequestItemModel extends BaseViewModel {
   Future completeDeliveryRequest() async {
     await _deliveryService.completeDeliveryRequest(
         _deliveryId, _deliveryRequest);
-    log.i('Delivery is completed. Requeset is no longer user task');
     notifyListeners();
   }
 

@@ -183,7 +183,7 @@ class DeliveryService with ReactiveServiceMixin {
     try {
       await _firestoreApi.completeDeliveryRequest(
           deliveryId: deliveryId,
-          userId: _userService.currentUser.id,
+          userId: deliveryRequest.user['id'],
           newStatus: deliveryStatus[3],
           newHistory: _userService.currentUser.packageHistory);
     } catch (e) {
