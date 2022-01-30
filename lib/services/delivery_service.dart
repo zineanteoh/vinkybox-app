@@ -52,9 +52,16 @@ class DeliveryService with ReactiveServiceMixin {
       {required String packageSize,
       required String pickUpLocation,
       required String dropOffLocation}) async {
+    Map<String, dynamic> filteredUser = {
+      ..._userService.currentUser.toJson()
+    };
+    filteredUser.removeWhere((key, value) =>
+        key == "packageHistory" ||
+        key == "packageSentCount" ||
+        key == "packageReceivedCount");
     await _firestoreApi.createDeliveryRequest(
       req: PackageRequest(
-        user: _userService.currentUser.toJson(),
+        user: filteredUser,
         status: deliveryStatus[0],
         packageSize: packageSize,
         pickUpLocation: pickUpLocation,
@@ -129,9 +136,16 @@ class DeliveryService with ReactiveServiceMixin {
   /// If unsuccessful, prompt a dialog message saying request
   /// could not be accepted
   Future acceptRequest(String deliveryId) async {
+    Map<String, dynamic> filteredUser = {
+      ..._userService.currentUser.toJson()
+    };
+    filteredUser.removeWhere((key, value) =>
+        key == "packageHistory" ||
+        key == "packageSentCount" ||
+        key == "packageReceivedCount");
     Map<String, dynamic> acceptRequestInfo = {
       'statusAccepted': {
-        'deliverer': _userService.currentUser.toJson(),
+        'deliverer': filteredUser,
         'time': DateTime.now().toString(),
       }
     };
