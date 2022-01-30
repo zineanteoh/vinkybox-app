@@ -61,6 +61,10 @@ class UserService {
     log.v('Dorm updated. Current User on file: $_currentUser');
     await _firestoreApi.createUser(user: _currentUser!);
   }
+
+  void addPackageHistoryItem(PackageHistoryItem item) {
+    _currentUser!.packageHistory.add(item);
+  }
 }
 
 

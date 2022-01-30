@@ -52,9 +52,16 @@ class DeliveryService with ReactiveServiceMixin {
       {required String packageSize,
       required String pickUpLocation,
       required String dropOffLocation}) async {
+    Map<String, dynamic> filteredUser = {
+      ..._userService.currentUser.toJson()
+    };
+    filteredUser.removeWhere((key, value) =>
+        key == "packageHistory" ||
+        key == "packageSentCount" ||
+        key == "packageReceivedCount");
     await _firestoreApi.createDeliveryRequest(
       req: PackageRequest(
-        user: _userService.currentUser.toJson(),
+        user: filteredUser,
         status: deliveryStatus[0],
         packageSize: packageSize,
         pickUpLocation: pickUpLocation,
@@ -129,9 +136,16 @@ class DeliveryService with ReactiveServiceMixin {
   /// If unsuccessful, prompt a dialog message saying request
   /// could not be accepted
   Future acceptRequest(String deliveryId) async {
+    Map<String, dynamic> filteredUser = {
+      ..._userService.currentUser.toJson()
+    };
+    filteredUser.removeWhere((key, value) =>
+        key == "packageHistory" ||
+        key == "packageSentCount" ||
+        key == "packageReceivedCount");
     Map<String, dynamic> acceptRequestInfo = {
       'statusAccepted': {
-        'deliverer': _userService.currentUser.toJson(),
+        'deliverer': filteredUser,
         'time': DateTime.now().toString(),
       }
     };
@@ -166,6 +180,26 @@ class DeliveryService with ReactiveServiceMixin {
     try {
       await _firestoreApi.pickUpDeliveryRequest(
           deliveryId, pickUpRequestInfo, deliveryStatus[2]);
+    } catch (e) {
+      log.e('An error occurred. Could not pick up delivery request');
+    }
+  }
+
+  Future completeDeliveryRequest(
+      String deliveryId, PackageRequest deliveryRequest) async {
+    PackageHistoryItem newUserHistoryItem = PackageHistoryItem(
+        id: deliveryRequest.id!,
+        packageSize: deliveryRequest.packageSize,
+        pickUpLocation: deliveryRequest.pickUpLocation,
+        dropOffLocation: deliveryRequest.dropOffLocation,
+        dateCompleted: deliveryRequest.time);
+    _userService.addPackageHistoryItem(newUserHistoryItem);
+    try {
+      await _firestoreApi.completeDeliveryRequest(
+          deliveryId: deliveryId,
+          userId: deliveryRequest.user['id'],
+          newStatus: deliveryStatus[3],
+          newHistory: _userService.currentUser.packageHistory);
     } catch (e) {
       log.e('An error occurred. Could not pick up delivery request');
     }

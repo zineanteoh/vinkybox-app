@@ -236,7 +236,7 @@ class RequestDeliveryView extends StatelessWidget {
           fontSize: 24.sp,
           fontWeight: FontWeight.w600),
     )
-        .padding(vertical: 10.h, horizontal: 120.w)
+        .padding(vertical: 10.h, horizontal: 100.w)
         .borderRadius(all: 10)
         .ripple()
         .backgroundColor(brightGreenColor, animate: true)

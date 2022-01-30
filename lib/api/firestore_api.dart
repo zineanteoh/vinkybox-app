@@ -145,7 +145,8 @@ class FirestoreApi {
           acceptRequestInfo);
       batch.update(_deliveryRequestsCollection.doc(deliveryId),
           {'status': newStatus});
-
+      log.v(
+          'Accepting delivery request and newstatus | $acceptRequestInfo | $newStatus');
       await batch.commit();
     } catch (e) {
       log.e('An error occurred. Could not accept delivery request');
@@ -170,6 +171,30 @@ class FirestoreApi {
       batch.update(_deliveryRequestsCollection.doc(deliveryId),
           {'status': newStatus});
 
+      await batch.commit();
+    } catch (e) {
+      log.e('An error occurred. Could not pick up delivery request');
+    }
+  }
+
+  /// Update delivery request to [newStatus] to mark as completed
+  Future completeDeliveryRequest(
+      {required String deliveryId,
+      required String userId,
+      required String newStatus,
+      required List<PackageHistoryItem> newHistory}) async {
+    WriteBatch batch = FirebaseFirestore.instance.batch();
+    try {
+      // update new status
+      batch.update(_deliveryRequestsCollection.doc(deliveryId),
+          {'status': newStatus});
+      // convert to deliveryHistoryItem and add to user's packageHistory
+      batch.update(_usersCollection.doc(userId), {
+        'packageHistory':
+            newHistory.map((item) => item.toJson()).toList()
+      });
+      log.v(
+          'Updated delivery request to new status | $deliveryId | $newStatus | $userId');
       await batch.commit();
     } catch (e) {
       log.e('An error occurred. Could not pick up delivery request');

@@ -146,12 +146,18 @@ class DeliveryRequestItemModel extends BaseViewModel {
   }
 
   Future pickUpRequest() async {
-    log.i(
-        'Package is being picked up! Updating package request to delivering');
     await _deliveryService.pickUpRequest(_deliveryId);
+    log.i(
+        'Package is picked up! Updated package request to delivering');
     // log.i(
     //     'IsUserDelivering is now: ${_deliveryService.isUserDelivering}');
     // enable location tracking
+    notifyListeners();
+  }
+
+  Future completeDeliveryRequest() async {
+    await _deliveryService.completeDeliveryRequest(
+        _deliveryId, _deliveryRequest);
     notifyListeners();
   }
 

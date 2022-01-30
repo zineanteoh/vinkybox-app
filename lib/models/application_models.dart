@@ -7,6 +7,12 @@ part 'application_models.g.dart';
 // Run the following to regenerate app files:
 // flutter pub run build_runner build --delete-conflicting-outputs
 
+/// [AppUser] for modeling a user object within this app
+///
+/// Accepts parameters [email], [fullName], [dorm] for basic user
+/// information.
+/// Stores user's [packageSentCount], [packageReceivedCount], and
+/// [packageHistory] for user statistics
 @freezed
 class AppUser with _$AppUser {
   factory AppUser({
@@ -14,12 +20,43 @@ class AppUser with _$AppUser {
     String? email,
     String? fullName,
     String? dorm,
+    @Default(0) int packageSentCount,
+    @Default(0) int packageReceivedCount,
+    @Default([]) List<PackageHistoryItem> packageHistory,
   }) = _AppUser;
 
   factory AppUser.fromJson(Map<String, dynamic> json) =>
       _$AppUserFromJson(json);
 }
 
+/// [PackageHistoryItem] to represent an archived package delivery for
+/// storing user's package history.
+///
+/// Stores basic package info like [packageSize], [pickUpLocation],
+/// [dropOffLocation], and [dateCompleted].
+@freezed
+class PackageHistoryItem with _$PackageHistoryItem {
+  factory PackageHistoryItem({
+    required String id,
+    required String packageSize,
+    required String pickUpLocation,
+    required String dropOffLocation,
+    required String dateCompleted,
+  }) = _PackageHistoryItem;
+
+  factory PackageHistoryItem.fromJson(Map<String, dynamic> json) =>
+      _$PackageHistoryItemFromJson(json);
+}
+
+/// A [PackageRequest] submitted by user.
+///
+/// Parameters:
+/// [user] who created the request,
+/// [status] of request (new, collecting, delivering, or delivered),
+/// [packageSize],
+/// [pickUpLocation] and [dropOffLocation] specified by user,
+/// [time] of when the request was created,
+/// [statusAccepted] which stores the deliverer's information (default: empty)
 @freezed
 class PackageRequest with _$PackageRequest {
   const PackageRequest._();
@@ -54,6 +91,7 @@ class PackageRequest with _$PackageRequest {
       );
 }
 
+/// [PackageRequestList] stores a list of [PackageRequest]
 @freezed
 class PackageRequestList with _$PackageRequestList {
   factory PackageRequestList({
@@ -63,6 +101,11 @@ class PackageRequestList with _$PackageRequestList {
   factory PackageRequestList.fromJson(Map<String, dynamic> json) =>
       _$PackageRequestListFromJson(json);
 
+  /// Parses [QuerySnapshot] into [PackageRequestList]
+  ///
+  /// Parses [QuerySnapshot] and casts each snapshot docs into a
+  /// valid [PackageRequest] model, then converting it into a
+  /// [PackageRequestList].
   factory PackageRequestList.fromSnapshot(QuerySnapshot snapshot) {
     return PackageRequestList(
       requestList: snapshot.docs
@@ -86,6 +129,10 @@ class PackageRequestList with _$PackageRequestList {
   }
 }
 
+/// [AppLocation] to model user's location data
+///
+/// Parameters:
+/// [latitude] and [longitude] of location
 @freezed
 class AppLocation with _$AppLocation {
   factory AppLocation({

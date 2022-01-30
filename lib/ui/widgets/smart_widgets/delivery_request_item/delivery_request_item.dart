@@ -7,12 +7,14 @@ import 'package:vinkybox/constants/request_info.dart';
 import 'package:vinkybox/helpers/time_ago.dart';
 import 'package:vinkybox/models/application_models.dart';
 import 'package:vinkybox/ui/shared/app_colors.dart';
+import 'package:vinkybox/ui/widgets/smart_widgets/delivery_request_item/buttons/get_action_or_package_button.dart';
+import 'package:vinkybox/ui/widgets/smart_widgets/delivery_request_item/buttons/task_action_button.dart';
 import 'package:vinkybox/ui/widgets/smart_widgets/delivery_request_item/delivery_request_item_model.dart';
 
 class DeliveryRequestItem extends StatelessWidget {
   final PackageRequest deliveryRequest;
-  bool isUserTask;
-  DeliveryRequestItem(
+  final bool isUserTask;
+  const DeliveryRequestItem(
       {required this.deliveryRequest,
       this.isUserTask = false,
       Key? key})
@@ -47,7 +49,7 @@ class DeliveryRequestItem extends StatelessWidget {
     );
   }
 
-  // Widget function that builds the UI for a delivery request item
+  /// Widget function that builds the UI for a delivery request item
   Widget _buildRequestItem(BuildContext context,
       DeliveryRequestItemModel model, dynamic request) {
     return <Widget>[
@@ -58,7 +60,7 @@ class DeliveryRequestItem extends StatelessWidget {
       _time(model.timeInfo).alignment(Alignment.center),
       _location(model.pickUpLocationInfo, model.dormInfo),
       _status(model.statusInfo),
-      _taskActionButton(isUserTask, model, context),
+      taskActionButton(isUserTask, model, context),
     ]
         .toColumn(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,6 +107,58 @@ class DeliveryRequestItem extends StatelessWidget {
 }
 
 // Helper methods for DeliveryRequestItem
+
+Widget _status(String status) {
+  return Column(
+    children: [
+      ConstrainedBox(
+        constraints: BoxConstraints(maxHeight: 15.h),
+        child: Timeline.tileBuilder(
+          theme: TimelineThemeData(
+            direction: Axis.horizontal,
+            nodePosition: 0,
+            color: const Color(0xffc2c5c9),
+            connectorTheme: const ConnectorThemeData(
+              thickness: 3.0,
+            ),
+          ),
+          shrinkWrap: true,
+          builder: TimelineTileBuilder.connected(
+            connectorBuilder: (context, index, type) {
+              // Status line connector
+              int deliveryIndex = deliveryStatus.indexOf(status);
+              if (index < deliveryIndex) {
+                return const SolidLineConnector(
+                    color: mediumSpringGreenColor);
+              } else {
+                return const SolidLineConnector();
+              }
+            },
+            indicatorBuilder: (context, index) {
+              // Status dot indicator
+              int deliveryIndex = deliveryStatus.indexOf(status);
+              if (index <= deliveryIndex) {
+                return const DotIndicator(
+                    color: mediumSpringGreenColor);
+              } else {
+                return const DotIndicator();
+              }
+            },
+            itemExtentBuilder: (context, index) => 50,
+            itemCount: 4,
+          ),
+        ),
+      ),
+      // Delivery status message
+      Text(_getDeliveryStatusMessage(status),
+              style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black54))
+          .padding(top: 10.h),
+    ],
+  ).alignment(Alignment.center).padding(top: 12.h, bottom: 18.h);
+}
 
 String _getDeliveryStatusMessage(String status) {
   switch (status) {
@@ -194,264 +248,4 @@ Widget _location(String pickUpLocation, String dropOffLocation) {
       ].toRow()
     ],
   ).padding(vertical: 12.h, horizontal: 20.w);
-}
-
-Widget _status(String status) {
-  return Column(
-    children: [
-      ConstrainedBox(
-        constraints: BoxConstraints(maxHeight: 15.h),
-        child: Timeline.tileBuilder(
-          theme: TimelineThemeData(
-            direction: Axis.horizontal,
-            nodePosition: 0,
-            color: const Color(0xffc2c5c9),
-            connectorTheme: const ConnectorThemeData(
-              thickness: 3.0,
-            ),
-          ),
-          shrinkWrap: true,
-          builder: TimelineTileBuilder.connected(
-            connectorBuilder: (context, index, type) {
-              // Status line connector
-              int deliveryIndex = deliveryStatus.indexOf(status);
-              if (index < deliveryIndex) {
-                return const SolidLineConnector(
-                    color: mediumSpringGreenColor);
-              } else {
-                return const SolidLineConnector();
-              }
-            },
-            indicatorBuilder: (context, index) {
-              // Status dot indicator
-              int deliveryIndex = deliveryStatus.indexOf(status);
-              if (index <= deliveryIndex) {
-                return const DotIndicator(
-                    color: mediumSpringGreenColor);
-              } else {
-                return const DotIndicator();
-              }
-            },
-            itemExtentBuilder: (context, index) => 50,
-            itemCount: 4,
-          ),
-        ),
-      ),
-      // Delivery status message
-      Text(_getDeliveryStatusMessage(status),
-              style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black54))
-          .padding(top: 10.h),
-    ],
-  ).alignment(Alignment.center).padding(top: 12.h, bottom: 18.h);
-}
-
-Widget _taskActionButton(bool isUserTask,
-    DeliveryRequestItemModel model, BuildContext context) {
-  return isUserTask
-      ? model.statusInfo == deliveryStatus[1]
-          ? Text('I am ready to pickup',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.w600))
-              .padding(vertical: 10.h, horizontal: 25.w)
-              .borderRadius(all: 10.r)
-              .ripple()
-              .backgroundColor(orangeYellowCrayolaColor,
-                  animate: true)
-              .clipRRect(all: 10)
-              .borderRadius(all: 10, animate: true)
-              .elevation(
-                model.userTaskActionPressed ? 0 : 20,
-                borderRadius: BorderRadius.circular(25),
-                shadowColor: const Color(0x30000000),
-              )
-              .gestures(
-                onTapChange: (tapState) =>
-                    model.updateUserTaskActionPressedStatus(tapState),
-                onTap: () {
-                  model.pickUpRequest();
-                  Navigator.pop(context);
-                },
-              )
-              .scale(
-                all: model.acceptPressed ? 0.8 : 1.0,
-                animate: true,
-              )
-              .animate(
-                const Duration(milliseconds: 150),
-                Curves.easeOut,
-              )
-              .alignment(Alignment.center)
-              .padding(bottom: 15.h)
-          : model.statusInfo == deliveryStatus[2]
-              ? Text('Delivery Complete!',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w600))
-                  .padding(vertical: 10.h, horizontal: 25.w)
-                  .borderRadius(all: 10.r)
-                  .ripple()
-                  .backgroundColor(mediumSpringGreenColor,
-                      animate: true)
-                  .clipRRect(all: 10)
-                  .borderRadius(all: 10, animate: true)
-                  .elevation(
-                    model.userTaskActionPressed ? 0 : 20,
-                    borderRadius: BorderRadius.circular(25),
-                    shadowColor: const Color(0x30000000),
-                  )
-                  .gestures(
-                    onTapChange: (tapState) => model
-                        .updateUserTaskActionPressedStatus(tapState),
-                    onTap: () {
-                      // model.pickUpRequest();
-                      Navigator.pop(context);
-                    },
-                  )
-                  .scale(
-                    all: model.acceptPressed ? 0.8 : 1.0,
-                    animate: true,
-                  )
-                  .animate(
-                    const Duration(milliseconds: 150),
-                    Curves.easeOut,
-                  )
-                  .alignment(Alignment.center)
-                  .padding(bottom: 15.h)
-              : const SizedBox.shrink()
-      : const SizedBox.shrink();
-}
-
-Widget _actionButtons(
-    DeliveryRequestItemModel model, BuildContext context) {
-  return <Widget>[
-    Text('Cancel',
-            style: TextStyle(
-                color: const Color.fromARGB(255, 109, 109, 109),
-                fontSize: 22.sp,
-                fontWeight: FontWeight.w600))
-        .padding(vertical: 10.h, horizontal: 25.w)
-        .borderRadius(all: 10.r)
-        .ripple()
-        .backgroundColor(const Color.fromARGB(255, 229, 229, 229),
-            animate: true)
-        .clipRRect(all: 10)
-        .borderRadius(all: 10, animate: true)
-        .elevation(
-          model.cancelPressed ? 0 : 20,
-          borderRadius: BorderRadius.circular(25),
-          shadowColor: const Color(0x30000000),
-        )
-        .gestures(
-            onTapChange: (tapState) =>
-                model.updateCancelPressedStatus(tapState),
-            onTap: () {
-              Navigator.pop(context);
-            })
-        .scale(
-          all: model.cancelPressed ? 0.8 : 1.0,
-          animate: true,
-        )
-        .animate(
-          const Duration(milliseconds: 150),
-          Curves.easeOut,
-        ),
-    // accept button
-    Text('Accept',
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 22.sp,
-                fontWeight: FontWeight.w600))
-        .padding(vertical: 10.h, horizontal: 25.w)
-        .borderRadius(all: 10.r)
-        .ripple()
-        .backgroundColor(brightGreenColor, animate: true)
-        .clipRRect(all: 10)
-        .borderRadius(all: 10, animate: true)
-        .elevation(
-          model.acceptPressed ? 0 : 20,
-          borderRadius: BorderRadius.circular(25),
-          shadowColor: const Color(0x30000000),
-        )
-        .gestures(
-          onTapChange: (tapState) =>
-              model.updateAcceptPressedStatus(tapState),
-          onTap: () {
-            model.acceptRequest();
-            Navigator.pop(context);
-            // redirect user to home page
-            model.navigateToHomePage();
-          },
-        )
-        .scale(
-          all: model.acceptPressed ? 0.8 : 1.0,
-          animate: true,
-        )
-        .animate(
-          const Duration(milliseconds: 150),
-          Curves.easeOut,
-        ),
-  ]
-      .toRow(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      )
-      .padding(top: 10.h);
-}
-
-Widget _trackPackageButton(
-    DeliveryRequestItemModel model, BuildContext context) {
-  return Text(
-    'Track Package',
-    style: TextStyle(
-        color: Colors.white,
-        fontSize: 22.sp,
-        fontWeight: FontWeight.w600),
-  )
-      .padding(vertical: 10.h, horizontal: 60.w)
-      .borderRadius(all: 10.r)
-      .ripple()
-      .backgroundColor(brightGreenColor, animate: true)
-      .clipRRect(all: 10)
-      .borderRadius(all: 10, animate: true)
-      .elevation(
-        model.trackPackagePressed ? 0 : 20,
-        borderRadius: BorderRadius.circular(25),
-        shadowColor: const Color(0x30000000),
-      )
-      .gestures(
-          onTapChange: (tapState) =>
-              model.updateTrackPackagePressedStatus(tapState),
-          onTap: () {
-            model.trackPackage();
-          })
-      .scale(
-        all: model.trackPackagePressed ? 0.95 : 1.0,
-        animate: true,
-      )
-      .animate(
-        const Duration(milliseconds: 150),
-        Curves.easeOut,
-      )
-      .padding(top: 20.h);
-}
-
-Widget getActionOrPackageButton(
-    DeliveryRequestItemModel model, BuildContext context) {
-  // my package & not delivering => track
-  // my package & delivering => sizedbox
-  // not my package & not new => sizedbox
-  // not my package & new => action buttons
-  if (model.isMyPackage()) {
-    return model.statusIsDelivering()
-        ? _trackPackageButton(model, context)
-        : const SizedBox.shrink();
-  }
-  return model.statusIsNotNew()
-      ? const SizedBox.shrink()
-      : _actionButtons(model, context);
 }

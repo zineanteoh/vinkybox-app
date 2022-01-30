@@ -8,13 +8,13 @@
 			"name": "iPhone 13",
 			"request": "launch",
 			"type": "dart",
-			"deviceId": "5BE86966-AFA7-4C37-A966-5C9737B089C2"
+			"deviceId": "302CBD87-C979-4488-8743-910B8FE1AD7D"
 		},
 		{
-			"name": "second iPhone 13",
+			"name": "iPhone 13 (2)",
 			"request": "launch",
 			"type": "dart",
-			"deviceId": "280FC7AD-3B41-4E44-B0FC-63ECE833B05A"
+			"deviceId": "ED73237E-7572-4CD3-AD6A-F398BF91D5E5"
 		},
 		{
 			"name": "iPhone X",
