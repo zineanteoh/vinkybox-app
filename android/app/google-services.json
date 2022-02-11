@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "964505243823",
+    "firebase_url": "https://vinkybox-development-default-rtdb.firebaseio.com",
+    "project_id": "vinkybox-development",
+    "storage_bucket": "vinkybox-development.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:964505243823:android:34d98eaa5bc5418ab5445a",
+        "android_client_info": {
+          "package_name": "com.example.vinkybox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "964505243823-dsu7vspmk78g0m70kqhchr9cuvu2nemb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDToBtDUplQXCr72ek513uOnC_rKb4eHoI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "964505243823-dsu7vspmk78g0m70kqhchr9cuvu2nemb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "964505243823-r61ef75klrmvt2fh930mm85trbs8uic6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.vinkybox.vinkybox"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
